@@ -15,10 +15,9 @@ namespace LogisticsBooking.FrontEnd.Pages
 
         }
 
-        public async Task OnPostSubmit()
+        public IActionResult OnPostSubmit()
         {
-            var test = new BookingDataService();
-            var a = await test.CreateBooking(new DataServices.Models.Booking("Test")); 
+            return new RedirectResult("Client/ClientIndex");
         }
     }
 }

@@ -29,3 +29,6 @@ C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.csproj.CopyComplete
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\Razor\Pages\Shared\_Layout_NoNavBar.g.cshtml.cs
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.csprojAssemblyReference.cache
+C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\Razor\Pages\Client\ClientIndex.g.cshtml.cs
+C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\Razor\Pages\Transporter\Transporter_Index.g.cshtml.cs
+C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\Razor\Pages\Transporter\_Layout_Transporter.g.cshtml.cs
