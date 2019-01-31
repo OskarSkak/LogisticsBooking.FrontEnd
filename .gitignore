@@ -5,3 +5,11 @@
 .vs/LogisticsBooking.FrontEnd/v15/Server/sqlite3/storage.ide-wal
 .vs/LogisticsBooking.FrontEnd/v15/.suo
 *.ide-wal
+.vs/LogisticsBooking.FrontEnd/v15/.suo
+*.ide
+*.ide-shm
+*.ide-wal
+*.dll
+*.pdb
+*.dll
+*.pdb
