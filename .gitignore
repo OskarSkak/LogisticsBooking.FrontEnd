@@ -13,3 +13,10 @@
 *.pdb
 *.dll
 *.pdb
+*.dll
+*.dll
+*.dll
+*.pdb
+*.cache
+LogisticsBooking.FrontEnd/obj/Debug/netcoreapp2.2/LogisticsBooking.FrontEnd.csproj.FileListAbsolute.txt
+*.cache
