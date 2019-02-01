@@ -16,4 +16,9 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     {
         Task<Response> CreateTransporter(Transporter _transporter);
     }
+
+    public interface ISupplierDataService
+    {
+        Task<Response> CreateSupplier(Supplier _supplier);
+    }
 }
