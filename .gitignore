@@ -20,3 +20,7 @@
 *.cache
 LogisticsBooking.FrontEnd/obj/Debug/netcoreapp2.2/LogisticsBooking.FrontEnd.csproj.FileListAbsolute.txt
 *.cache
+.vs/LogisticsBooking.FrontEnd/DesignTimeBuild/.dtbcache
+.vs/LogisticsBooking.FrontEnd/v15/.suo
+*.ide-wal
+.vs/LogisticsBooking.FrontEnd/v15/Server/sqlite3/storage.ide-wal

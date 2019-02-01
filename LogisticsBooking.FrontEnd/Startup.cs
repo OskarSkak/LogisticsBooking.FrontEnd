@@ -35,6 +35,7 @@ namespace LogisticsBooking.FrontEnd
 
             //Add DI´s below
             services.AddTransient<IBookingDataService, BookingDataService>();
+            services.AddTransient<ITransporterDataService, TransporterDataService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
