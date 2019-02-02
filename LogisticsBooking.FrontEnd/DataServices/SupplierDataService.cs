@@ -10,9 +10,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
 {
     public class SupplierDataService : BaseDataService, ISupplierDataService
     {
+        private string baseurl = "https://localhost:44340/" + "api/suppliers/";
         public async Task<Response> CreateSupplier(Supplier _supplier)
         {
-            var baseurl = "https://localhost:44340/" + "api/suppliers";
             var response = await PostAsync<Supplier>(baseurl, _supplier);
 
             if (!response.IsSuccessStatusCode)
@@ -25,6 +25,27 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 return Response.Unsuccesfull(response.ReasonPhrase);
             }
             return Response.Succes();
+        }
+
+        public async Task<Response> DeleteSupplier(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Supplier> GetSupplierById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Supplier>> ListSuppliers(int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Response> UpdateSupplier(Guid id, Supplier supplier)
+        {
+            var endPointUrl = baseurl + id;
+            return null;
         }
     }
 }

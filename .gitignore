@@ -35,3 +35,10 @@ LogisticsBooking.FrontEnd/obj/Debug/netcoreapp2.2/LogisticsBooking.FrontEnd.cspr
 LogisticsBooking.FrontEnd/obj/Debug/netcoreapp2.2/LogisticsBooking.FrontEnd.dll
 *.pdb
 *.suo
+.vs
+*.ide
+*.ide-shm
+*.ide-wal
+*.suo
+.vs/LogisticsBooking.FrontEnd/v15/Server
+.vs/LogisticsBooking.FrontEnd/v15
