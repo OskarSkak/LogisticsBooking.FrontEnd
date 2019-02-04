@@ -14,21 +14,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         private ITransporterDataService dataService;
         [BindProperty]
         public DataServices.Models.Transporter Transporter { get; set; }
+
+        [TempData]
         public Guid guid { get; set; }
 
         public Transporter_SingleModel(ITransporterDataService _dataService)
         {
             dataService = _dataService;
-            dataService.UpdateTransporter(Guid.Parse("f0b5c672-a390-47c7-97dc-1623d5c86df4"), new DataServices.Models.Transporter
-            {
-                Email = "PLEEEEEEEEASE",
-                Address = "COMEOOOOOOOON",
-                Name = "LETSGOOOOOO",
-                Telephone = 20234203
-            });
-
-
-            var la = ""; 
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -47,14 +39,25 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdate()
+        public async Task<IActionResult> OnPostUpdate(string id, string ViewName, string ViewEmail, int ViewTelephone, string ViewAddress)
         {
+            var Transporters = await dataService.ListTransporters(0, 0);
+            Transporters = (List<DataServices.Models.Transporter>)Transporters;
+            foreach (var item in Transporters)
+                if (item.Name == id)
+                    Transporter = item;
+
+            Transporter.Name = ViewName;
+            Transporter.Email = ViewEmail;
+            Transporter.Telephone = ViewTelephone;
+            Transporter.Address = ViewAddress;
+
             var result = await dataService.UpdateTransporter(Transporter.ID, Transporter);
 
             if (!result.IsSuccesfull)
-                return new RedirectResult("Error");
+                return new RedirectToPageResult("Error");
 
-            return new RedirectResult("./Transporters");
+            return new RedirectToPageResult("./Transporters");
         }
     }
 }

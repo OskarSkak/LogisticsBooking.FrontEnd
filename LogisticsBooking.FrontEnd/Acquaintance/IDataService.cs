@@ -17,6 +17,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> CreateTransporter(Transporter _transporter);
         Task<Response> UpdateTransporter(Guid id, Transporter transporter);
         Task<IEnumerable<Transporter>> ListTransporters(int page, int pageSize);
+        Task<Transporter> GetTransporterById(Guid id);
     }
 
     public interface ISupplierDataService

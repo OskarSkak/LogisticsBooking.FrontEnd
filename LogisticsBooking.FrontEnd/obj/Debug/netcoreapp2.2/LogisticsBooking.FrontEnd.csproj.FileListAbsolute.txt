@@ -5,7 +5,6 @@ C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\bin
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\bin\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.pdb
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\bin\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.Views.dll
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\bin\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.Views.pdb
-C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.csprojAssemblyReference.cache
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.csproj.CoreCompileInputs.cache
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.RazorAssemblyInfo.cache
 C:\Users\skakk\Documents\LogisticsBooking.FrontEnd\LogisticsBooking.FrontEnd\obj\Debug\netcoreapp2.2\LogisticsBooking.FrontEnd.RazorAssemblyInfo.cs

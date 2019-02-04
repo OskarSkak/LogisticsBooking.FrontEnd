@@ -30,6 +30,13 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return Response.Succes();
         }
 
+        public async Task<Transporter> GetTransporterById(Guid id)
+        {
+            var endpoint = baseurl + id;
+            var result = await GetAsync(endpoint);
+            return await TryReadAsync<Transporter>(result);
+        }
+
         public async Task<IEnumerable<Transporter>> ListTransporters(int page, int pageSize)
         {
             var result = await GetAsync(baseurl);
@@ -38,7 +45,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Response> UpdateTransporter(Guid id, Transporter transporter)
         {
-            var endpoint = baseurl + id.ToString();
+            var endpoint = baseurl + id;
 
             var response = await PutAsync<TransporterUpdateModel>(endpoint, new TransporterUpdateModel(
                 transporter.Email, transporter.Telephone, transporter.Address, transporter.Name));
