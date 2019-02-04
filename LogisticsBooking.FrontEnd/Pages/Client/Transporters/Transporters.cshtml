@@ -26,7 +26,7 @@
                     @foreach(var Transporter in Model.Transporters)
                     {
                         <text>
-                    <a asp-page="Transporter_Single" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
+                    <a asp-page="./Transporter_Single" asp-route-id="@Transporter.Name" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
                         </text>
                     }
                 </div>

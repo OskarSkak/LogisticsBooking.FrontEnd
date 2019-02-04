@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id}"
 @model LogisticsBooking.FrontEnd.Pages.Client.Transporters.Transporter_SingleModel
 @{
 }
@@ -10,15 +10,15 @@
             <div class="mx-auto col-lg-6 col-10">
                 <h1>Eksisterende Transportør</h1>
                 <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
-                <form class="text-left">
-                    <div class="form-group"> <label for="form16">Firma</label> <input type="text" class="form-control" id="form16" placeholder="Nagel Group"> </div>
-                    <div class="form-group"> <label for="form18">Email</label> <input type="email" class="form-control" id="form18" placeholder="xxxx@gmail.com"> </div>
-                    <div class="form-group"> <label for="form18">Adresse</label> <input class="form-control" id="form18" placeholder="placeholder"> </div>
-                    <div class="form-group"> <label for="form18">Tel. nr</label> <input class="form-control" id="form18" placeholder="+45 87785478"> </div>
-
-                    <div class="form-group">
-
-                    </div> <a asp-page="Transporters" type="submit" class="btn btn-primary">Opdater</a>
+                <form method="post" class="text-left">
+                    <div class="form-group"> 
+                        <label for="form16">Firma</label>
+                        <input asp-for="Transporter.Name" name="ViewName" class="form-control" />
+                    </div>
+                    <div class="form-group"> <label for="form18">Email</label> <input asp-for="Transporter.Email" type="email" class="form-control" id="form18" name="ViewEmail"> </div>
+                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="Transporter.Address" class="form-control" id="form18" name="ViewAddress"> </div>
+                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="Transporter.Telephone" class="form-control" id="form18" name="ViewTelephone" > </div>
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
                 </form>
             </div>
         </div>

@@ -42,3 +42,4 @@ LogisticsBooking.FrontEnd/obj/Debug/netcoreapp2.2/LogisticsBooking.FrontEnd.dll
 *.suo
 .vs/LogisticsBooking.FrontEnd/v15/Server
 .vs/LogisticsBooking.FrontEnd/v15
+LogisticsBooking.FrontEnd/bin

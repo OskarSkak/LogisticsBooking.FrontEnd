@@ -38,7 +38,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Response> UpdateTransporter(Guid id, Transporter transporter)
         {
-            var endpoint = baseurl + id;
+            var endpoint = baseurl + id.ToString();
 
             var response = await PutAsync<TransporterUpdateModel>(endpoint, new TransporterUpdateModel(
                 transporter.Email, transporter.Telephone, transporter.Address, transporter.Name));
