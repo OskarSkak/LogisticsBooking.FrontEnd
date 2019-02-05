@@ -46,3 +46,5 @@ LogisticsBooking.FrontEnd/obj/Debug/netcoreapp2.2/LogisticsBooking.FrontEnd.dll
 LogisticsBooking.FrontEnd/bin
 LogisticsBooking.FrontEnd/obj
 LogisticsBooking.FrontEnd.sln.DotSettings.user
+LogisticsBooking.FrontEnd/obj
+.DS_Store
