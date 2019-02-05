@@ -6,6 +6,7 @@ using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.RequestModels;
 using LogisticsBooking.FrontEnd.Utilities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -21,6 +22,15 @@ namespace LogisticsBooking.FrontEnd.Pages
         public void OnGet()
         {
 
+        }
+        
+        public async Task  OnGetLogoutAsync()
+        {
+            await HttpContext.SignOutAsync("Cookies");
+
+            await HttpContext.SignOutAsync("oidc");
+
+            
         }
 
         public async Task<IActionResult> OnPostAsync()

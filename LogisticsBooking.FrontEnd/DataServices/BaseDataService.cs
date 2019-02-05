@@ -5,14 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace LogisticsBooking.FrontEnd.DataServices
 {
     public class BaseDataService
     {
+        protected  IHttpContextAccessor _httpContextAccessor;
+
+        public BaseDataService(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        
 
         /// <summary>
         /// Post with body
@@ -77,6 +89,8 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 .Accept
                 .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+            
+            
             var cont = JsonConvert.SerializeObject(entity, Formatting.Indented);
             var httpContent = new StringContent(JsonConvert.SerializeObject(entity, Formatting.Indented), System.Text.Encoding.UTF8, "application/json");
 
@@ -117,7 +131,13 @@ namespace LogisticsBooking.FrontEnd.DataServices
             HttpClient client;
 
             client = new HttpClient();
+            var token = string.Empty;
+
+            var currentContext = _httpContextAccessor.HttpContext;
+
+            token = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
             
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" , token);
 
             HttpResponseMessage result = null;
             try

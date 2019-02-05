@@ -5,11 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace LogisticsBooking.FrontEnd.DataServices
 {
     public class SupplierDataService : BaseDataService, ISupplierDataService
     {
+        public SupplierDataService(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        {
+            
+        }
+        
+        
         private string baseurl = "https://localhost:44340/" + "api/suppliers/";
         public async Task<Response> CreateSupplier(Supplier _supplier)
         {
