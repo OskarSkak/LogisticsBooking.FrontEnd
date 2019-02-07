@@ -35,7 +35,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
         /// <returns>HttpResponse message (Either succesfull or null)</returns>
         protected async Task<HttpResponseMessage> PostAsync<T>(string baseurl, T Entity)
         {
-            HttpClient Client = new HttpClient();
+            HttpClient Client = await GetClient();
 
             //Set the client to accept json in body
             Client.DefaultRequestHeaders
@@ -67,8 +67,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
         /// <returns>Either succesfull/unsuccessfull HttpResponse or null</returns>
         protected async Task<HttpResponseMessage> PostAsync(string baseurl)
         {
-            HttpClient client;
-            client = new HttpClient();
+            HttpClient client = await GetClient();
             //Set the client to accept json in body
             client.DefaultRequestHeaders
                 .Accept
@@ -81,8 +80,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         protected async Task<HttpResponseMessage> PostManyAsync<T>(string baseurl, T entity)
         {
-            HttpClient client;
-            client = new HttpClient();
+            HttpClient client = await GetClient();
             
             //Set the client to accept json in body
             client.DefaultRequestHeaders
@@ -110,8 +108,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         protected async Task<HttpResponseMessage> PutAsync<T>(string baseurl, T entity)
         {
-            HttpClient client;
-            client = new HttpClient();
+            HttpClient client = await GetClient();
             var httpContent = new StringContent(JsonConvert.SerializeObject(entity, Formatting.Indented), System.Text.Encoding.UTF8, "application/json");
 
             return await client.PutAsync(baseurl, httpContent);
@@ -119,25 +116,21 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         protected async Task<HttpResponseMessage> DeleteAsync(string baseurl)
         {
-            HttpClient client;
-
-            client = new HttpClient();
+            HttpClient client = await GetClient();
 
             return await client.DeleteAsync(baseurl);
         }
 
         protected async Task<HttpResponseMessage> GetAsync(string baseurl)
         {
-            HttpClient client;
-
-            client = new HttpClient();
-            var token = string.Empty;
+            HttpClient client = await GetClient();
+            /*var token = string.Empty;
 
             var currentContext = _httpContextAccessor.HttpContext;
 
             token = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
             
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" , token);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" , token);*/
 
             HttpResponseMessage result = null;
             try
@@ -176,6 +169,23 @@ namespace LogisticsBooking.FrontEnd.DataServices
             var content = await responseMessage.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<IEnumerable<T>>(content);
+        }
+
+        private async Task<HttpClient> GetClient()
+        {
+            HttpClient client;
+
+            client = new HttpClient();
+            var token = string.Empty;
+
+            var currentContext = _httpContextAccessor.HttpContext;
+
+            token = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            return client;
+
         }
 
     }
