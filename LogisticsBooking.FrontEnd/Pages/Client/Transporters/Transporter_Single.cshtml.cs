@@ -13,7 +13,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
     {
         private ITransporterDataService dataService;
         [BindProperty]
-        public DataServices.Models.Transporter Transporter { get; set; }
+        public DataServices.Models.Transporter transporter { get; set; }
 
         [TempData]
         public Guid guid { get; set; }
@@ -32,7 +32,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             {
                 if (item.Name == TransporterName)
                 {
-                    Transporter = item;
+                    transporter = item;
                     guid = item.ID;
                 }    
             }
@@ -45,19 +45,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             Transporters = (List<DataServices.Models.Transporter>)Transporters;
             foreach (var item in Transporters)
                 if (item.Name == id)
-                    Transporter = item;
+                    transporter = item;
 
-            Transporter.Name = ViewName;
-            Transporter.Email = ViewEmail;
-            Transporter.Telephone = ViewTelephone;
-            Transporter.Address = ViewAddress;
+            transporter.Name = ViewName;
+            transporter.Email = ViewEmail;
+            transporter.Telephone = ViewTelephone;
+            transporter.Address = ViewAddress;
 
-            var result = await dataService.UpdateTransporter(Transporter.ID, Transporter);
+            var result = await dataService.UpdateTransporter(transporter.ID, transporter);
 
             if (!result.IsSuccesfull)
                 return new RedirectToPageResult("Error");
 
             return new RedirectToPageResult("./Transporters");
         }
+
     }
 }

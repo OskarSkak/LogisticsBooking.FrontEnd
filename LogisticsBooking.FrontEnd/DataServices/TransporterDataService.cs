@@ -42,6 +42,19 @@ namespace LogisticsBooking.FrontEnd.DataServices
             var result = await GetAsync(endpoint);
             return await TryReadAsync<Transporter>(result);
         }
+        
+        public async Task<Transporter> GetTransporterByName(String name)
+        {
+            var service = this;
+            var TransporterEnumerable = await service.ListTransporters(0, 0);
+            var TransporterList = (List<Transporter>) TransporterEnumerable;
+            
+            foreach(var item in TransporterList)
+                if (item.Name == name)
+                    return item;
+
+            return null;
+        }
 
         public async Task<IEnumerable<Transporter>> ListTransporters(int page, int pageSize)
         {
@@ -55,6 +68,26 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
             var response = await PutAsync<TransporterUpdateModel>(endpoint, new TransporterUpdateModel(
                 transporter.Email, transporter.Telephone, transporter.Address, transporter.Name));
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(errorMsg);
+                }
+                return Response.Unsuccesfull(response.ReasonPhrase);
+            }
+            return Response.Succes();
+        }
+
+        
+
+        public async Task<Response> DeleteTransporter(Guid id)
+        {
+            var endpoint = baseurl + id;
+
+            var response = await DeleteAsync(endpoint);
+            
             if (!response.IsSuccessStatusCode)
             {
                 if (response.Content != null)

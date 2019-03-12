@@ -13,12 +13,13 @@
                 <form method="post" class="text-left">
                     <div class="form-group"> 
                         <label for="form16">Firma</label>
-                        <input asp-for="Transporter.Name" name="ViewName" class="form-control" />
+                        <input asp-for="transporter.Name" name="ViewName" class="form-control" />
                     </div>
-                    <div class="form-group"> <label for="form18">Email</label> <input asp-for="Transporter.Email" type="email" class="form-control" id="form18" name="ViewEmail"> </div>
-                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="Transporter.Address" class="form-control" id="form18" name="ViewAddress"> </div>
-                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="Transporter.Telephone" class="form-control" id="form18" name="ViewTelephone" > </div>
+                    <div class="form-group"> <label for="form18">Email</label> <input asp-for="transporter.Email" type="email" class="form-control" id="form18" name="ViewEmail"> </div>
+                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="transporter.Address" class="form-control" id="form18" name="ViewAddress"> </div>
+                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="transporter.Telephone" class="form-control" id="form18" name="ViewTelephone" > </div>
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
+                    <a asp-page="./Transporter_Delete" asp-route-id="@Model.transporter.Name" class="btn btn-primary"> Slet </a>
                 </form>
             </div>
         </div>

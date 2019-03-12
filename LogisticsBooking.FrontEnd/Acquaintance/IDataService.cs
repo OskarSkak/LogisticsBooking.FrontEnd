@@ -18,6 +18,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> UpdateTransporter(Guid id, Transporter transporter);
         Task<IEnumerable<Transporter>> ListTransporters(int page, int pageSize);
         Task<Transporter> GetTransporterById(Guid id);
+        Task<Response> DeleteTransporter(Guid id);
+        Task<Transporter> GetTransporterByName(string name);
     }
 
     public interface ISupplierDataService

@@ -123,14 +123,15 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         protected async Task<HttpResponseMessage> GetAsync(string baseurl)
         {
-            HttpClient client = await GetClient();
-            /*var token = string.Empty;
+            HttpClient client = new HttpClient();
+            
+            var token = string.Empty;
 
             var currentContext = _httpContextAccessor.HttpContext;
 
             token = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
             
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" , token);*/
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer" , token);
 
             HttpResponseMessage result = null;
             try
@@ -161,6 +162,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         protected async Task<IEnumerable<T>> GetListAsync<T>(HttpResponseMessage responseMessage) where T : class
         {
+
+            HttpClient client = await GetClient();
+            
             if (responseMessage.Content == null)
             {
                 return null; // <-- Dont eat the error here!
