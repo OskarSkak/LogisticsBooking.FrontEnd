@@ -1,0 +1,94 @@
+@page
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.orderinformation
+
+@{
+    Layout = "_Layout_Transporter";
+}
+
+<div class="py-1" style="">
+    <div class="container">
+
+            <!-- Horizontal Steppers -->
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!-- Stepers Wrapper -->
+                    <ul class="stepper stepper-horizontal">
+
+                        <!-- First Step -->
+                        <li class="completed">
+                            <a href="#!">
+                                <span class="circle"><i class="fas fa-check"></i></span>
+                                <span class="label">Opret Ordre</span>
+                            </a>
+                        </li>
+
+                        <!-- Second Step -->
+                        <li class="completed">
+                            <a href="#!">
+                                <span class="circle"><i class="fas fa-check"></i></span>
+                                <span class="label">Tidspunkt</span>
+                            </a>
+                        </li>
+
+                        <!-- Third Step -->
+                        <li class="active">
+                            <a href="#!">
+                                <span class="circle">3</span>
+                                <span class="label">Oplysninger</span>
+                            </a>
+                        </li>
+                        
+                        <!-- Third Step -->
+                        <li class="">
+                            <a href="#!">
+                                <span class="circle">3</span>
+                                <span class="label">Gennemført</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <!-- /.Stepers Wrapper -->
+
+                </div>
+            </div>
+
+
+    </div>
+</div>  
+
+
+<div class="py-1" style="">
+    <div class="container">
+        <div class="row" >
+            <div class="mx-auto p-4 col-lg-7">
+                <form>
+                    @Html.HiddenFor(x => x.BookingOrderViewModel.BookingDate)
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv leverandør</label>
+                        <select class="form-control">
+                            <option>
+                                Aldi
+                            </option>
+                            <option>
+                                Lidl
+                            </option>
+                            <option>
+                                Netto
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv Ordre nummer</label><input type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv samlet antal bundpaller</label><input type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group "><label class="paddingleftbookingform">Angiv paller i alt på ordren</label><input type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group "><label class="paddingleftbookingform">Kommentar til ordren</label><textarea class="form-control"></textarea></div>
+                    <div class="display-center">
+                        <button type="submit" asp-page="ChooseTime" class="btn btn-primary">Opret endnu en ordre</button>
+                        <button type="submit" asp-page="ChooseTime2" class="btn btn-primary">Bekræft</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
