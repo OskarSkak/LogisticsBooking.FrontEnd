@@ -19,7 +19,11 @@
                     <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="transporter.Address" class="form-control" id="form18" name="ViewAddress"> </div>
                     <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="transporter.Telephone" class="form-control" id="form18" name="ViewTelephone" > </div>
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                    <a asp-page="./Transporter_Delete" asp-route-id="@Model.transporter.Name" class="btn btn-primary"> Slet </a>
+                    @if (User.IsInRole("admin"))
+                    {
+                            
+                        <input type="submit"  class="btn btn-primary"  value="Slet Transportør"/>
+                    }
                 </form>
             </div>
         </div>
