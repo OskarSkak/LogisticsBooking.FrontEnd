@@ -21,13 +21,12 @@ namespace LogisticsBooking.FrontEnd.Pages
         }
         public void OnGet()
         {
-
+            
         }
         
         public async Task  OnGetLogoutAsync()
         {
             await HttpContext.SignOutAsync("Cookies");
-
             await HttpContext.SignOutAsync("oidc");
 
             
@@ -35,8 +34,8 @@ namespace LogisticsBooking.FrontEnd.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-            return new RedirectResult("Client/ClientIndex");
+            //
+            return new RedirectResult("User/Home");
         }
     }
 }
