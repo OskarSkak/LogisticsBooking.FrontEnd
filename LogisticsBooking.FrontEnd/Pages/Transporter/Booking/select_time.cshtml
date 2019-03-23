@@ -24,18 +24,18 @@
                         </li>
 
                         <!-- Second Step -->
-                        <li class="active">
+                        <li class="completed">
                             <a href="#!">
                                 <span class="circle">2</span>
-                                <span class="label">Tidspunkt</span>
+                                <span class="label">Oplysninger</span>
                             </a>
                         </li>
 
                         <!-- Third Step -->
-                        <li class="">
+                        <li class="active">
                             <a href="#!">
                                 <span class="circle">3</span>
-                                <span class="label">Oplysninger</span>
+                                <span class="label">Tidspunkt</span>
                             </a>
                         </li>
                         
@@ -63,19 +63,19 @@
             <div class="mx-auto p-4 col-lg-8">
                 <div class="col-md">
                     <div class="list-group" style="">
-                        <form>
-                            <button type="submit" >
-                                <a asp-page="orderinformation" class="list-group-item list-group-item-action">
+                        <form >
+                            <button class="list-group-item list-group-item-action" type="submit" asp-page="./confirm" >
+                               
                                     <div class="display-spacebetween">
 
-                                        @Html.HiddenFor(x => x.BookingOrderViewModel.TotalPallets)
+                                    
                                         
 
                                         <div class="">21:00 - 22:00</div>
                                         <div class="">54 paller</div>
                                     </div>
 
-                                </a>
+                                
                             
                             </button>
                         </form>
