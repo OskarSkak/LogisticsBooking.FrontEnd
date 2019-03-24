@@ -4,7 +4,9 @@ using LogisticsBooking.FrontEnd.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Http;
 
 namespace LogisticsBooking.FrontEnd.DataServices
@@ -15,14 +17,17 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             
         }
-        public async Task<Response> CreateBooking(Booking _booking)
+        public async Task<Response> CreateBooking(BookingViewModel _booking)
         {
-            var baseurl = "https://localhost:44340/" + "api/orders";
+            var baseurl = "https://localhost:44340/" + "api/bookings";
 
-            var response = await PostAsync<Booking>(baseurl, _booking); 
+            var response = await PostAsync<BookingViewModel>(baseurl, _booking);
 
-
-            return null;
+            if (response.IsSuccessStatusCode)
+            {
+                return new Response(true );
+            }
+            return new Response(false);
         }
 
 

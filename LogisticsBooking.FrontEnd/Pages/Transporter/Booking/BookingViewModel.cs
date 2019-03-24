@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
@@ -15,5 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public string email { get; set; }
         
         public List<OrderViewModel> OrderViewModels { get; set; }
+        
+        public IEnumerable<DataServices.Models.Transporter> Transporters { get; set; }
     }
 }

@@ -4,22 +4,35 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.Acquaintance;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class orderinformation : PageModel
     {
-        
-        
+        private readonly ITransporterDataService _transporterDataService;
+
+
         public BookingViewModel BookingViewModel { get; set; }
         
         public OrderViewModel OrderViewModel { get; set; }
         
-        public void OnGet( )
+        public List<SelectListItem> Transporters { get; set;}
+        
+        
+        
+
+
+        public orderinformation(ITransporterDataService transporterDataService)
+        {
+            _transporterDataService = transporterDataService;
+        }
+        public async Task OnGetAsync()
         {
             var id = "";
             
@@ -39,11 +52,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             BookingViewModel = model;
 
+            BookingViewModel.Transporters = await  _transporterDataService.ListTransporters(0, 0);
             
+            CreateSelectedList(BookingViewModel.Transporters.ToList());
             
+
+
         }
 
-        public async Task<IActionResult> OnPostAsync(OrderViewModel orderViewModel) 
+        public async Task<IActionResult> OnPostAsync(OrderViewModel orderViewModel ) 
         {
 
             Console.WriteLine(orderViewModel);
@@ -79,7 +96,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                         id = orderViewModel.id,
                         InOut = orderViewModel.InOut,
                         totalPallets = orderViewModel.totalPallets,
-                        wareNumber = orderViewModel.wareNumber
+                        wareNumber = orderViewModel.wareNumber,
+                        SupplierName = orderViewModel.SupplierName
+                        
                     }    
                 };
             }
@@ -94,7 +113,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     id = orderViewModel.id,
                     InOut = orderViewModel.InOut,
                     totalPallets = orderViewModel.totalPallets,
-                    wareNumber = orderViewModel.wareNumber
+                    wareNumber = orderViewModel.wareNumber,
+                    SupplierName = orderViewModel.SupplierName
                     
                 });
             }
@@ -111,6 +131,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             return new RedirectToPageResult("orderinformation");
 
+        }
+
+        public void CreateSelectedList(List<DataServices.Models.Transporter> transporters) 
+        {
+            Transporters = new List<SelectListItem>();
+
+            foreach (var transporter in transporters)
+            {
+                Transporters.Add(new SelectListItem{ Value = transporter.Name ,Text = transporter.Name});
+            }
         }
     }
 }
