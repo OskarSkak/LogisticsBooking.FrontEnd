@@ -12,5 +12,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public string InOut { get; set; }
         public int totalPallets { get; set; }
         public int BottomPallets { get; set; }
+        
+        public string SupplierName { get; set; }
     }
 }

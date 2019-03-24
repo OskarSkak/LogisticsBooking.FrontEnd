@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 
 namespace LogisticsBooking.FrontEnd.Acquaintance
 {
     public interface IBookingDataService
     {
-        Task<Response> CreateBooking(Booking _booking);
+        Task<Response> CreateBooking(BookingViewModel _booking);
     }
 
     public interface ITransporterDataService

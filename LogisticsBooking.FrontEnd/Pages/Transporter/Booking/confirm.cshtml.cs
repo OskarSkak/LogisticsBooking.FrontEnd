@@ -25,6 +25,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             Console.WriteLine(model);
            // Console.WriteLine(test1);
           //  Console.WriteLine(test);
+          
+          
             
             
         }
