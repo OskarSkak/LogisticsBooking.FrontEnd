@@ -29,5 +29,6 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> DeleteSupplier(Guid id);
         Task<Supplier> GetSupplierById(Guid id);
         Task<IEnumerable<Supplier>> ListSuppliers(int page, int pageSize);
+        Task<Supplier> GetSupplierByName(string name);
     }
 }

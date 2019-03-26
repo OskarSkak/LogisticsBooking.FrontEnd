@@ -24,10 +24,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group" style="">
-                    <a asp-page="/Client/Suppliers/Supplier_Single" class="list-group-item list-group-item-action display-spacebetween">Netto</a>
-                    <a asp-page="/Client/Suppliers/Supplier_Single" class="list-group-item list-group-item-action display-spacebetween">Nordic Seafood</a>
-                    <a asp-page="/Client/Suppliers/Supplier_Single" class="list-group-item list-group-item-action display-spacebetween">Ysco</a>
-                    <a asp-page="/Client/Suppliers/Supplier_Single" class="list-group-item list-group-item-action display-spacebetween">Frisko</a>
+                    @foreach (var item in Model.Suppliers)
+                    {
+                        <text>
+                            <a asp-page="./Supplier_Single" asp-route-id="@item.Name" class="list-group-item list-group-item-action display-spacebetween">@item.Name</a>
+                        </text>
+                    }
                 </div>
             </div>
         </div>
