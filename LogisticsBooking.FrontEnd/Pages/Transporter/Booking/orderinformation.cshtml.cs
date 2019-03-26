@@ -15,7 +15,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class orderinformation : PageModel
     {
-        private readonly ITransporterDataService _transporterDataService;
+        private readonly ISupplierDataService _supplierDataService;
+        
 
 
         public BookingViewModel BookingViewModel { get; set; }
@@ -28,9 +29,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
 
 
-        public orderinformation(ITransporterDataService transporterDataService)
+        public orderinformation(ISupplierDataService supplierDataService)
         {
-            _transporterDataService = transporterDataService;
+            _supplierDataService = supplierDataService;
+            
         }
         public async Task OnGetAsync()
         {
@@ -52,9 +54,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             BookingViewModel = model;
 
-            BookingViewModel.Transporters = await  _transporterDataService.ListTransporters(0, 0);
+            BookingViewModel.Suppliers = await _supplierDataService.ListSuppliers(0, 0);
             
-            CreateSelectedList(BookingViewModel.Transporters.ToList());
+            CreateSelectedList(BookingViewModel.Suppliers.ToList());
             
 
 
@@ -133,7 +135,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         }
 
-        public void CreateSelectedList(List<DataServices.Models.Transporter> transporters) 
+        public void CreateSelectedList(List<DataServices.Models.Supplier> transporters) 
         {
             Transporters = new List<SelectListItem>();
 

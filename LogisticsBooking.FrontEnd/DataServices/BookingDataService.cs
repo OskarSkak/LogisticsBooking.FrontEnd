@@ -23,12 +23,26 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
             var response = await PostAsync<BookingViewModel>(baseurl, _booking);
 
+            
             if (response.IsSuccessStatusCode)
             {
                 return new Response(true );
             }
             return new Response(false);
         }
+
+        public async Task<List<Booking>> GetBookings()
+        {
+            var baseurl = "https://localhost:44340/" + "api/bookings";
+
+            var response = await GetAsync(baseurl);
+
+            var result = await TryReadAsync<List<Booking>>(response);
+            Console.WriteLine(result);
+
+            return result ;
+        }
+        
 
 
     }

@@ -11,6 +11,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IBookingDataService
     {
         Task<Response> CreateBooking(BookingViewModel _booking);
+        Task<List<Booking>> GetBookings();
     }
 
     public interface ITransporterDataService
