@@ -13,6 +13,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 {
     public class BookingDataService : BaseDataService, IBookingDataService
     {
+        private string _url = "https://localhost:44340/" + "api/bookings/";
         public BookingDataService(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             
@@ -41,6 +42,32 @@ namespace LogisticsBooking.FrontEnd.DataServices
             Console.WriteLine(result);
 
             return result ;
+        }
+
+        public async Task<Response> UpdateBooking(Booking booking)
+        {
+            var endpoint = _url + booking.internalId;
+
+            var response = await PutAsync<Booking>(endpoint, booking);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(errorMsg);
+                }
+                return Response.Unsuccesfull(response.ReasonPhrase);
+            }
+            return Response.Succes();
+        }
+
+        public async Task<Booking> GetBookingById(Guid id)
+        {
+            var endpoint = _url + id;
+            var result = await GetAsync(endpoint);
+            return await TryReadAsync<Booking>(result);
+
         }
         
 
