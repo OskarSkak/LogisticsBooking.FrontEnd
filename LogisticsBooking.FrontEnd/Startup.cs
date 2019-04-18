@@ -54,7 +54,7 @@ namespace LogisticsBooking.FrontEnd
 
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:5025";
+                    options.Authority = "https://identity.logistictechnologies.eu";
                     options.RequireHttpsMetadata = false;
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
