@@ -1,0 +1,38 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@model LogisticsBooking.FrontEnd.Pages.Client.TransportersModel
+@{
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-5 col-md-7 col-10">
+                <h1>Transportører</h1>
+                <p class="mb-3">Klik i listen for at redigere en transportør, eller klik 'Opret Transportør' for at registrere en ny i systemet </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mx-auto col-lg-5 col-md-7 col-10">
+                <a asp-page="Transporter_Create"><button class="btn btn-primary">Opret Transportør</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="py-5" style="">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group" style="">
+                    @foreach(var Transporter in Model.Transporters)
+                    {
+                       
+                        <text>
+                    <a asp-page="./Transporter_Single" asp-route-id="@Transporter.Name" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
+                        </text>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

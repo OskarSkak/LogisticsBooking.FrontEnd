@@ -1,0 +1,23 @@
+﻿@page "{id}"
+@model LogisticsBooking.FrontEnd.Pages.Client.Suppliers.Supplier_SingleModel
+@{
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Eksisterende kunde</h1>
+                <p class="mb-3">Opdater informationer ved at udskifte de genererede værdier i felterne under</p>
+                <form method="post" class="text-left">
+                    <div class="form-group"> <label for="form16">Kundenavn</label> <input asp-for="supplier.Name" type="text" class="form-control" id="form16" name="ViewName"> </div>
+                    <div class="form-group"> <label for="form17">Kunde Nr</label> <input asp-for="supplier.Telephone" type="number" class="form-control" id="form17" name="ViewTelephone"> </div>
+                    <div class="form-group"> <label for="form18">Kontakt</label> <input asp-for="supplier.Email" type="email" class="form-control" id="form18" name="ViewEmail"> </div>
+
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
+                    <a asp-page="./Supplier_Delete" asp-route-id="@Model.supplier.Name" class="btn btn-primary"> Slet </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

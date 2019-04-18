@@ -1,0 +1,177 @@
+@page
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.select_time
+
+@{
+    Layout = "_Layout_Transporter";
+}
+
+<div class="py-1" style="">
+    <div class="container">
+
+            <!-- Horizontal Steppers -->
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!-- Stepers Wrapper -->
+                    <ul class="stepper stepper-horizontal">
+
+                        <!-- First Step -->
+                        <li class="completed">
+                            <a href="#!">
+                                <span class="circle"><i class="fas fa-check"></i></span>
+                                <span class="label">Opret Ordre</span>
+                            </a>
+                        </li>
+
+                        <!-- Second Step -->
+                        <li class="completed">
+                            <a href="#!">
+                                <span class="circle">2</span>
+                                <span class="label">Oplysninger</span>
+                            </a>
+                        </li>
+
+                        <!-- Third Step -->
+                        <li class="active">
+                            <a href="#!">
+                                <span class="circle">3</span>
+                                <span class="label">Tidspunkt</span>
+                            </a>
+                        </li>
+                        
+                        <!-- Third Step -->
+                        <li class="">
+                            <a href="#!">
+                                <span class="circle">3</span>
+                                <span class="label">Gennemført</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <!-- /.Stepers Wrapper -->
+
+                </div>
+            </div>
+
+
+    </div>
+</div>  
+<div class="py-5" style="">
+    <div class="container">
+        
+        <div class="row">
+            <div class="mx-auto p-4 col-lg-8">
+                <div class="col-md">
+                    <div class="list-group" style="">
+                        <form method="post" >
+                            <button class="list-group-item list-group-item-action" type="submit"  >                             
+                                    <div class="display-spacebetween">
+                                        <div class="">21:00 - 22:00</div>
+                                        <div class="">54 paller</div>
+                                    </div>                        
+                            </button>
+                        </form>             
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">22:00 - 23:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">23:00 - 00:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="list-group" style="">
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">00:00 - 01:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">01:00 - 02:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">02:00 - 03:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="list-group" style="">
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">03:00 - 04:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">04:00 - 05:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                        <a asp-page="ChooseTime" class="list-group-item list-group-item-action">
+                            <div class="display-spacebetween">
+
+
+                                <div class="">05:00 - 06:00</div>
+                                <div class="">54 paller</div>
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mx-auto p-4 col-lg-4">
+                <form>
+                    
+                    <h1>Currently Booking</h1>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-auto">
+                                <p>Dato</p>
+                            </div>
+                            <div class="col-lg-auto">
+                                <p>type</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

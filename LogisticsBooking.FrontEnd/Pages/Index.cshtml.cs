@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
+using LogisticsBooking.FrontEnd.DataServices.RequestModels;
+using LogisticsBooking.FrontEnd.Utilities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,15 +14,28 @@ namespace LogisticsBooking.FrontEnd.Pages
 {
     public class IndexModel : PageModel
     {
+        private ITransporterDataService transporterDataService;
+        public IndexModel(ITransporterDataService _transporterDataService)
+        {
+            transporterDataService = _transporterDataService;
+        }
         public void OnGet()
         {
+            
+        }
+        
+        public async Task  OnGetLogoutAsync()
+        {
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("oidc");
 
+            
         }
 
-        public async Task OnPostSubmit()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var test = new BookingDataService();
-            var a = await test.CreateBooking(new DataServices.Models.Booking("Test")); 
+            //
+            return new RedirectResult("User/Home");
         }
     }
 }

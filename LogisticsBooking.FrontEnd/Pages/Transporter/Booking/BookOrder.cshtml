@@ -1,0 +1,84 @@
+@page
+@model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.BookOrder
+
+@{
+    Layout = "_Layout_Transporter";
+}
+
+<div class="py-1" style="">
+    <div class="container">
+
+            <!-- Horizontal Steppers -->
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!-- Stepers Wrapper -->
+                    <ul class="stepper stepper-horizontal">
+
+                        <!-- First Step -->
+                        <li class="active">
+                            <a href="#!">
+                                <span class="circle">1</span>
+                                <span class="label">Opret Ordre</span>
+                            </a>
+                        </li>
+
+                        <!-- Second Step -->
+                        <li class="">
+                            <a href="#!">
+                                <span class="circle">2</span>
+                                <span class="label">Oplysninger</span>
+                            </a>
+                        </li>
+
+                        <!-- Third Step -->
+                        <li class="">
+                            <a href="#!">
+                                <span class="circle">3</span>
+                                <span class="label">Tidspunkt</span>
+                            </a>
+                        </li>
+                        
+                        <!-- Third Step -->
+                        <li class="">
+                            <a href="#!">
+                                <span class="circle">3</span>
+                                <span class="label">Gennemført</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <!-- /.Stepers Wrapper -->
+
+                </div>
+            </div>
+
+
+    </div>
+</div>  
+<div class="py-1" style="">
+    <div class="container">
+        <div class="row" >
+            <div class="mx-auto p-4 col-lg-8">
+               
+                <form method="post" >
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-for="BookingOrderViewModel.BookingTime"   class="form-control" id="form29" placeholder=""></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv total antal bundpaller</label><input asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div>
+                    <div class="display-center">
+                        <button type="submit"   class="btn btn-primary">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    function showHelp() {
+        
+    }
+    
+</script>

@@ -1,0 +1,30 @@
+﻿@page "{id}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@model LogisticsBooking.FrontEnd.Pages.Client.Transporters.Transporter_DeleteModel
+@{
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Slet Transportør</h1>
+                <p class="mb-3">Du er ved at slette følgende transportør:</p>
+                <form method="post" class="text-left">
+                    <div class="form-group"> <label for="form16">Firma Navn</label> <input asp-for="@Model.transporter.Name" type="text" class="form-control" id="form16" name="Name"> </div>
+                    <div class="form-group"> <label for="form18">Email</label> <input asp-for="@Model.transporter.Email"  class="form-control" id="form18"  name="Email"> </div>
+                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="transporter.Address" class="form-control" id="form18" name="Address"> </div>
+                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="transporter.Telephone" class="form-control" id="form18" name="Telephone"> </div>
+
+                    <div class="form-group">
+
+                    </div>
+                    
+                    <a>Sletning er permanent, og der er ingen garanti for at dataen kan genfindes</a>
+                    <button type="submit" class="btn btn-primary">Slet transportør</button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
