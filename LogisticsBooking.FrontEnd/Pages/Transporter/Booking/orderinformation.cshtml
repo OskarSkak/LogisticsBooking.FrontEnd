@@ -73,13 +73,13 @@
                         
                         
                     </div>
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv Ordre nummer</label><input asp-for="OrderViewModel.orderNumber" type="number" class="form-control" id="form29" placeholder="Ordrenummer"></div>
+
                     <div class="form-group"><label class="paddingleftbookingform">Angiv samlet antal bundpaller</label><input asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div class="form-group "><label class="paddingleftbookingform">Angiv paller i alt på ordren</label><input asp-for="OrderViewModel.totalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div class="form-group "><label class="paddingleftbookingform">Kommentar til ordren</label><textarea class="form-control"></textarea></div>
                     <div class="display-center">
-                        <button type="submit"  class="btn btn-primary">Opret endnu en ordre</button>
-                        <button type="submit" asp-page="./select_time"  class="btn btn-primary">Bekræft</button>
+                        <button type="submit"  class="btn btn-primary">Tilføj ordre</button>
+                        <button type="submit" asp-page="./select_time"  class="btn btn-primary">Bekræft Booking</button>
 
                     </div>
 
@@ -95,11 +95,9 @@
                             <div class="col-lg-3">
                                 <span class="font-weight-bold">Leverandør</span>
                             </div>
+                            
                             <div class="col-lg-3">
-                                <span class="font-weight-bold">Ordre nummer</span>
-                            </div>
-                            <div class="col-lg-3">
-                                <span class="font-weight-bold">Bundpallerr</span>
+                                <span class="font-weight-bold">Bundpaller</span>
                             </div>
                             <div class="col-lg-3">
                                 <span class="font-weight-bold">Paller i alt</span>
@@ -116,9 +114,7 @@
                                     <div class="col-lg-3">
                                         <p>@orderViewModel.SupplierName</p>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <span>@orderViewModel.orderNumber</span>
-                                    </div>
+                                    
                                     <div class="col-lg-3">
                                         <span>@orderViewModel.BottomPallets</span>
                                     </div>
