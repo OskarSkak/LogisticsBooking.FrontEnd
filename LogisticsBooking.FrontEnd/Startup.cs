@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -37,6 +38,13 @@ namespace LogisticsBooking.FrontEnd
                 // #TODO 
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
+                options.KnownProxies.Add(IPAddress.Parse("206.189.120.107"));
+                options.KnownProxies.Add(IPAddress.Parse("138.68.134.10"));
+                options.KnownProxies.Add(IPAddress.Parse("5.186.119.6"));
             });
             
             // Show logs error Identity
