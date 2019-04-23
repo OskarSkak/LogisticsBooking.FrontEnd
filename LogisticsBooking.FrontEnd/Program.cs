@@ -22,13 +22,7 @@ namespace LogisticsBooking.FrontEnd
 
             WebHost.CreateDefaultBuilder(args)
 
-                .UseKestrel(options =>
-                {
-                    options.Listen(IPAddress.Loopback, 5002); // http:localhost:5000
-                    options.Listen(IPAddress.Any, 5003); // http:*:80
-                    options.Listen(IPAddress.Loopback, 443,
-                        listenOptions => { listenOptions.UseHttps("localhost.pfx", "password"); });
-                })
+                .UseKestrel()
                 .UseStartup<Startup>();
 
 
