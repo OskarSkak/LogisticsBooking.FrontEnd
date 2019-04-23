@@ -48,7 +48,3 @@ LogisticsBooking.FrontEnd/obj
 LogisticsBooking.FrontEnd.sln.DotSettings.user
 LogisticsBooking.FrontEnd/obj
 .DS_Store
-LogisticsBooking.FrontEnd/localhost.crt
-LogisticsBooking.FrontEnd/localhost.key
-LogisticsBooking.FrontEnd/localhost.pfx
-LogisticsBooking.FrontEnd/localhost.conf
