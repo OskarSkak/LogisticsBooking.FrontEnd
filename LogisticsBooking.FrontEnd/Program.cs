@@ -13,6 +13,9 @@ namespace LogisticsBooking.FrontEnd
 {
     public class Program
     {
+        
+        public static IHostingEnvironment HostingEnvironment { get; set; }
+        public static IConfiguration Configuration { get; set; }
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
@@ -23,6 +26,14 @@ namespace LogisticsBooking.FrontEnd
             WebHost.CreateDefaultBuilder(args)
 
                 .UseKestrel()
+                
+                    .ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        HostingEnvironment = hostingContext.HostingEnvironment;
+                        Configuration = config.Build();
+                   
+                })
+              
                 .UseStartup<Startup>();
 
 

@@ -5,19 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.RequestModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace LogisticsBooking.FrontEnd.DataServices
 {
     public class SupplierDataService : BaseDataService, ISupplierDataService
     {
-        public SupplierDataService(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        public SupplierDataService(IHttpContextAccessor httpContextAccessor , IOptions<BackendServerUrlConfiguration> config) : base(httpContextAccessor , config)
         {
-            
+            baseurl = _APIServerURL + "/api/suppliers/";
         }
-        
-        private string baseurl = "https://localhost:44340/" + "api/suppliers/";
+
+        private string baseurl;
         
         public async Task<Response> CreateSupplier(Supplier _supplier)
         {

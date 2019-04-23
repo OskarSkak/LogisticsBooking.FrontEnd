@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -20,18 +21,35 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace LogisticsBooking.FrontEnd
 {
-    public class Startup
+
+     
+     
+      public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+        private readonly IConfiguration _config;
+
+
+        public Startup(IHostingEnvironment env, IConfiguration config)
         {
-            Configuration = configuration;
+            _env = env;
+            _config = config;
+
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+               
+            services.Configure<BackendServerUrlConfiguration>(
+                _config.GetSection(nameof(BackendServerUrlConfiguration)));
+            services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
+            
+            
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -68,6 +86,9 @@ namespace LogisticsBooking.FrontEnd
             // clear the mapping of claims
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
+                .Get<IdentityServerConfiguration>();
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -78,7 +99,7 @@ namespace LogisticsBooking.FrontEnd
 
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://identity.logistictechnologies.eu";
+                    options.Authority = $"{identityServerConfig.IdentityServerUrl}";
                     options.RequireHttpsMetadata = false;
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
@@ -127,6 +148,8 @@ namespace LogisticsBooking.FrontEnd
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
+                
             }
             else
             {
