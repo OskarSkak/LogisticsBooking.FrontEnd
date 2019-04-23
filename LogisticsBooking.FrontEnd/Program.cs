@@ -26,13 +26,6 @@ namespace LogisticsBooking.FrontEnd
             WebHost.CreateDefaultBuilder(args)
 
                 .UseKestrel()
-                
-                    .ConfigureAppConfiguration((hostingContext, config) =>
-                    {
-                        HostingEnvironment = hostingContext.HostingEnvironment;
-                        Configuration = config.Build();
-                   
-                })
               
                 .UseStartup<Startup>();
 
