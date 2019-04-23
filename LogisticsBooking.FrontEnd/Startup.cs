@@ -120,10 +120,14 @@ namespace LogisticsBooking.FrontEnd
                 app.UseHsts();
             }
             
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
 
             app.UseSession();
             app.UseAuthentication();
