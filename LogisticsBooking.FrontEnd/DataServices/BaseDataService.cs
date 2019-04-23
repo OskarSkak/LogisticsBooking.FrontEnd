@@ -9,8 +9,10 @@ using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace LogisticsBooking.FrontEnd.DataServices
@@ -18,10 +20,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
     public class BaseDataService
     {
         protected  IHttpContextAccessor _httpContextAccessor;
+        protected readonly IOptions<BackendServerUrlConfiguration> _config;
+        protected string _APIServerURL;
 
-        public BaseDataService(IHttpContextAccessor httpContextAccessor)
+        public BaseDataService(IHttpContextAccessor httpContextAccessor , IOptions<BackendServerUrlConfiguration> config)
         {
             _httpContextAccessor = httpContextAccessor;
+            _config = config;
+            _APIServerURL = _config.Value.BackendServerUrl;
         }
 
         

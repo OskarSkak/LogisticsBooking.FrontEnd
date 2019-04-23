@@ -6,19 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace LogisticsBooking.FrontEnd.DataServices
 {
     public class TransporterDataService : BaseDataService, ITransporterDataService
     {
 
-        public TransporterDataService(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        public string ApiURL { get; set; }
+        public TransporterDataService(IHttpContextAccessor httpContextAccessor , IOptions<BackendServerUrlConfiguration> config) : base(httpContextAccessor , config)
         {
-            
+            baseurl = _APIServerURL + "/api/transporters/";
         }
 
-        public string baseurl = "https://localhost:44340/" + "api/transporters/";
+        public string baseurl;
 
         public async Task<Response> CreateTransporter(Transporter _transporter)
         {
