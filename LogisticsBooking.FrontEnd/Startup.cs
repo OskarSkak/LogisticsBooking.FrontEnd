@@ -89,7 +89,7 @@ namespace LogisticsBooking.FrontEnd
 
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = $"{identityServerConfig.IdentityServerUrl}";
+                    options.Authority = "https://identity.logistictechnologies.eu";
                     options.RequireHttpsMetadata = false;
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
