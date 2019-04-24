@@ -29,8 +29,10 @@ namespace LogisticsBooking.FrontEnd
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
 
+            
     return WebHost.CreateDefaultBuilder(args)
         .UseStartup<Startup>()
+        .UseConfiguration(config)
         .ConfigureKestrel((context, options) =>
         {
             
