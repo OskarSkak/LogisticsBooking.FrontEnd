@@ -72,8 +72,7 @@ namespace LogisticsBooking.FrontEnd
             var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
             
-            Console.WriteLine("@@@@@@@@@@@");
-            Console.WriteLine(identityServerConfig.IdentityServerUrl);
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
