@@ -13,4 +13,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="build\web.config" />
+    <_ContentIncludedByDefault Remove="build\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="build\appsettings.json" />
+    <_ContentIncludedByDefault Remove="build\LogisticsBooking.FrontEnd.deps.json" />
+    <_ContentIncludedByDefault Remove="build\LogisticsBooking.FrontEnd.runtimeconfig.json" />
+  </ItemGroup>
+
 </Project>
