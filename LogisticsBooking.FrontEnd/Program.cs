@@ -26,7 +26,7 @@ namespace LogisticsBooking.FrontEnd
             WebHost.CreateDefaultBuilder(args)
 
                 .UseKestrel()
-                .UseUrls("http://localhost:44340")
+                
                 .UseStartup<Startup>();
 
 
