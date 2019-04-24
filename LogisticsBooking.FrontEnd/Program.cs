@@ -11,13 +11,13 @@ using Microsoft.Extensions.Logging;
 
 namespace LogisticsBooking.FrontEnd
 {
-    public class Program
-    {
-        
-        public static IHostingEnvironment HostingEnvironment { get; set; }
-        public static IConfiguration Configuration { get; set; }
-        public static void Main(string[] args)
+        public class Program
         {
+            
+            public static IHostingEnvironment HostingEnvironment { get; set; }
+            public static IConfiguration Configuration { get; set; }
+            public static void Main(string[] args)
+            {
             CreateWebHostBuilder(args).Build().Run();
         }
 
@@ -26,7 +26,7 @@ namespace LogisticsBooking.FrontEnd
             WebHost.CreateDefaultBuilder(args)
 
                 .UseKestrel()
-                .UseUrls("http://localhost:5000")
+                .UseUrls("http://localhost:44340")
                 .UseStartup<Startup>();
 
 
