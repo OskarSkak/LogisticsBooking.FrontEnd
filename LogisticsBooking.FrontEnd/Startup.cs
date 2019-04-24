@@ -72,6 +72,8 @@ namespace LogisticsBooking.FrontEnd
             var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
             
+            Console.WriteLine("@@@@@@@@@@@");
+            Console.WriteLine(identityServerConfig.IdentityServerUrl);
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -83,6 +85,7 @@ namespace LogisticsBooking.FrontEnd
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = $"{identityServerConfig.IdentityServerUrl}";
+                    
                     options.RequireHttpsMetadata = false;
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
