@@ -67,18 +67,8 @@ namespace LogisticsBooking.FrontEnd
                 options.ExcludedHosts.Add("identity.logistictechnologies.eu/");
             });
 
-            services.AddHttpsRedirection(options =>
-            {
-                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-                options.HttpsPort = 5001;
-            });
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
-                options.KnownProxies.Add(IPAddress.Parse("206.189.120.107"));
-                options.KnownProxies.Add(IPAddress.Parse("138.68.134.10"));
-                options.KnownProxies.Add(IPAddress.Parse("5.186.119.6"));
-            });
+            
+            
             
             // Show logs error Identity
             IdentityModelEventSource.ShowPII = true;
