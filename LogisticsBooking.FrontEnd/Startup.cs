@@ -58,14 +58,7 @@ namespace LogisticsBooking.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             
-            services.AddHsts(options =>
-            {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(60);
-                options.ExcludedHosts.Add("identity.logistictechnologies.eu/");
-                options.ExcludedHosts.Add("identity.logistictechnologies.eu/");
-            });
+            
 
             
             
@@ -89,7 +82,7 @@ namespace LogisticsBooking.FrontEnd
 
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://identity.logistictechnologies.eu";
+                    options.Authority = $"{identityServerConfig.IdentityServerUrl}";
                     options.RequireHttpsMetadata = false;
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
