@@ -34,7 +34,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             {
                 Console.WriteLine(ex);
             }
-            
+
+            bookingOrderViewModel.PalletsRemaining = BookingOrderViewModel.TotalPallets;
             HttpContext.Session.SetObject(id ,bookingOrderViewModel);
 
             
