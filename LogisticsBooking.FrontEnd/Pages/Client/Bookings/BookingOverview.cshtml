@@ -22,7 +22,11 @@
 </style>
 
 <body onload="toggle('orderItem')">
-<button onclick="toggle('orderItem')" class="btn btn-primary">Gem/Vis Alle</button>
+<br/>
+<div>
+    <button onclick="toggle('orderItem')" class="btn btn-primary">Gem/Vis Alle</button>
+</div>
+<hr/>
 <table id="example" class="display" style="width: 100%">
     <thead>
     <tr>
@@ -103,61 +107,61 @@
                     }
                 </div>
             </td>
-        <td>
-            @booking.port
-            <div class="orderItem @booking.internalId">
-                <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
-                @foreach (var order in @booking.Orders)
-                {
-                    <div style="opacity: 0">@order.InOut</div>
-                }
-            </div>
-        </td>
+            <td>
+                @booking.port
+                <div class="orderItem @booking.internalId">
+                    <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                    @foreach (var order in @booking.Orders)
+                    {
+                        <div style="opacity: 0">@order.InOut</div>
+                    }
+                </div>
+            </td>
             <form method="post">
-            <td>
-                <input type="time" asp-for="@booking.actualArrival" name="actualArrival"/>
-                <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
-                    @foreach (var order in @booking.Orders)
-                    {
-                        <div style="opacity: 0">@order.InOut</div>
-                    }
-                </div>
-            </td>
-            <td>
-                <div>
-                    <input type="time" asp-for="@booking.startLoading" name="startLoading"/>
-                </div>
-                <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
-                    @foreach (var order in @booking.Orders)
-                    {
-                        <div style="opacity: 0">@order.InOut</div>
-                    }
-                </div>
-            </td>
-            <td>
-                <input type="time" asp-for="@booking.endLoading" name="endLoading"/>
-                <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
-                    @foreach (var order in @booking.Orders)
-                    {
-                        <div style="opacity: 0">@order.InOut</div>
-                    }
-                </div>
-            </td>
-            <td>
-                <button asp-page-handler="Update" asp-route-id="@booking.internalId"> <i class="far fa-edit"></i> </button>
-                
-                <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold; opacity: 0;">O</div>
-                    @foreach (var order in @booking.Orders)
-                    {
-                        <div style="opacity: 0">@order.InOut</div>
-                    }
-                </div>
-            </td>
-        </form>
+                <td>
+                    <input type="time" asp-for="@booking.actualArrival" name="actualArrival"/>
+                    <div class="orderItem @booking.internalId">
+                        <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                        @foreach (var order in @booking.Orders)
+                        {
+                            <div style="opacity: 0">@order.InOut</div>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <input type="time" asp-for="@booking.startLoading" name="startLoading"/>
+                    </div>
+                    <div class="orderItem @booking.internalId">
+                        <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                        @foreach (var order in @booking.Orders)
+                        {
+                            <div style="opacity: 0">@order.InOut</div>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <input type="time" asp-for="@booking.endLoading" name="endLoading"/>
+                    <div class="orderItem @booking.internalId">
+                        <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                        @foreach (var order in @booking.Orders)
+                        {
+                            <div style="opacity: 0">@order.InOut</div>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <button asp-page-handler="Update" asp-route-id="@booking.internalId"> <i class="far fa-edit"></i> </button>
+
+                    <div class="orderItem @booking.internalId">
+                        <div style="font-weight: bold; opacity: 0;">O</div>
+                        @foreach (var order in @booking.Orders)
+                        {
+                            <div style="opacity: 0">@order.InOut</div>
+                        }
+                    </div>
+                </td>
+            </form>
         </tr>
     }
     </tbody>
