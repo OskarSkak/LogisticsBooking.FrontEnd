@@ -42,6 +42,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             var response = await GetAsync(baseurl);
 
     
+            
             var result = await TryReadAsync<List<Booking>>(response);
             Console.WriteLine(result);
 

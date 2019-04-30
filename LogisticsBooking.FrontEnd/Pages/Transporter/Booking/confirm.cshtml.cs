@@ -23,19 +23,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             Console.WriteLine(bookingOrderViewModel);
 
-           // ViewData["BookingDate"] = HttpContext.Session.GetString("BookingDate");
+            return Page();
 
-           var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-           
-            var test = HttpContext.Session.GetObject<Object>(id);
-          
-
-            var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
-
-             var result = await _bookingDataService.CreateBooking(model);
-
-             return new RedirectToPageResult("confirm");
-        
         }
     }
 }
