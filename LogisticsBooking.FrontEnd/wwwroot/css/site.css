@@ -205,6 +205,8 @@ pre {
     overflow: auto;
 }
 
+
+
 figure {
     margin: 0 0 1rem;
 }
@@ -366,6 +368,8 @@ template {
 /*!
 Own CSS
  */
+
+
 
 
 
@@ -686,7 +690,7 @@ pre {
 }
 
 .container-fluid {
-    width: 100%;
+    width: 95%;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;

@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,18 +21,35 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace LogisticsBooking.FrontEnd
 {
-    public class Startup
+
+     
+     
+      public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+        private readonly IConfiguration _config;
+
+
+        public Startup(IHostingEnvironment env, IConfiguration config)
         {
-            Configuration = configuration;
+            _env = env;
+            _config = config;
+
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+               
+            services.Configure<BackendServerUrlConfiguration>(
+                _config.GetSection(nameof(BackendServerUrlConfiguration)));
+            services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
+            
+            
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -38,12 +58,21 @@ namespace LogisticsBooking.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             
+            
+
+            
+            
+            
             // Show logs error Identity
             IdentityModelEventSource.ShowPII = true;
             
             // clear the mapping of claims
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
+                .Get<IdentityServerConfiguration>();
+            
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -54,7 +83,8 @@ namespace LogisticsBooking.FrontEnd
 
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:5025";
+                    options.Authority = $"{identityServerConfig.IdentityServerUrl}";
+                    
                     options.RequireHttpsMetadata = false;
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
@@ -103,6 +133,8 @@ namespace LogisticsBooking.FrontEnd
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
+                
             }
             else
             {
@@ -110,6 +142,17 @@ namespace LogisticsBooking.FrontEnd
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+            
+            
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
 
             app.UseSession();
             app.UseAuthentication();
