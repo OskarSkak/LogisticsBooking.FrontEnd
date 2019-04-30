@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
-using LogisticsBooking.FrontEnd.DataServices.RequestModels;
 using LogisticsBooking.FrontEnd.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
