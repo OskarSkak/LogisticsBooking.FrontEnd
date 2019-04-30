@@ -7,6 +7,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     public class BookingViewModel
     {
         
+        public int ExternalId { get; set; }
         public string BookingTime { get; set; }
         public int TotalPallets { get; set; }
         
