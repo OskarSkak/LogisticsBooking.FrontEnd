@@ -46,7 +46,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var bookingid = await _utilBookingDataService.GetBookingNumber();
 
             bookingOrderViewModel.PalletsRemaining = BookingOrderViewModel.TotalPallets;
-            bookingOrderViewModel.internalId = bookingid;
+            
             HttpContext.Session.SetObject(id ,bookingOrderViewModel);
 
             
