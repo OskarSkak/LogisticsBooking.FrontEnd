@@ -35,4 +35,9 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<IEnumerable<Supplier>> ListSuppliers(int page, int pageSize);
         Task<Supplier> GetSupplierByName(string name);
     }
+
+    public interface IUtilBookingDataService
+    {
+        Task<UtilBooking> GetBookingNumber();
+    }
 }
