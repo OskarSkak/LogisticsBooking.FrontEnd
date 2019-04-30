@@ -28,7 +28,11 @@
             <tr class="no-padding-marging">
                 <td>
                     <div class="list-group" style="">
-                        <a asp-page="./BookingSingle" asp-route-id="@booking.internalId" class="list-group-item list-group-item-action display-spacebetween">@booking.transporterName</a>
+                        <a asp-page="./BookingSingle" asp-route-id="@booking.internalId" class="list-group-item list-group-item-action display-spacebetween">
+                            <div>@booking.bookingTime</div>
+                            <div>PLACEHOLDER: SÆT BOOKINGID ind</div>
+                            <div>@booking.transporterName</div>
+                        </a>
                     </div>
                 </td>
             </tr>

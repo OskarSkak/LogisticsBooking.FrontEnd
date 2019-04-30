@@ -51,9 +51,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Response> UpdateBooking(Booking booking)
         {
-            
-
-            var response = await PutAsync<Booking>(baseurl, booking);
+            var endpoint = baseurl + booking.internalId;   
+        
+            var response = await PutAsync<Booking>(endpoint, booking);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -69,8 +69,8 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Booking> GetBookingById(Guid id)
         {
-            
-            var result = await GetAsync(baseurl);
+            var endpoint = baseurl + id;
+            var result = await GetAsync(endpoint);
             return await TryReadAsync<Booking>(result);
 
         }

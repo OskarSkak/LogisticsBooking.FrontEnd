@@ -40,7 +40,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             DateTime ViewStart, DateTime ViewEnd, Guid ViewBookingId)
         {
             
-           /* var booking = new Booking(
+            var booking = new Booking
             {
                 bookingTime = ViewBookTime, 
                 totalPallets = ViewPallets, 
@@ -49,9 +49,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 startLoading = ViewStart, 
                 endLoading = ViewEnd, 
                 internalId = ViewBookingId
-            });*/
+            };
+
+            var result = await bookingDataService.UpdateBooking(booking);
             
-            return new RedirectToPageResult("BookingOverViewAdmin");
+            if(result.IsSuccesfull) return new RedirectToPageResult("BookingOverViewAdmin");
+
+            return new RedirectToPageResult("Error");
         }
     }
 }
