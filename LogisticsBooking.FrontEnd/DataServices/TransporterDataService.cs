@@ -1,6 +1,5 @@
 ﻿using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
-using LogisticsBooking.FrontEnd.DataServices.RequestModels;
 using LogisticsBooking.FrontEnd.Documents;
 using System;
 using System.Collections.Generic;
@@ -73,8 +72,8 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             var endpoint = baseurl + id;
 
-            var response = await PutAsync<TransporterUpdateModel>(endpoint, new TransporterUpdateModel(
-                transporter.Email, transporter.Telephone, transporter.Address, transporter.Name));
+            var response = await PutAsync<Transporter>(endpoint, new Transporter(
+                transporter.Email, transporter.Telephone, transporter.Address, transporter.Name, transporter.ID));
             if (!response.IsSuccessStatusCode)
             {
                 if (response.Content != null)
