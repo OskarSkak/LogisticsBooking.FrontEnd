@@ -35,6 +35,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             var a = "";
         }
 
+        public async Task<IActionResult> OnPostDelete(Guid ViewBookingId)
+        {
+            var result = await bookingDataService.DeleteBooking(ViewBookingId);
+
+            if (result.IsSuccesfull) return new RedirectToPageResult("BookingOverviewAdmin");
+            
+            return new RedirectToPageResult("Error");
+        }
+
         public async Task<IActionResult> OnPostUpdate(DateTime ViewBookTime,
             int ViewPallets, int ViewPort, DateTime ViewActual, 
             DateTime ViewStart, DateTime ViewEnd, Guid ViewBookingId)

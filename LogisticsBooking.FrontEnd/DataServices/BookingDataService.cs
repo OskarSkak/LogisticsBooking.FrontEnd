@@ -75,7 +75,21 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         }
         
-
+        public async Task<Response> DeleteBooking(Guid id)
+        {
+            var endpoint = baseurl + id;
+            var response = await DeleteAsync(endpoint);
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(errorMessage);
+                }
+                return Response.Unsuccesfull(response.ReasonPhrase);
+            }
+            return Response.Succes();
+        }
 
     }
 }
