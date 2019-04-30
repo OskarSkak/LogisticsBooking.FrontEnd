@@ -124,6 +124,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<ITransporterDataService, TransporterDataService>();
             services.AddTransient<ISupplierDataService, SupplierDataService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IUtilBookingDataService, UtilBookingDataService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
