@@ -18,6 +18,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
         public List<OrderViewModel> OrderViewModels { get; set; }
         
-        public IEnumerable<DataServices.Models.Supplier> Suppliers { get; set; }
+        public IEnumerable<DataServices.Models.Transporter> Transporters { get; set; }
     }
 }

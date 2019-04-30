@@ -60,9 +60,9 @@
 
 
 <div class="py-1" style="">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row" >
-            <div class="mx-auto p-4 col-lg-5">
+            <div class="mx-auto p-4 col-lg-4">
                 <form method="post">
                     <div class="form-group"><label class="paddingleftbookingform">Angiv leverandør</label>
                         
@@ -87,7 +87,7 @@
 
                 </form>
             </div>
-            <div class="mx-auto p-4 col-lg-7 currently-booking">
+            <div class="mx-auto p-4 col-lg-8 currently-booking">
                 <form method="post">
                     <div class="container">
                         <div class="row">
@@ -129,17 +129,24 @@
                     <hr class="hr-smaller"></hr>
                     <div class="container">
                         <div class="row py-2-bottom">
-                            <div class="col-lg-4">
-                                <span class="font-weight-bold">Leverandør</span>
+                            <div class="col-2">
+                                <span class="font-weight-bold">Booking ID</span>
                             </div>
                             
-                            <div class="col-lg-3">
+                            <div class="col-2">
+                                <span class="font-weight-bold">OrdreNr</span>
+                            </div>
+                            <div class="col-2">
+                                <span class="font-weight-bold">Leverandør</span>
+                            </div>
+                           
+                            <div class="col-2">
                                 <span class="font-weight-bold">Bundpaller</span>
                             </div>
-                            <div class="col-lg-3">
-                                <span class="font-weight-bold">Paller i alt</span>
+                            <div class="col-2">
+                                <span class="font-weight-bold">Paller totalt</span>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-2">
                                 <span class="font-weight-bold">Slet</span>
                             </div>
                         </div>
@@ -152,18 +159,24 @@
                             {
                                 
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-2">
                                             <p>@orderViewModel.SupplierName</p>
                                         </div>
                                     
-                                        <div class="col-lg-3">
+                                        <div class="col-2">
                                             <span>@orderViewModel.BottomPallets</span>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-2">
                                             <span>@orderViewModel.totalPallets</span>
                                         </div>
                                     
-                                        <div class="col-lg-2">
+                                        <div class="col-2">
+                                            <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.id"><i class="fas fa-minus-circle"></i></a>
+                                        </div>
+                                         <div class="col-2">
+                                             <span>3e53</span>                                         
+                                             </div>
+                                        <div class="col-2">
                                             <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.id"><i class="fas fa-minus-circle"></i></a>
                                         </div>
                                     

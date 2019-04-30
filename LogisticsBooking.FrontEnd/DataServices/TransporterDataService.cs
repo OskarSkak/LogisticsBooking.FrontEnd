@@ -62,6 +62,10 @@ namespace LogisticsBooking.FrontEnd.DataServices
         public async Task<IEnumerable<Transporter>> ListTransporters(int page, int pageSize)
         {
             var result = await GetAsync(baseurl);
+            if (!result.IsSuccessStatusCode)
+            {
+                
+            }
             return await TryReadAsync<IEnumerable<Transporter>>(result); 
         }
 
