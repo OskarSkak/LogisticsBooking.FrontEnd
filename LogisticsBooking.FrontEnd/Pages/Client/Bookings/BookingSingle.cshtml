@@ -29,12 +29,9 @@
                     <div class="form-group"> <label for="form18">Faktisk ankomst</label> <input asp-for="Booking.actualArrival" type="time" class="form-control" id="form18" name="ViewActual"> </div>
                     <div class="form-group"> <label for="form18">Start læsning</label> <input asp-for="Booking.startLoading" type="time" class="form-control" id="form18" name="ViewStart"> </div>
                     <div class="form-group"> <label for="form18">Slut læsning</label> <input asp-for="Booking.endLoading" type="time" class="form-control" id="form18" name="ViewEnd"> </div>
-                    <div class="form-group"> <label for="form18">Slut læsning</label> <input asp-for="Booking.endLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.internalId"> </div>
-                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                    @if (User.IsInRole("admin"))
-                    {
-                        <input type="submit"  class="btn btn-primary"  value="Slet Transportør"/>
-                    }
+                    <input asp-for="Booking.endLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.internalId">
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" value="Opdater"/>
+                    <a asp-page="./BookingDelete" asp-route-id="@Model.Booking.internalId" class="btn btn-primary">Slet</a>
                 </form>
             </div>
         </div>
@@ -56,7 +53,7 @@
                     @if(@Model.Booking.Orders != null){
                     foreach (var order in @Model.Booking.Orders)
                     {
-                        <a asp-page="./Order_Single" asp-route-id="@order.id" class="list-group-item list-group-item-action display-spacebetween">@order.orderNumber</a>
+                        <a asp-page="./OrderSingle" asp-route-id="@order.id" class="list-group-item list-group-item-action display-spacebetween"><div>@order.orderNumber</div><div>@order.ExternalId</div><div>@order.InOut</div></a>
                     }
                     }
                 </div>

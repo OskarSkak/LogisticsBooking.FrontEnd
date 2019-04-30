@@ -7,54 +7,26 @@
     ViewData["Title"] = "Home page";
 }
 
-<style>
-    .no-padding-marging {
-        margin: !important 0;
-        padding: !important 0;
-    }
-</style>
-
-<div class="container">
-    <div style="width:100%; margin:0 auto;">
-        <table id="example" class="table table-striped table-bordered dt-responsive nowrap dataTable no-padding-marging" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-                <th>Bookings</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="no-padding-marging">
-                <td class="no-padding-marging">
-                    <div class="list-group no-padding-marging" style="">
-                        <a asp-page="./Transporter_Single" asp-route-id="Test" class="list-group-item list-group-item-action display-spacebetween no-padding-marging">Test</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="list-group" style="">
-                        <a asp-page="./Transporter_Single" asp-route-id="Test" class="list-group-item list-group-item-action display-spacebetween">Test</a>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Ordre: @Model.Order.ExternalId</h1>
+                <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                <form method="post" class="text-left">
+                    <div class="form-group"> <label for="form18">Kommentar</label> <input asp-for="Order.Comment" class="form-control" id="form18" name="ViewComment"> </div>
+                    <div class="form-group"> <label for="form18">Kunde nr</label> <input asp-for="Order.customerNumber" class="form-control" id="form18" name="ViewCustomerNumber"> </div>
+                    <div class="form-group"> <label for="form18">Ordre nr</label> <input asp-for="Order.orderNumber" class="form-control" id="form18" name="ViewOrderNumber"> </div>
+                    <div class="form-group"> <label for="form18">Vare nr</label> <input asp-for="Order.wareNumber" class="form-control" id="form18" name="ViewWareNumber"> </div>
+                    <div class="form-group"> <label for="form18">Antal bundpaller</label> <input asp-for="Order.BottomPallets"  class="form-control" id="form18" name="ViewBottomPallets"> </div>
+                    <div class="form-group"> <label for="form18">Ordre id</label> <input asp-for="Order.ExternalId" type="time" class="form-control" id="form18" name="ViewExternalId"> </div>
+                    <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="Order.TotalPallets"  class="form-control" id="form18" name="ViewTotalPallets"> </div>
+                    <div class="form-group"> <label for="form18">Total Ind/Ud</label> <input asp-for="Order.InOut"  class="form-control" id="form18" name="ViewInOut"> </div>
+                    <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="Order.id" type="hidden"  class="form-control" id="form18" name="id" value="@Model.Order.id"> </div>
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
+                    <a asp-page="./OrderDelete" asp-route-id="@Model.Order.id" class="btn btn-primary">Slet</a>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
-
-
-
-@section Scripts{
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
-
-    <script>
-        $(function () {
-            $("#example").DataTable();
-        });
-
-    </script>
-
-}

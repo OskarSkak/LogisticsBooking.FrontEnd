@@ -16,12 +16,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
-    public class OrderSingleModel : PageModel
+    public class OrderDeleteModel : PageModel
     {
         private IOrderDataService _orderDataService;
         [BindProperty] public Order Order { get; set; }
         
-        public OrderSingleModel(IOrderDataService orderDataService)
+        public OrderDeleteModel(IOrderDataService orderDataService)
         {
             _orderDataService = orderDataService;
         }
@@ -29,28 +29,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         public async Task OnGetAsync(string id)
         {
             Order = await _orderDataService.GetOrderById(Guid.Parse(id));
-        }
-
-        public async Task<IActionResult> OnPostUpdate(string ViewComment, string ViewCustomerNumber, string ViewOrderNumber, 
-            int ViewWareNumber, int ViewBottomPallets, string ViewExternalId, string ViewInOut, string id)
-        {
-            var order = new Order
-            {
-                Comment = ViewComment, 
-                customerNumber = ViewCustomerNumber, 
-                orderNumber = ViewOrderNumber, 
-                wareNumber = ViewWareNumber, 
-                BottomPallets = ViewBottomPallets, 
-                ExternalId = ViewExternalId, 
-                InOut = ViewInOut,
-                id = Guid.Parse(id)
-            };
-
-            var result = await _orderDataService.UpdateOrder(order);
-
-            if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
-            
-            return new RedirectToPageResult("BookingOverviewAdmin");
         }
 
         public async Task<IActionResult> OnPostDelete(string id)
