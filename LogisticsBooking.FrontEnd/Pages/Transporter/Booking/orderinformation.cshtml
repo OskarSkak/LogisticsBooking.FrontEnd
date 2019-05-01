@@ -95,7 +95,7 @@
                                 <h1>Ordreoversigt</h1>
                             </div> 
                             <div class="col-lg-6 display-center">
-                                <span> Ordrenummer: 02874</span>
+                                <span> Ordrenummer: @Model.BookingViewModel.ExternalId</span>
                             </div> 
                         </div>
                         
@@ -120,7 +120,7 @@
                     } else 
                     {
                         <div class="col-lg-12">
-                            <span>Der mangler at blive booket<b class="font-weight-bold"> @Model.BookingViewModel.PalletsRemaining</b></span>
+                            <span>Der mangler at blive booket<b class="font-weight-bold"> @Model.BookingViewModel.PalletsRemaining</b> paller</span>
                         </div> 
                         
                     }
@@ -160,21 +160,21 @@
                                 
                                     <div class="row">
                                         <div class="col-2">
-                                            <p>@orderViewModel.SupplierName</p>
+                                            <p>@orderViewModel.ExternalId</p>
+                                        </div>
+                                    
+                                        <div class="col-2">
+                                            <span>400000345</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>@orderViewModel.SupplierName</span>
                                         </div>
                                     
                                         <div class="col-2">
                                             <span>@orderViewModel.BottomPallets</span>
                                         </div>
-                                        <div class="col-2">
-                                            <span>@orderViewModel.totalPallets</span>
-                                        </div>
-                                    
-                                        <div class="col-2">
-                                            <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.id"><i class="fas fa-minus-circle"></i></a>
-                                        </div>
                                          <div class="col-2">
-                                             <span>3e53</span>                                         
+                                             <span>@orderViewModel.totalPallets</span>                                         
                                              </div>
                                         <div class="col-2">
                                             <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.id"><i class="fas fa-minus-circle"></i></a>
