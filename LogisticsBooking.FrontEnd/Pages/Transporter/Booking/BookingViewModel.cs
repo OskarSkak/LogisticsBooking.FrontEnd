@@ -8,7 +8,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     {
         
         public int ExternalId { get; set; }
-        public string BookingTime { get; set; }
+        public DateTime BookingTime { get; set; }
         public int TotalPallets { get; set; }
         
         public int PalletsRemaining { get; set; }

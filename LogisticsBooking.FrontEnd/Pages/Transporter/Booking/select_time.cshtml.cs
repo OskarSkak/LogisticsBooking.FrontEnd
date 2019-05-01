@@ -51,7 +51,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 ExternalId = model.ExternalId,
                 port = 0,
                 email = model.email,
-                transporterName = model.TransporterName
+                transporterName = model.TransporterName,
+                bookingTime = model.BookingTime,
+                
 
             };
 
@@ -65,7 +67,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     TotalPallets = order.totalPallets,
                     BottomPallets = order.totalPallets,
                     customerNumber = order.customerNumber,
-                    SupplierName = order.SupplierName
+                    SupplierName = order.SupplierName,
+                    Comment = order.Comment,
+                    InOut = order.InOut,
+                   
                 });
             }
             
@@ -76,7 +81,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
            if (!result.IsSuccesfull)
            {
-               return new RedirectToPageResult("Error");
+               return new RedirectToPageResult("~/Error");
            }
             
            return  new RedirectToPageResult("confirm");
