@@ -1,0 +1,26 @@
+﻿@page
+@model LogisticsBooking.FrontEnd.Pages.Transporter.ReservedBookingsIndexModel
+@{
+    Layout = "_Layout_Transporter";
+}
+
+<div class="py-5" style="">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group" style="">
+                    @if(Model.Bookings != null){
+                        foreach (var booking in @Model.Bookings)
+                        {
+                            <a asp-page="./ReservedOrders" asp-route-id="@booking.internalId" class="list-group-item list-group-item-action display-spacebetween">
+                                <div>Tidspunkt: @booking.bookingTime</div>
+                                <div>Id: @booking.ExternalId</div>
+                                <div>Bundpaller: @booking.totalPallets</div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
