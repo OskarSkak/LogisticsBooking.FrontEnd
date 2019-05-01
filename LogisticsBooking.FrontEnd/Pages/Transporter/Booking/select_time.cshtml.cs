@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -41,7 +43,34 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
 
-           var result = await _bookingDataService.CreateBooking(model);
+
+            var booking = new DataServices.Models.Booking
+            {
+                totalPallets = model.TotalPallets,
+                ExternalId = model.ExternalId,
+                port = 0,
+                email = model.email,
+                transporterName = model.TransporterName
+
+            };
+
+            booking.Orders = new List<Order>();
+            foreach (var order in model.OrderViewModels)
+            {
+                booking.Orders.Add(new Order
+                {
+                    orderNumber = order.orderNumber,
+                    ExternalId = order.ExternalId,
+                    TotalPallets = order.totalPallets,
+                    BottomPallets = order.totalPallets,
+                    customerNumber = order.customerNumber
+                });
+            }
+            
+            
+           var result = await _bookingDataService.CreateBooking(booking);
+           
+           
 
            if (!result.IsSuccesfull)
            {

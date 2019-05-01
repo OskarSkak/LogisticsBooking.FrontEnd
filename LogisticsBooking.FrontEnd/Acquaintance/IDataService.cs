@@ -10,7 +10,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 {
     public interface IBookingDataService
     {
-        Task<Response> CreateBooking(BookingViewModel _booking);
+        Task<Response> CreateBooking(Booking _booking);
         Task<List<Booking>> GetBookings();
         Task<Booking> GetBookingById(Guid id);
         Task<Response> UpdateBooking(Booking booking);
