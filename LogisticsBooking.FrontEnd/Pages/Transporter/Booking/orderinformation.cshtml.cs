@@ -15,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class orderinformation : PageModel
     {
-        private readonly ITransporterDataService _transporterDataService;
+        private readonly ISupplierDataService _supplierDataService;
         private readonly IUtilBookingDataService _utilBookingDataService;
 
 
@@ -32,11 +32,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
        
 
-        public orderinformation(ITransporterDataService transporterDataService , IUtilBookingDataService utilBookingDataService)
+        public orderinformation(ISupplierDataService supplierDataService , IUtilBookingDataService utilBookingDataService)
         {
-            _transporterDataService = transporterDataService;
+            _supplierDataService = supplierDataService;
             _utilBookingDataService = utilBookingDataService;
-            
         }
         public async Task OnGetAsync()
         {
@@ -60,9 +59,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             BookingViewModel = model;
 
             BookingViewModel.ExternalId = externalId.bookingid;
-            BookingViewModel.Transporters = await _transporterDataService.ListTransporters(0, 0);
+            BookingViewModel.Suppliers = await _supplierDataService.ListSuppliers(0, 0);
             
-            CreateSelectedList(BookingViewModel.Transporters.ToList());
+            CreateSelectedList(BookingViewModel.Suppliers.ToList());
             
 
 
@@ -177,13 +176,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             return new RedirectToPageResult("orderinformation");
         }
 
-        public void CreateSelectedList(List<DataServices.Models.Transporter> transporters) 
+        public void CreateSelectedList(List<DataServices.Models.Supplier> suppliers) 
         {
             Transporters = new List<SelectListItem>();
 
-            foreach (var transporter in transporters)
+            foreach (var supplier in suppliers)
             {
-                Transporters.Add(new SelectListItem{ Value = transporter.Name ,Text = transporter.Name});
+                Transporters.Add(new SelectListItem{ Value = supplier.Name ,Text = supplier.Name});
             }
         }
         

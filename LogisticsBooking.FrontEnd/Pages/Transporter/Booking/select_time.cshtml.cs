@@ -32,6 +32,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             try
             {
                 id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+
             }
             catch (NullReferenceException ex)
             {
@@ -42,7 +43,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
 
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
-
+            
 
             var booking = new DataServices.Models.Booking
             {
@@ -63,7 +64,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     ExternalId = order.ExternalId,
                     TotalPallets = order.totalPallets,
                     BottomPallets = order.totalPallets,
-                    customerNumber = order.customerNumber
+                    customerNumber = order.customerNumber,
+                    SupplierName = order.SupplierName
                 });
             }
             
