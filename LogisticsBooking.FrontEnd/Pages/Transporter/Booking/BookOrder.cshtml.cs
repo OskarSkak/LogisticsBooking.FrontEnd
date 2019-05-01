@@ -32,6 +32,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             // Get the logged in transporter
 
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            
             var id = "";
             
             try
