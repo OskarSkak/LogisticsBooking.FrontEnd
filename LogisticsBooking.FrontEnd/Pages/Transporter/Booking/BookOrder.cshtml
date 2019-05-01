@@ -1,4 +1,5 @@
 @page
+@using System.Xml.Linq
 @model LogisticsBooking.FrontEnd.Pages.Transporter.Booking.BookOrder
 
 @{
@@ -62,11 +63,14 @@
             <div class="mx-auto p-4 col-lg-8">
                
                 <form method="post" >
+                    
                     <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-for="BookingOrderViewModel.BookingTime"   class="form-control" id="form29" placeholder=""></div>
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv total antal bundpaller</label><input asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
-                    <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen</label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <!--         
+                    <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div> -->
                     <div class="display-center">
-                        <button type="submit"   class="btn btn-primary">Submit</button>
+                        <button type="submit"   class="btn btn-primary">Bekræft</button>
                     </div>
 
                 </form>
@@ -75,10 +79,3 @@
     </div>
 </div>
 
-<script>
-    
-    function showHelp() {
-        
-    }
-    
-</script>

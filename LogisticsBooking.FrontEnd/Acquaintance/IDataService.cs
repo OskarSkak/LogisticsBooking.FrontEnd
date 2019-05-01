@@ -10,10 +10,20 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 {
     public interface IBookingDataService
     {
-        Task<Response> CreateBooking(BookingViewModel _booking);
+        Task<Response> CreateBooking(Booking _booking);
         Task<List<Booking>> GetBookings();
         Task<Booking> GetBookingById(Guid id);
         Task<Response> UpdateBooking(Booking booking);
+        Task<Response> DeleteBooking(Guid id);
+    }
+
+    public interface IOrderDataService
+    {
+        Task<Response> CreateOrder(Order order);
+        Task<List<Order>> GetOrders();
+        Task<Order> GetOrderById(Guid id);
+        Task<Response> UpdateOrder(Order order);
+        Task<Response> DeleteOrder(Guid id);
     }
 
     public interface ITransporterDataService
@@ -34,5 +44,10 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Supplier> GetSupplierById(Guid id);
         Task<IEnumerable<Supplier>> ListSuppliers(int page, int pageSize);
         Task<Supplier> GetSupplierByName(string name);
+    }
+
+    public interface IUtilBookingDataService
+    {
+        Task<UtilBooking> GetBookingNumber();
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
+using LogisticsBooking.FrontEnd.DataServices.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -124,6 +125,8 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<ITransporterDataService, TransporterDataService>();
             services.AddTransient<ISupplierDataService, SupplierDataService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IUtilBookingDataService, UtilBookingDataService>();
+            services.AddTransient<IOrderDataService, OrderDataService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

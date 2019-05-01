@@ -16,7 +16,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     public class orderinformation : PageModel
     {
         private readonly ISupplierDataService _supplierDataService;
-        
+        private readonly IUtilBookingDataService _utilBookingDataService;
 
 
         public BookingViewModel BookingViewModel { get; set; }
@@ -25,14 +25,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
         public List<SelectListItem> Transporters { get; set;}
         
+        public int palletsRemaining { get; set; }
         
-        
+        [BindProperty]
+        public Guid id { get; set; }
 
+       
 
-        public orderinformation(ISupplierDataService supplierDataService)
+        public orderinformation(ISupplierDataService supplierDataService , IUtilBookingDataService utilBookingDataService)
         {
             _supplierDataService = supplierDataService;
-            
+            _utilBookingDataService = utilBookingDataService;
         }
         public async Task OnGetAsync()
         {
@@ -49,11 +52,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             var test = HttpContext.Session.GetObject<Object>(id);
           
-
+            var externalId  = await _utilBookingDataService.GetBookingNumber();
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
 
+            
             BookingViewModel = model;
 
+            BookingViewModel.ExternalId = externalId.bookingid;
             BookingViewModel.Suppliers = await _supplierDataService.ListSuppliers(0, 0);
             
             CreateSelectedList(BookingViewModel.Suppliers.ToList());
@@ -64,6 +69,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public async Task<IActionResult> OnPostAsync(OrderViewModel orderViewModel ) 
         {
+            
 
             Console.WriteLine(orderViewModel);
             
@@ -80,11 +86,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             var test = HttpContext.Session.GetObject<Object>(id);
           
-
+            var externalId  = await _utilBookingDataService.GetBookingNumber();
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
-
+            var nextOrder = HttpContext.Session.GetObject<int>(externalId.bookingid.ToString());
+            model.ExternalId = externalId.bookingid;
             List<OrderViewModel> orderViewModels = null;
-            
+            model.PalletsRemaining -= orderViewModel.BottomPallets;
             if (model.OrderViewModels == null)
             {
                 orderViewModels = new List<OrderViewModel>
@@ -95,11 +102,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                         bookingId = orderViewModel.bookingId,
                         BottomPallets = orderViewModel.BottomPallets,
                         customerNumber = orderViewModel.customerNumber,
-                        id = orderViewModel.id,
+                        id = Guid.NewGuid(),
                         InOut = orderViewModel.InOut,
                         totalPallets = orderViewModel.totalPallets,
                         wareNumber = orderViewModel.wareNumber,
-                        SupplierName = orderViewModel.SupplierName
+                        SupplierName = orderViewModel.SupplierName,
+                        ExternalId = externalId.bookingid + "-" + nextOrder.ToString("D2"),
+                        createdOrders = 2,
+                        Comment = orderViewModel.Comment
+                        
                         
                     }    
                 };
@@ -112,37 +123,79 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     bookingId = orderViewModel.bookingId,
                     BottomPallets = orderViewModel.BottomPallets,
                     customerNumber = orderViewModel.customerNumber,
-                    id = orderViewModel.id,
+                    id = Guid.NewGuid(),
                     InOut = orderViewModel.InOut,
                     totalPallets = orderViewModel.totalPallets,
                     wareNumber = orderViewModel.wareNumber,
-                    SupplierName = orderViewModel.SupplierName
+                    SupplierName = orderViewModel.SupplierName,
+                    ExternalId = externalId.bookingid + "-" + nextOrder.ToString("D2"),
+                    Comment = orderViewModel.Comment,
+                    
+                    
                     
                 });
             }
 
+            
 
             if (orderViewModels != null)
             {
                 model.OrderViewModels = orderViewModels;
             }
-           
-            
+
+            nextOrder++;
+            HttpContext.Session.SetObject(externalId.bookingid.ToString() , nextOrder);
       
             HttpContext.Session.SetObject(id , model);
             
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             return new RedirectToPageResult("orderinformation");
 
         }
 
-        public void CreateSelectedList(List<DataServices.Models.Supplier> transporters) 
+        
+        public async Task<IActionResult> OnGetDeleteAsync(Guid orderId)
+        {
+            var id = "";
+
+            try
+            {
+                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            var test = HttpContext.Session.GetObject<Object>(id);
+            
+
+
+            var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
+            var nextOrder = HttpContext.Session.GetObject<int>(model.ExternalId.ToString());
+            nextOrder--;
+
+            var result = model.OrderViewModels.FirstOrDefault(x => x.id.Equals(orderId));
+            model.PalletsRemaining += result.BottomPallets;
+            model.OrderViewModels.Remove(result);
+            HttpContext.Session.SetObject(id , model);
+            HttpContext.Session.SetObject(model.ExternalId.ToString() , nextOrder);
+            return new RedirectToPageResult("orderinformation");
+        }
+
+        public void CreateSelectedList(List<DataServices.Models.Supplier> suppliers) 
         {
             Transporters = new List<SelectListItem>();
 
-            foreach (var transporter in transporters)
+            foreach (var supplier in suppliers)
             {
-                Transporters.Add(new SelectListItem{ Value = transporter.Name ,Text = transporter.Name});
+                Transporters.Add(new SelectListItem{ Value = supplier.Name ,Text = supplier.Name});
             }
         }
+        
+        
     }
 }

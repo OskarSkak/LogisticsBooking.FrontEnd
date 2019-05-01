@@ -1,0 +1,32 @@
+﻿@page "{id}"
+@using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.Pages.Transporter.Booking
+@model LogisticsBooking.FrontEnd.Pages.Client.Bookings.OrderSingleModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Ordre fra @Model.Order.SupplierName</h1>
+                <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
+                <form method="post" class="text-left">
+                    <div class="form-group"> <label for="form18">Kommentar</label> <input asp-for="Order.Comment" class="form-control" id="form18" name="ViewComment"> </div>
+                    <div class="form-group"> <label for="form18">Kunde nr</label> <input asp-for="Order.customerNumber" class="form-control" id="form18" name="ViewCustomerNumber"> </div>
+                    <div class="form-group"> <label for="form18">Ordre nr</label> <input asp-for="Order.orderNumber" class="form-control" id="form18" name="ViewOrderNumber"> </div>
+                    <div class="form-group"> <label for="form18">Vare nr</label> <input asp-for="Order.wareNumber" class="form-control" id="form18" name="ViewWareNumber"> </div>
+                    <div class="form-group"> <label for="form18">Antal bundpaller</label> <input asp-for="Order.BottomPallets"  class="form-control" id="form18" name="ViewBottomPallets"> </div>
+                    <div class="form-group"> <label for="form18">Ordre id</label> <input asp-for="Order.ExternalId" class="form-control" id="form18" name="ViewExternalId"> </div>
+                    <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="Order.TotalPallets"  class="form-control" id="form18" name="ViewTotalPallets"> </div>
+                    <div class="form-group"> <label for="form18">Total Ind/Ud</label> <input asp-for="Order.InOut"  class="form-control" id="form18" name="ViewInOut"> </div>
+                    <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="Order.id" type="hidden"  class="form-control" id="form18" name="id" value="@Model.Order.id"> </div>
+                    <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
+                    <a asp-page="./OrderDelete" asp-route-id="@Model.Order.id" class="btn btn-primary">Slet</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

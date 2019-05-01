@@ -7,11 +7,14 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -143,11 +146,17 @@ namespace LogisticsBooking.FrontEnd.DataServices
             try
             {
                 result = await client.GetAsync(baseurl);
+                if (!result.IsSuccessStatusCode)
+                {
+                    
+                }
             }
-            catch (WebException ex)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 //Logs the exception (Hopefully) in the txt doc in app data
                 ExceptionUtility.LogException(ex, "Base DataServices, PostAsync<T>");
+                
             }
 
             return result;

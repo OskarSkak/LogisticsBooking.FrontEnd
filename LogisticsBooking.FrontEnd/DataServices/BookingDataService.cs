@@ -21,11 +21,11 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             baseurl = _APIServerURL + "/api/bookings/";
         }
-        public async Task<Response> CreateBooking(BookingViewModel _booking)
+        public async Task<Response> CreateBooking(Booking _booking)
         {
             
 
-            var response = await PostAsync<BookingViewModel>(baseurl, _booking);
+            var response = await PostAsync<Booking>(baseurl, _booking);
 
             
             if (response.IsSuccessStatusCode)
@@ -40,9 +40,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
            
 
             var response = await GetAsync(baseurl);
-            Console.WriteLine("*********************************************");
-            Console.WriteLine(baseurl);
+
     
+            
             var result = await TryReadAsync<List<Booking>>(response);
             Console.WriteLine(result);
 
@@ -51,9 +51,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Response> UpdateBooking(Booking booking)
         {
-            
-
-            var response = await PutAsync<Booking>(baseurl, booking);
+            var endpoint = baseurl + booking.internalId;   
+        
+            var response = await PutAsync<Booking>(endpoint, booking);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -69,13 +69,27 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<Booking> GetBookingById(Guid id)
         {
-            
-            var result = await GetAsync(baseurl);
+            var endpoint = baseurl + id;
+            var result = await GetAsync(endpoint);
             return await TryReadAsync<Booking>(result);
 
         }
         
-
+        public async Task<Response> DeleteBooking(Guid id)
+        {
+            var endpoint = baseurl + id;
+            var response = await DeleteAsync(endpoint);
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(errorMessage);
+                }
+                return Response.Unsuccesfull(response.ReasonPhrase);
+            }
+            return Response.Succes();
+        }
 
     }
 }

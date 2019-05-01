@@ -4,6 +4,13 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
 {
     public class Order
     {
+        
+        public string Comment { get; set; }
+        
+        public int TotalPallets { get; set; }
+        public int BottomPallets { get; set; }
+        public string ExternalId { get; set; }
+        
         public Guid id { get; set; }
         
         
@@ -12,5 +19,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public string orderNumber { get; set; }
         public int wareNumber { get; set; }
         public string InOut { get; set; }
+        public string SupplierName { get; set; }
     }
 }

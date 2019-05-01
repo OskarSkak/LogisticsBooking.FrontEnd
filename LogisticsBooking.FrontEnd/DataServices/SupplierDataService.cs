@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
-using LogisticsBooking.FrontEnd.DataServices.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -80,8 +79,8 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             var endpoint = baseurl + id;
             
-            var response = await PutAsync<SupplierUpdateModel>(endpoint, new SupplierUpdateModel(
-                supplier.Email, supplier.Telephone, supplier.Name));
+            var response = await PutAsync<Supplier>(endpoint, new Supplier(
+                supplier.Email, supplier.Telephone, supplier.Name, supplier.ID));
             
             if (!response.IsSuccessStatusCode)
             {

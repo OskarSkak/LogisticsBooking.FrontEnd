@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
@@ -6,6 +7,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     {
         public Guid id { get; set; }
         public Guid bookingId { get; set; }
+        
+        [Required]
+        public string Comment { get; set; }
+        public string ExternalId { get; set; }
+        
+        public int createdOrders { get; set; }
         public string customerNumber { get; set; }
         public string orderNumber { get; set; }
         public int wareNumber { get; set; }
