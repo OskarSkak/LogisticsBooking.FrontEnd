@@ -69,6 +69,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public async Task<IActionResult> OnPostAsync(OrderViewModel orderViewModel ) 
         {
+            
 
             Console.WriteLine(orderViewModel);
             
@@ -88,6 +89,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var externalId  = await _utilBookingDataService.GetBookingNumber();
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
             var nextOrder = HttpContext.Session.GetObject<int>(externalId.bookingid.ToString());
+            model.ExternalId = externalId.bookingid;
             List<OrderViewModel> orderViewModels = null;
             model.PalletsRemaining -= orderViewModel.totalPallets;
             if (model.OrderViewModels == null)
@@ -106,7 +108,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                         wareNumber = orderViewModel.wareNumber,
                         SupplierName = orderViewModel.SupplierName,
                         ExternalId = externalId.bookingid + "-" + nextOrder.ToString("D2"),
-                        createdOrders = 2
+                        createdOrders = 2,
+                        Comment = orderViewModel.Comment
+                        
                         
                     }    
                 };
@@ -125,6 +129,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     wareNumber = orderViewModel.wareNumber,
                     SupplierName = orderViewModel.SupplierName,
                     ExternalId = externalId.bookingid + "-" + nextOrder.ToString("D2"),
+                    Comment = orderViewModel.Comment,
+                    
                     
                     
                 });
@@ -142,6 +148,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
       
             HttpContext.Session.SetObject(id , model);
             
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             return new RedirectToPageResult("orderinformation");
 
         }
