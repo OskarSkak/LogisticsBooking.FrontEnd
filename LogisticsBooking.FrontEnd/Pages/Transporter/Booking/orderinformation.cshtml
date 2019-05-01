@@ -76,6 +76,8 @@
 
                     <div class="form-group"><label class="paddingleftbookingform">Angiv samlet antal bundpaller på denne ordre</label><input asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div class="form-group "><label class="paddingleftbookingform">Angiv paller i alt på ordren</label><input asp-for="OrderViewModel.totalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group "><label class="paddingleftbookingform">Angiv Ordre reference nummer </label><input asp-for="OrderViewModel.orderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr"></div>
+
                     <div class="form-group "><label class="paddingleftbookingform">Kommentar til ordren</label><textarea  asp-for="OrderViewModel.Comment" class="form-control"></textarea></div>
                     <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select asp-for="OrderViewModel.InOut"> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div>
 
@@ -166,7 +168,7 @@
                                         </div>
                                     
                                         <div class="col-2">
-                                            <span>400000345</span>
+                                            <span>@orderViewModel.orderNumber</span>
                                         </div>
                                         <div class="col-2">
                                             <span>@orderViewModel.SupplierName</span>
