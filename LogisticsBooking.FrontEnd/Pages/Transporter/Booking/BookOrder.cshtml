@@ -65,10 +65,8 @@
                 <form method="post" >
                     
                     <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-for="BookingOrderViewModel.BookingTime"   class="form-control" id="form29" placeholder=""></div>
-                    @Html.ValidationMessageFor(message => message.BookingOrderViewModel.BookingTime , "ssss" , new {@class = "text-danger"})
                     <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen</label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div asp-validation-summary="ModelOnly"></div>
-                    @Html.ValidationMessageFor(message => message.BookingOrderViewModel.TotalPallets , "Antal paller kan ikke være tomt" , new {@class = "text-danger"})
                     <!--         
                     <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div> -->
                     <div class="display-center">
@@ -81,10 +79,3 @@
     </div>
 </div>
 
-<script>
-    
-    function showHelp() {
-        
-    }
-    
-</script>
