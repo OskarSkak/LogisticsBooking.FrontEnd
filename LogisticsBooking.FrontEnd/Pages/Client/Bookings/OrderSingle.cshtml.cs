@@ -29,6 +29,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         public async Task OnGetAsync(string id)
         {
             Order = await _orderDataService.GetOrderById(Guid.Parse(id));
+            var la = "";
         }
 
         public async Task<IActionResult> OnPostUpdate(string ViewComment, string ViewCustomerNumber, string ViewOrderNumber, 
