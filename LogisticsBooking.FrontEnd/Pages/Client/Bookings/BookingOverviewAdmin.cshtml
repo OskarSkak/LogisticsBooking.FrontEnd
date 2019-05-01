@@ -30,8 +30,9 @@
                     <div class="list-group" style="">
                         <a asp-page="./BookingSingle" asp-route-id="@booking.internalId" class="list-group-item list-group-item-action display-spacebetween">
                             <div>@booking.bookingTime</div>
-                            <div>PLACEHOLDER: SÆT BOOKINGID ind</div>
+                            <div>@booking.ExternalId</div>
                             <div>@booking.transporterName</div>
+                            <div>Paller: @booking.totalPallets</div>
                         </a>
                     </div>
                 </td>
