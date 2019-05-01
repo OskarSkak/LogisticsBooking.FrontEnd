@@ -33,7 +33,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         }
 
         public async Task<IActionResult> OnPostUpdate(string ViewComment, string ViewCustomerNumber, string ViewOrderNumber, 
-            int ViewWareNumber, int ViewBottomPallets, string ViewExternalId, string ViewInOut, string id)
+            int ViewWareNumber, int ViewBottomPallets, string ViewExternalId, string ViewInOut, string id, int ViewTotalPallets)
         {
             var order = new Order
             {
@@ -44,7 +44,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 BottomPallets = ViewBottomPallets, 
                 ExternalId = ViewExternalId, 
                 InOut = ViewInOut,
-                id = Guid.Parse(id)
+                id = Guid.Parse(id),
+                TotalPallets = ViewTotalPallets
             };
 
             var result = await _orderDataService.UpdateOrder(order);

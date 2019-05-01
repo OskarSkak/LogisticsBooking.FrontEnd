@@ -91,7 +91,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var nextOrder = HttpContext.Session.GetObject<int>(externalId.bookingid.ToString());
             model.ExternalId = externalId.bookingid;
             List<OrderViewModel> orderViewModels = null;
-            model.PalletsRemaining -= orderViewModel.totalPallets;
+            model.PalletsRemaining -= orderViewModel.BottomPallets;
             if (model.OrderViewModels == null)
             {
                 orderViewModels = new List<OrderViewModel>
@@ -179,7 +179,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             nextOrder--;
 
             var result = model.OrderViewModels.FirstOrDefault(x => x.id.Equals(orderId));
-            model.PalletsRemaining += result.totalPallets;
+            model.PalletsRemaining += result.BottomPallets;
             model.OrderViewModels.Remove(result);
             HttpContext.Session.SetObject(id , model);
             HttpContext.Session.SetObject(model.ExternalId.ToString() , nextOrder);

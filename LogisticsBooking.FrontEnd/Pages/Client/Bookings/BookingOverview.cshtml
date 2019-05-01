@@ -58,19 +58,29 @@
                 </div>
             </td>
             <td>
-                @Html.
+                @booking.bookingTime.ToString("d")
                 <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold">KUNNR</div>
+                    <div class="margin-1em-top" style="font-weight: bold; opacity: 0;">Leverandør</div>
                     @foreach (var order in @booking.Orders)
                     {
-                        <div>@order.customerNumber</div>
+                        <div style="opacity: 0">@order.SupplierName</div>
                     }
                 </div>
             </td>
             <td>
                 @booking.ExternalId
                 <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold">ORDNR</div>
+                    <div class="margin-1em-top" style="font-weight: bold">Booking ID</div>
+                    @foreach (var order in @booking.Orders)
+                    {
+                        <div>@order.ExternalId</div>
+                    }
+                </div>
+            </td>
+            <td>
+                @booking.totalPallets
+                <div class="orderItem @booking.internalId">
+                    <div class="margin-1em-top" style="font-weight: bold">Ordrenr</div>
                     @foreach (var order in @booking.Orders)
                     {
                         <div>@order.orderNumber</div>
@@ -78,53 +88,43 @@
                 </div>
             </td>
             <td>
-                @booking.totalPallets
-                <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold">Varenumre</div>
-                    @foreach (var order in @booking.Orders)
-                    {
-                        <div>@order.wareNumber</div>
-                    }
-                </div>
-            </td>
-            <td>
                 <div style="white-space: nowrap; overflow: hidden">@booking.transporterName</div>
                 <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold">Ind/Ud</div>
+                    <div class="margin-1em-top" style="font-weight: bold">Leverandør</div>
                     @foreach (var order in @booking.Orders)
                     {
-                        <div>@order.InOut</div>
+                        <div>@order.SupplierName</div>
                     }
                 </div>
             </td>
             <td>
                 @booking.email
                 <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                    <div class="margin-1em-top" style="font-weight: bold; ">Bundpaller</div>
                     @foreach (var order in @booking.Orders)
                     {
-                        <div style="opacity: 0">@order.InOut</div>
+                        <div style="">@order.BottomPallets</div>
                     }
                 </div>
             </td>
             <td>
                 @booking.port
                 <div class="orderItem @booking.internalId">
-                    <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                    <div class="margin-1em-top" style="font-weight: bold; ">Paller i alt</div>
                     @foreach (var order in @booking.Orders)
                     {
-                        <div style="opacity: 0">@order.InOut</div>
+                        <div>@order.TotalPallets</div>
                     }
                 </div>
             </td>
             <form method="post">
                 <td>
                     <input type="time" asp-for="@booking.actualArrival" name="actualArrival"/>
-                    <div class="orderItem @booking.internalId">
-                        <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                    <div  class="orderItem @booking.internalId">
+                        <div class="margin-1em-top" style="font-weight: bold; ">Ind/Ud</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <div style="opacity: 0">@order.InOut</div>
+                            <div>@order.InOut</div>
                         }
                     </div>
                 </td>
@@ -132,18 +132,18 @@
                     <div>
                         <input type="time" asp-for="@booking.startLoading" name="startLoading"/>
                     </div>
-                    <div class="orderItem @booking.internalId">
-                        <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                    <div  class="orderItem @booking.internalId">
+                        <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <div style="opacity: 0">@order.InOut</div>
+                            <div>@order.Comment</div>
                         }
                     </div>
                 </td>
                 <td>
                     <input type="time" asp-for="@booking.endLoading" name="endLoading"/>
                     <div class="orderItem @booking.internalId">
-                        <div style="font-weight: bold; opacity: 0">Ind/Ud</div>
+                        <div class="margin-1em-top" style="font-weight: bold; opacity: 0">Ind/Ud</div>
                         @foreach (var order in @booking.Orders)
                         {
                             <div style="opacity: 0">@order.InOut</div>
@@ -154,7 +154,7 @@
                     <button asp-page-handler="Update" asp-route-id="@booking.internalId"> <i class="far fa-edit"></i> </button>
 
                     <div class="orderItem @booking.internalId">
-                        <div style="font-weight: bold; opacity: 0;">O</div>
+                        <div class="margin-1em-top"  style="font-weight: bold; opacity: 0;">O</div>
                         @foreach (var order in @booking.Orders)
                         {
                             <div style="opacity: 0">@order.InOut</div>
