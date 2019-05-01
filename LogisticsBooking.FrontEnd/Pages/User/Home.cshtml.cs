@@ -15,12 +15,12 @@ namespace LogisticsBooking.FrontEnd.Pages.User
         {
             if (User.IsInRole("client"))
             {
-                return RedirectToPage("/Client/ClientIndex");
+                return RedirectToPage("/Client/Bookings/BookingOverview");
             }  
             
             if (User.IsInRole("transporter"))
             {
-                return new RedirectToPageResult("/Transporter/Transporter_Index");
+                return RedirectToPage("/Transporter/Booking/BookOrder");
             } 
             
             return new RedirectToPageResult("Error");
