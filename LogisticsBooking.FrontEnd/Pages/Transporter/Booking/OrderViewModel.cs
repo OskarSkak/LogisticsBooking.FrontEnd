@@ -5,7 +5,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     public class OrderViewModel
     {
         public Guid id { get; set; }
-        public int bookingId { get; set; }
+        public Guid bookingId { get; set; }
+        
+        public string ExternalId { get; set; }
+        
+        public int createdOrders { get; set; }
         public string customerNumber { get; set; }
         public string orderNumber { get; set; }
         public int wareNumber { get; set; }

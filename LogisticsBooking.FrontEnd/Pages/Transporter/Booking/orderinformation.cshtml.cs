@@ -16,6 +16,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     public class orderinformation : PageModel
     {
         private readonly ITransporterDataService _transporterDataService;
+        private readonly IUtilBookingDataService _utilBookingDataService;
 
 
         public BookingViewModel BookingViewModel { get; set; }
@@ -29,10 +30,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         [BindProperty]
         public Guid id { get; set; }
 
+       
 
-        public orderinformation(ITransporterDataService transporterDataService)
+        public orderinformation(ITransporterDataService transporterDataService , IUtilBookingDataService utilBookingDataService)
         {
             _transporterDataService = transporterDataService;
+            _utilBookingDataService = utilBookingDataService;
+            
         }
         public async Task OnGetAsync()
         {
@@ -49,12 +53,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             var test = HttpContext.Session.GetObject<Object>(id);
           
-
+            var externalId  = await _utilBookingDataService.GetBookingNumber();
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
 
+            
             BookingViewModel = model;
 
-            
+            BookingViewModel.ExternalId = externalId.bookingid;
             BookingViewModel.Transporters = await _transporterDataService.ListTransporters(0, 0);
             
             CreateSelectedList(BookingViewModel.Transporters.ToList());
@@ -81,9 +86,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             var test = HttpContext.Session.GetObject<Object>(id);
           
-
+            var externalId  = await _utilBookingDataService.GetBookingNumber();
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
-
+            var nextOrder = HttpContext.Session.GetObject<int>(externalId.bookingid.ToString());
             List<OrderViewModel> orderViewModels = null;
             model.PalletsRemaining -= orderViewModel.totalPallets;
             if (model.OrderViewModels == null)
@@ -100,7 +105,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                         InOut = orderViewModel.InOut,
                         totalPallets = orderViewModel.totalPallets,
                         wareNumber = orderViewModel.wareNumber,
-                        SupplierName = orderViewModel.SupplierName
+                        SupplierName = orderViewModel.SupplierName,
+                        ExternalId = externalId.bookingid + "-" + nextOrder.ToString("D2"),
+                        createdOrders = 2
                         
                     }    
                 };
@@ -117,18 +124,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     InOut = orderViewModel.InOut,
                     totalPallets = orderViewModel.totalPallets,
                     wareNumber = orderViewModel.wareNumber,
-                    SupplierName = orderViewModel.SupplierName
+                    SupplierName = orderViewModel.SupplierName,
+                    ExternalId = externalId.bookingid + "-" + nextOrder.ToString("D2"),
+                    
                     
                 });
             }
 
+            
 
             if (orderViewModels != null)
             {
                 model.OrderViewModels = orderViewModels;
             }
-           
-            
+
+            nextOrder++;
+            HttpContext.Session.SetObject(externalId.bookingid.ToString() , nextOrder);
       
             HttpContext.Session.SetObject(id , model);
             
@@ -151,14 +162,18 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             }
 
             var test = HttpContext.Session.GetObject<Object>(id);
+            
 
 
             var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
+            var nextOrder = HttpContext.Session.GetObject<int>(model.ExternalId.ToString());
+            nextOrder--;
 
             var result = model.OrderViewModels.FirstOrDefault(x => x.id.Equals(orderId));
             model.PalletsRemaining += result.totalPallets;
             model.OrderViewModels.Remove(result);
             HttpContext.Session.SetObject(id , model);
+            HttpContext.Session.SetObject(model.ExternalId.ToString() , nextOrder);
             return new RedirectToPageResult("orderinformation");
         }
 
