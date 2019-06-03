@@ -4,7 +4,9 @@
 
 @{
     Layout = "_Layout_Transporter";
+    
 }
+
 
 <div class="py-1" style="">
     <div class="container">
@@ -64,13 +66,14 @@
                
                 <form method="post" >
                     
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-for="BookingOrderViewModel.BookingTime"   class="form-control" id="form29" placeholder=""></div>
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen</label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date"  asp-for="BookingOrderViewModel.BookingTime" data-language='da'  class="form-control datepicker-here" id="form29" placeholder=""></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen <span data-title="test"></span></label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div asp-validation-summary="ModelOnly"></div>
                     <!--         
                     <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div> -->
                     <div class="display-center">
                         <button type="submit"   class="btn btn-primary">Bekræft</button>
+                        <a class="bootbox-alert" n>test</a>
                     </div>
 
                 </form>
@@ -78,4 +81,25 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts
+{
+    <script type="text/javascript" crossorigin="anonymous" asp-append-version="true" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
+    <script type="text/javascript" crossorigin="anonymous" asp-append-version="true" src="~/dist/js/datepicker.js"></script>
+
+    <script>
+    $(document).on("click", ".bootbox-alert", function(e) {
+        bootbox.prompt({
+            title: "Du har valgt denne dato er det korrekt",
+            inputType: "date",
+            callback: function(result) {
+                console.log(result)
+            }
+        })
+    });
+
+    
+    </script>
+}
 
