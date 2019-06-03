@@ -31,7 +31,7 @@
     <thead>
     <tr>
         <th> </th>
-        <th>Dato</th>
+        <th class="bootbox-alert">Dato</th>
         <th>ID</th>
         <th>Paller</th>
         <th>Navn</th>
@@ -136,7 +136,7 @@
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <div>@order.Comment</div>
+                            <span onclick="test()" class="bootbox-alert">@order.Comment</span>
                         }
                     </div>
                 </td>
@@ -178,9 +178,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script type="text/javascript" crossorigin="anonymous" asp-append-version="true" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
+    
+    
     <script>
+
+
         $(function () {
             $("#example").DataTable({
                 "order": [[1, "desc"]], 
@@ -190,9 +194,7 @@
             });
         });
 
-    </script>
-    
-    <script>
+   
         function toggle(className) {
             var x = '.' + className;
             if ($(x).is(":hidden")) {
@@ -201,19 +203,26 @@
                 hide(className)
             }
         }
-    </script>
-    
-    <script>
+  
+ 
         function hide(className) {
             var x = '.' + className;
             $(x).hide();
         }
-    </script>
+   
 
-    <script>
+
         function show(className) {
             var x = '.' + className;
             $(x).show();
-        }
+    }
+
+      function test() {
+        bootbox.alert("This is an alert with a callback!", function(){ 
+            console.log('This was logged in the callback!'); 
+        });
+    };
+
+    
     </script>
 }
