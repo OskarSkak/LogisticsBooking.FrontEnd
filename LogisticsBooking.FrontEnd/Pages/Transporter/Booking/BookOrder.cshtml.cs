@@ -30,13 +30,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public async Task<IActionResult> OnPostAsync(BookingViewModel bookingOrderViewModel)
         {
-            // Get the logged in transporter
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            
+            // Get the logged in transporter       
             var id = "";
             
             try
@@ -46,6 +40,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             catch (NullReferenceException ex)
             {
                 Console.WriteLine(ex);
+                return Page();
             }
 
             var bookingid = await _utilBookingDataService.GetBookingNumber();

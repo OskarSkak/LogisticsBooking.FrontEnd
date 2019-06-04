@@ -19,10 +19,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private readonly IUtilBookingDataService _utilBookingDataService;
 
 
+        [BindProperty]
         public BookingViewModel BookingViewModel { get; set; }
         
+        [BindProperty]
         public OrderViewModel OrderViewModel { get; set; }
         
+        [BindProperty]
         public List<SelectListItem> Transporters { get; set;}
         
         public int palletsRemaining { get; set; }
@@ -47,6 +50,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             }
             catch (NullReferenceException ex)
             {
+                
                 Console.WriteLine(ex);
             }
             
@@ -195,7 +199,5 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 Transporters.Add(new SelectListItem{ Value = supplier.Name ,Text = supplier.Name});
             }
         }
-        
-        
     }
 }
