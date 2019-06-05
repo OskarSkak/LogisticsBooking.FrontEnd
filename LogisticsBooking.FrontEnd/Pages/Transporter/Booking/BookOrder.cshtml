@@ -6,16 +6,14 @@
     Layout = "_Layout_Transporter";
 }
 
+
 <div class="py-1" style="">
     <div class="container">
-
             <!-- Horizontal Steppers -->
             <div class="row">
                 <div class="col-md-12">
-
                     <!-- Stepers Wrapper -->
                     <ul class="stepper stepper-horizontal">
-
                         <!-- First Step -->
                         <li class="active">
                             <a href="#!">
@@ -64,13 +62,14 @@
                
                 <form method="post" >
                     
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-for="BookingOrderViewModel.BookingTime"   class="form-control" id="form29" placeholder=""></div>
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen</label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date"  asp-for="BookingOrderViewModel.BookingTime" data-language='da'  class="form-control datepicker-here" id="form29" placeholder=""></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen <span data-title="test"></span></label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div asp-validation-summary="ModelOnly"></div>
                     <!--         
                     <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div> -->
                     <div class="display-center">
                         <button type="submit"   class="btn btn-primary">Bekræft</button>
+                     
                     </div>
 
                 </form>
@@ -78,4 +77,5 @@
         </div>
     </div>
 </div>
+
 
