@@ -102,7 +102,15 @@
                                 <h1>Ordreoversigt</h1>
                             </div> 
                             <div class="col-lg-6 display-center">
-                                <span> Ordrenummer: @Model.BookingViewModel.ExternalId</span>
+                                @if (@Model.BookingViewModel.ExternalId == null)
+                                {
+                                    <span> Ordrenummer: xxxxxx</span>
+                                }
+                                else
+                                {
+                                    <span> Ordrenummer: @Model.BookingViewModel.ExternalId</span>
+                                }
+                                
                             </div> 
                         </div>
                         
