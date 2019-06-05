@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -43,7 +44,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 return Page();
             }
 
-            var bookingid = await _utilBookingDataService.GetBookingNumber();
+            
+            var bookingid = new UtilBooking();
+             bookingid  = await _utilBookingDataService.GetBookingNumber();
 
             bookingOrderViewModel.PalletsRemaining = BookingOrderViewModel.TotalPallets;
             
