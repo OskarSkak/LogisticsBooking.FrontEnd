@@ -137,7 +137,7 @@
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <span onclick="test()" class="bootbox-alert">@order.Comment</span>
+                            <div style="opacity: 0">@order.InOut</div>
                         }
                     </div>
                 </td>
