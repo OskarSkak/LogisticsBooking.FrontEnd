@@ -137,7 +137,15 @@
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <div style="opacity: 0">@order.InOut</div>
+                            <div class="trigger_popup_fricc ">Kommentar</div><br/>
+                            <div class="hover_bkgr_fricc centered">
+                                <span class="helper"></span>
+
+                                <div>
+                                    <div class="popupCloseButton">X</div>
+                                    <p class="spaced-typography">Følgende kommentar er tilknyttet denne ordre: </p> @order.Comment
+                                </div>
+                            </div>
                         }
                     </div>
                 </td>
@@ -182,10 +190,32 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <script type="text/javascript" crossorigin="anonymous" asp-append-version="true" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
     
+    <script>
+        $(window).load(function () {
+            $(".trigger_popup_fricc").click(function () {
+                $('.hover_bkgr_fricc').show();
+            });
+            $('.hover_bkgr_fricc').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+            $('.popupCloseButton').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var options = {
+                inlineCss: false
+            };
+            $("a.six").on("click", function (e) {
+                e.preventDefault();
+                $(this).simplePopup(options);
+            });
+        });
+    </script>
     
     <script>
-
-
         $(function () {
             $("#example").DataTable({
                 "order": [[1, "desc"]], 

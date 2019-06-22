@@ -59,7 +59,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         {
             var result = await _orderDataService.DeleteOrder(Guid.Parse(id));
 
-            if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
             return new RedirectToPageResult("BookingOverviewAdmin");
         }
         

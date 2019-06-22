@@ -39,6 +39,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
             return new RedirectToPageResult("Error");
         }
         
-        
+        public async Task<IActionResult> OnPostDelete(string id)
+        {
+            var supplier = await supplierDataService.GetSupplierByName(id);
+
+            var result = await supplierDataService.DeleteSupplier(supplier.ID);
+            
+            return new RedirectToPageResult("./Suppliers");
+        }
     }
 }
