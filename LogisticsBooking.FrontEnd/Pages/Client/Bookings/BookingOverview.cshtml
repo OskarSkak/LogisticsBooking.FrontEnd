@@ -119,7 +119,8 @@
             </td>
             <form method="post">
                 <td>
-                    <input type="time" asp-for="@booking.actualArrival" name="actualArrival"/>
+                    <input type="time" asp-format="{0:HH:mm}" asp-for="@booking.actualArrival" name="actualArrival"/>
+                    
                     <div  class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold; ">Ind/Ud</div>
                         @foreach (var order in @booking.Orders)
@@ -130,18 +131,18 @@
                 </td>
                 <td>
                     <div>
-                        <input type="time" asp-for="@booking.startLoading" name="startLoading"/>
+                        <input type="time" asp-format="{0:HH:mm}" asp-for="@booking.startLoading" name="startLoading"/>
                     </div>
                     <div  class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <span onclick="test()" class="bootbox-alert">@order.Comment</span>
+                            <div style="opacity: 0">@order.InOut</div>
                         }
                     </div>
                 </td>
                 <td>
-                    <input type="time" asp-for="@booking.endLoading" name="endLoading"/>
+                    <input type="time" asp-format="{0:HH:mm}" asp-for="@booking.endLoading" name="endLoading"/>
                     <div class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold; opacity: 0">Ind/Ud</div>
                         @foreach (var order in @booking.Orders)
