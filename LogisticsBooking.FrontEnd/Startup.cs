@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Exceptionless;
 
 namespace LogisticsBooking.FrontEnd
 {
@@ -44,7 +45,7 @@ namespace LogisticsBooking.FrontEnd
         public void ConfigureServices(IServiceCollection services)
         {
 
-               
+            
             services.Configure<BackendServerUrlConfiguration>(
                 _config.GetSection(nameof(BackendServerUrlConfiguration)));
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
@@ -164,6 +165,9 @@ namespace LogisticsBooking.FrontEnd
             app.UseCookiePolicy();
             
             app.UseMvc();
+            
+            //Logging of exception
+            app.UseExceptionless("2jiqmnyqSQvOgjxTyi2bXN6G8xSPm24hwByMK3Vy");
         }
     }
 }
