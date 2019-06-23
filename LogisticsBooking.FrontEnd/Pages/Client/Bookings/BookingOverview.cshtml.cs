@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
@@ -61,99 +62,77 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             
             return new RedirectToPageResult("./BookingOverview");
         }
-        
 
-       
-        
-    }
-/*
-    public class ExcelUtil
-    {
-        public void WriteTsv<T>(IEnumerable<T> data, TextWriter output)
-        {
-            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(T));
-            foreach (PropertyDescriptor prop in props)
-            {
-                output.Write(prop.DisplayName); // header
-                output.Write("\t");
-            }
-            output.WriteLine();
-            foreach (T item in data)
-            {
-                foreach (PropertyDescriptor prop in props)
-                {
-                    output.Write(prop.Converter.ConvertToString(
-                        prop.GetValue(item)));
-                    output.Write("\t");
-                }
-                output.WriteLine();
-            }
-        }
 
-        public void ExportListFromTsv(List<Booking> bookings)
+        public ActionResult OnPostExportExcel()
         {
-            var excelOrders = new List<ExcelOrder>();
-            foreach (var booking in bookings)
+            //Generate list of lists
+            Bookings = new List<Booking>(); 
+            Bookings = bookingDataService.GetBookings().Result;
+
+            var from = DateTime.Now;
+            var endDate = DateTime.Now.Date.ToShortDateString();
+            
+            foreach (var booking in Bookings)
+            {
+                if (booking.bookingTime < from) from = booking.bookingTime;
+            }
+
+            var fromDateString = from.ToShortDateString();
+            
+            System.IO.Stream spreadsheetStream = new System.IO.MemoryStream();
+            XLWorkbook workbook = new XLWorkbook();
+            IXLWorksheet worksheet = workbook.Worksheets.Add("Orders");
+
+            worksheet.Cell(1, 1).SetValue("KUNNR");
+            worksheet.Cell(1, 2).SetValue("DATO");
+            worksheet.Cell(1, 3).SetValue("ORDNR");
+            worksheet.Cell(1, 4).SetValue("PALLER");
+            worksheet.Cell(1, 5).SetValue("TRANSPORTØR");
+            worksheet.Cell(1, 6).SetValue("KONTAKTOPLYSNINGER");
+            worksheet.Cell(1, 7).SetValue("BOOKETTID");
+            worksheet.Cell(1, 8).SetValue("PORT");
+            worksheet.Cell(1, 9).SetValue("LEVERANDØR");
+            worksheet.Cell(1, 10).SetValue("FAKTISK_\nANKOMST");
+            worksheet.Cell(1, 11).SetValue("START_\nLÆSNING");
+            worksheet.Cell(1, 12).SetValue("SLUT_\nLÆSNING");
+
+            var cellX = 1;
+            var cellY = 2;
+            
+            foreach (var booking in Bookings)
             {
                 foreach (var order in booking.Orders)
                 {
-                    var excelOrder = new ExcelOrder(order, booking.bookingTime, 
-                        booking.totalPallets, booking.transporterName, booking.email, 
-                        booking.port, booking.actualArrival, booking.startLoading, 
-                        booking.endLoading);
-                    excelOrders.Add(excelOrder);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.customerNumber);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.bookingTime.ToShortDateString());
+                    worksheet.Cell(cellY, cellX++).SetValue(order.orderNumber);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.TotalPallets);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.transporterName);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.email);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.bookingTime.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.port);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.SupplierName);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.actualArrival.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.startLoading.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.endLoading.ToShortTimeString());
+                    cellY++;
+                    cellX = 1;
                 }
+                
+                
             }
 
-            ExcelOrder[] data = new ExcelOrder[excelOrders.Count];
+            worksheet.ColumnWidth = 20;
             
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = excelOrders[i];
-            }
+            workbook.SaveAs(spreadsheetStream);
+            spreadsheetStream.Position = 0;
+            var fileName = "Ordre_FRA_" + fromDateString + "_TIL_" + endDate;
+            
+            return new FileStreamResult(spreadsheetStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") { FileDownloadName = fileName + ".xlsx" };
 
-            HttpContext.Response.Clear();
-            Response.AddHeader("content-disposition", "attachment;filename=Contact.xls");
-            Response.AddHeader("Content-Type", "application/vnd.ms-excel");
-            WriteTsv(data, Response.Output);
-            Response.End();
         }
-        
         
     }
-    
-    class ExcelOrder
-    {
-        public string customerNumber { get; set; }
-        public string orderNumber { get; set; }
-        public int wareNumber { get; set; }
-        public string InOut { get; set; }
-        public DateTime bookingTime { get; set; }
-        public int Pallets { get; set; }
-        public string TransporterName { get; set; }
-        public string email { get; set; }
-        public int port { get; set; }
-        public DateTime actual_arrival { get; set; }
-        public DateTime start_loading { get; set; }
-        public DateTime end_loading { get; set; }
-        
-        public ExcelOrder(Order order, DateTime bookingTime, int pallets, 
-            string transporterName, string email, int port, 
-            DateTime actual_arrival, DateTime start_loading,
-            DateTime end_loading)
-        {
-            this.customerNumber = order.customerNumber;
-            this.orderNumber = order.orderNumber;
-            this.wareNumber = order.wareNumber;
-            this.InOut = order.InOut;
-            this.bookingTime = bookingTime;
-            this.Pallets = pallets;
-            this.TransporterName = transporterName;
-            this.email = email;
-            this.port = port;
-            this.actual_arrival = actual_arrival;
-            this.start_loading = start_loading;
-            this.end_loading = end_loading;
-        }
-    }*/
+
 }
