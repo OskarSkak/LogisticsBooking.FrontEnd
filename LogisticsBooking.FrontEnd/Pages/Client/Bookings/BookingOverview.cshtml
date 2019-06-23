@@ -23,9 +23,13 @@
 
 <body onload="toggle('orderItem')">
 <br/>
-<div>
-    <button onclick="toggle('orderItem')" class="btn btn-primary">Gem/Vis Alle</button>
-</div>
+
+    <button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
+
+    <form asp-page-handler="ExportExcel" method="post">
+        <button class="btn fas fa-file-download" > Export</button>
+    </form>
+
 <hr/>
 <table id="example" class="display" style="width: 100%">
     <thead>
@@ -137,7 +141,7 @@
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <div class="trigger_popup_fricc ">Kommentar</div><br/>
+                            <div class="trigger_popup_fricc btn far fa-comment-alt "></div><br/>
                             <div class="hover_bkgr_fricc centered">
                                 <span class="helper"></span>
 
