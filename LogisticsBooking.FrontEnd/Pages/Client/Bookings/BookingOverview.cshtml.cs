@@ -44,6 +44,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 }
             }
         }
+
+        
         
         public void OnGet(){}
 

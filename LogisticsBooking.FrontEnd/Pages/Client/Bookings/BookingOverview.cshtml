@@ -24,11 +24,11 @@
 <body onload="toggle('orderItem')">
 <br/>
 
-    <button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
+<button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
 
-    <form asp-page-handler="ExportExcel" method="post">
-        <button class="btn fas fa-file-download" > Export</button>
-    </form>
+<form asp-page-handler="ExportExcel" method="post">
+    <button class="btn fas fa-file-download" > Export</button>
+</form>
 
 <hr/>
 <table id="example" class="display" style="width: 100%">
@@ -225,7 +225,8 @@
                 "order": [[1, "desc"]], 
                 "columnDefs": [
                     { "orderable": false, "targets": [ 0, 2, 3, 6, 7, 8, 9, 10 ] }
-                ]
+                ], 
+                "pageLength": 1000
             });
         });
 
@@ -252,11 +253,8 @@
             $(x).show();
     }
 
-      function test() {
-        bootbox.alert("This is an alert with a callback!", function(){ 
-            console.log('This was logged in the callback!'); 
-        });
-    };
+    
+        
 
     
     </script>
