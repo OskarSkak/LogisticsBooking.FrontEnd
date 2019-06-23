@@ -168,6 +168,15 @@ namespace LogisticsBooking.FrontEnd
             
             //Logging of exception
             app.UseExceptionless("2jiqmnyqSQvOgjxTyi2bXN6G8xSPm24hwByMK3Vy");
+            
+            /*
+             * Above only logs unhandled exceptions. Exceptions handled must be logged manually in the following way:
+             * try {
+                throw new ApplicationException(Guid.NewGuid().ToString());
+               } catch (Exception ex) {
+                ex.ToExceptionless().Submit();
+               }
+             */
         }
     }
 }
