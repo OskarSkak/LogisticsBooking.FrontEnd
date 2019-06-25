@@ -29,16 +29,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             date = DateTime.Today;
         }
       
-        public void OnGet()
+        public void OnGet(string id)
         {
+
+
+            Console.WriteLine(id);
+            var v = Guid.Parse(id);
             
             
-            var id = "";
+            var Subjectid = "";
             
            
-            id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
-            var result = HttpContext.Session.GetObject<DateTime>(id);
+            var result = HttpContext.Session.GetObject<DateTime>(Subjectid);
             if (result == DateTime.MinValue)
             {
                 result = date;
