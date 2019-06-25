@@ -286,9 +286,10 @@
                 $(this).removeClass("ok").addClass("content-color");
                 var f = $(this).first().contents().eq(1).text();
 
-                var a = listOfDates.filter(function (x) {
-                    return x.Id === e
-                })[0];
+                function include(arr,obj) {
+                    return (arr.indexOf(obj) != -1);
+                }
+                var a = include(listOfDates , f);
                 var index = listOfDates.indexOf(a);
                 if (index > -1) {
                 listOfDates.splice(index, 1);
