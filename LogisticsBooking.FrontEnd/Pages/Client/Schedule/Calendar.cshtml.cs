@@ -29,12 +29,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             date = DateTime.Today;
         }
       
-        public void OnGet(string id)
+        public void OnGet()
         {
 
-
-            Console.WriteLine(id);
-            var v = Guid.Parse(id);
+            var guid = HttpContext.Session.GetObject<Guid>("scheduleId");
             
             
             var Subjectid = "";
