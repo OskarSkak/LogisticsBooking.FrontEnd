@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -38,9 +39,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
         public async Task<IActionResult> OnPostSubmit(List<InternalInterval> intervals)
         {
-            var result = await ScheduleDataService.CreateSchedule(CreateScheduleFromInternalIntervals(intervals));
+            var schedule = CreateScheduleFromInternalIntervals(intervals);
+            var result = await ScheduleDataService.CreateSchedule(schedule);
+
+            HttpContext.Session.SetObject("scheduleId", schedule.ScheduleId);
             
-            
+            return new RedirectToPageResult("Calendar");
             return Page();
         }
 
