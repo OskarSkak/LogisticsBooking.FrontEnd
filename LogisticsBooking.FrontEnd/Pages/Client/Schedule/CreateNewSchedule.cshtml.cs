@@ -24,6 +24,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public void OnGet()
         {
             Intervals = PopulateList(Intervals);
+            foreach (var VARIABLE in Intervals)
+            {
+                
+            }
             var la = "";
         }
 

@@ -67,7 +67,7 @@
     <div class="py-1" style="">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="list-group" style="">
                         <text>
                             <div class="list-group-item list-group-item-action display-spacebetween">
@@ -77,7 +77,7 @@
                                 <p style="font-weight: bold" title="Sluttidspunkt for the givne interval">Slut</p>
                             </div>
                         </text>
-                        @foreach (var interval in @Model.Intervals.GetRange(0, @Model.Intervals.Count / 3))
+                        @foreach (var interval in @Model.Intervals.GetRange(0, @Model.Intervals.Count / 2))
                         {
 
                             <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -93,7 +93,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="list-group" style="">
                         <text>
                             <div class="list-group-item list-group-item-action display-spacebetween">
@@ -103,32 +103,7 @@
                                 <p style="font-weight: bold">Slet</p>
                             </div>
                         </text>
-                        @foreach (var interval in @Model.Intervals.GetRange(Model.Intervals.Count / 3, Model.Intervals.Count / 3))
-                        {
-                            <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                <div class="list-group-item list-group-item-action display-spacebetween" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
-                                    <div class="btn input-group-res" onclick="toggle('@interval.InternalId')"><i class="fas fa-toggle-on"></i></div>
-                                    <div class="@interval.InternalId">
-                                        <input type="number" class="input-group-res" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
-                                        <input type="time" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
-                                        <input type="time" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="list-group" style="">
-                        <text>
-                            <div class="list-group-item list-group-item-action display-spacebetween">
-                                <p style="font-weight: bold">Max antal paller</p>
-                                <p style="font-weight: bold">Start</p>
-                                <p style="font-weight: bold">Slut</p>
-                                <p style="font-weight: bold">Slet</p>
-                            </div>
-                        </text>
-                        @foreach (var interval in @Model.Intervals.GetRange(Model.Intervals.Count / 3 * 2, Model.Intervals.Count / 3))
+                        @foreach (var interval in @Model.Intervals.GetRange(Model.Intervals.Count / 2, Model.Intervals.Count / 2))
                         {
                             <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
                                 <div class="list-group-item list-group-item-action display-spacebetween" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
