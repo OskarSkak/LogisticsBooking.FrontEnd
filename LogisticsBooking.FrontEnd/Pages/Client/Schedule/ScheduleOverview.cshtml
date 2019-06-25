@@ -45,28 +45,30 @@
         <div class="row">
             <div class="col-4">
                 <div class="card bg-light text-center">
-                    <div class="card-body p-4">
+                    <div class="card-body p-1">
                         <h2> <b>Opret Plan</b></h2>
                         <hr>
                         <ul class="list-unstyled my-3">
-                            <p>Her kan nye planer oprettes. Planer kan oprettes ud fra eksisterende, eller som helt nye</p>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende</a></li>
-                            <li class="mb-1"><a asp-page="./CreateNewSchedule">Opret fra ny</a></li>
-
+                            <p>Her kan nye planer oprettes. Planer kan oprettes ud fra eksisterende, eller som helt nye. Det skal specificeres om det er en dags vagt eller natte vagt</p>
+                            <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende [DAG: 07-15]</a></li>
+                            <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende [NAT: 22-06]</a></li>
+                            <li class="mb-1"><a asp-page="./CreateNewSchedule">Opret ny [DAG: 07-15]</a></li>
+                            <li class="mb-1"><a asp-page="./CreateNewSchedule">Opret fra ny [NAT: 22-06]</a></li>
                         </ul>
+                        <p>Bemærk - Tider i en plan behøves ikke begrænses til ovenstående tider, de kan konfigureres under skabelsen af en plan</p>
                     </div>
                 </div>
             </div>
             <div class="col-4">
                 <div class="card bg-light text-center">
                     <div class="card-body p-4">
-                        <h3>AN</h3>
-                        <h2> <b>Agri-norcold</b></h2> <a class="btn btn-link" href="http://agri-norcold.dk/DK.aspx" target="_blank">agri-norcold.dk</a>
+                        <h2> <b>Eksisterende Planer</b></h2>
                         <hr>
                         <ul class="list-unstyled my-3">
-                            <h3>Vælg en afdeling</h3>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Hvidovre</a></li>
-                            <li class="mb-1"><a asp-page="Booking">Kolding</a></li>
+                            <p>Her kan gemte tidsplaner gennemses og det kan vælges hvilke dage de skal gælde for</p>
+                            <li class="mb-1"><a asp-page="./AllSchedules">Gemte planer [ALLE]</a></li>
+                            <li class="mb-1"><a asp-page="Booking/BookOrder">Gemte dags-planer [DAG: 07-15]</a></li>
+                            <li class="mb-1"><a asp-page="Booking/BookOrder">Gemte natte-planer [NAT: 22-06]</a></li>
                         </ul>
                     </div>
                 </div>

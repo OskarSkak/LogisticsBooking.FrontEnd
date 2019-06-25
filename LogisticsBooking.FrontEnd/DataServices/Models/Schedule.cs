@@ -16,5 +16,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public int MischellaneousPallets { get; set; }
         public string Name { get; set; }
         public Guid ScheduleId { get; set; }
+        public Shift shift { get; set; }
     }
 }

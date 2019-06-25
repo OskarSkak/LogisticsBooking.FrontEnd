@@ -1,19 +1,74 @@
 @page
+@using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.AllSchedules
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
+<style>
+    .no-padding-marging {
+        margin: !important 0;
+        padding: !important 0;
+    }
     
+    .input-group-res {
+        width: 100%;
+        width: 70px;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="container">
+    <div style="width:100%; margin:0 auto;">
+        <table id="example" class="display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Tidsplan</th>
+                <th>Slet Tidsplan</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var schedule in @Model.Schedules)
+            {
+                <tr class="no-padding-marging">
+                    <td>
+                        <div class="list-group" style="">
+                            <a asp-page="./BookingSingle" asp-route-id="@schedule.ScheduleId" class="list-group-item list-group-item-action display-spacebetween">
+                                Navn: @schedule.Name
+                                    Dag/Nat:
+                                    @if (@schedule.shift == Shift.Day)
+                                    {
+                                        <p>Dagsvagt (07-15)</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Nattevagt (22-06)</p>
+                                    }
+                            </a>
+                            
+                        </div>
+                    </td>
+                    <td>
+                        <div class="list-group" style="">
+                            <button class="btn btn-primary input-group-res"><a class="fa fa-trash"></a></button>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 </div>
-</body>
-</html>
+
+
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
+
+}
