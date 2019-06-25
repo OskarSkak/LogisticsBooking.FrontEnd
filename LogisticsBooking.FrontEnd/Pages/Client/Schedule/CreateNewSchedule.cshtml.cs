@@ -41,9 +41,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostSubmit(List<InternalInterval> intervals)
+        public async Task<IActionResult> OnPostSubmit(List<InternalInterval> intervals, string name)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
+            schedule.Name = name;
             var result = await ScheduleDataService.CreateSchedule(schedule);
 
             HttpContext.Session.SetObject("scheduleId", schedule.ScheduleId);
