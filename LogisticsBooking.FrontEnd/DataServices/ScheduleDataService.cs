@@ -82,5 +82,18 @@ namespace LogisticsBooking.FrontEnd.DataServices
             }
             return Response.Succes();
         }
+
+        public async Task<Response> CreateManySchedule(ManySchedules schedule)
+        {
+            baseurl = baseurl + "list";
+            var response = await PostAsync(baseurl, schedule);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                return new Response(true );
+            }
+            return new Response(false);
+        
+        }
     }
 }
