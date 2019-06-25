@@ -11,7 +11,7 @@
 {
   
 }
-<input name="CSRF-TOKEN-MOONGLADE-FORM" type="hidden" value=@Html.AntiForgeryToken()>
+
 <div class="calendar">
 
     <form method="post">
@@ -268,25 +268,27 @@
 
     
     <script>
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var headers = {};
+
+        headers['__RequestVerificationToken'] = token;
+
+    
         var listOfDates = new Array(35);
         $(".test").click(function() {
             if ($(this).hasClass("content-color")) {
                 $(this).removeClass("content-color").addClass("ok");
                 var f = $(this).first().contents().eq(1).text();
                 listOfDates.push(f);
-                                 
-
-    
-
             } else if ($(this).hasClass("ok")) {
 
                 $(this).removeClass("ok").addClass("content-color");
                 var f = $(this).first().contents().eq(1).text();
 
-                function include(arr,obj) {
-                    return (arr.indexOf(obj) != -1);
-                }
-                var a = listOfDates.isin;
+                var a = listOfDates.filter(function (x) {
+                    return x.Id === e
+                })[0];
                 var index = listOfDates.indexOf(a);
                 if (index > -1) {
                 listOfDates.splice(index, 1);
@@ -306,6 +308,7 @@ $(".btn").click(function() {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
+        headers:headers, 
         data: JSON.stringify(listOfDates),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
