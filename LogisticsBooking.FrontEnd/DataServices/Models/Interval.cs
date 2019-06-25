@@ -9,6 +9,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public bool IsBooked { get; set; }
         public int BottomPallets { get; set; }
         public Guid BookingId { get; set; }
+        public Guid SecondaryBookingId { get; set; }
         public Guid TransporterId { get; set; }
         public int RemainingPallets { get; set; }
         public Guid IntervalId { get;}

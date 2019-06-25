@@ -14,6 +14,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public Guid CreatedBy { get; set; }
         public int MischellaneousPallets { get; set; }
         
-        public Guid ScheduleId { get; }
+        public Guid ScheduleId { get; set; }
     }
 }
