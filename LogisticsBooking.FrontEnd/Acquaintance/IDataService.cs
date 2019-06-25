@@ -25,6 +25,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Schedule> GetScheduleById(Guid id);
         Task<Response> UpdateSchedule(Schedule schedule);
         Task<Response> DeleteSchedule(Guid id);
+        Task<Response> CreateManySchedule(ManySchedules schedule);
     }
 
     public interface IOrderDataService

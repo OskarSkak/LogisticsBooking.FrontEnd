@@ -31,8 +31,8 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-family-sans-serif: 'Lato',-apple-system, BlinkMacSystemFont, "Segoe UI",  "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: 'Lato' , SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 *,
@@ -62,7 +62,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: 'Lato',-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1rem;
     font-weight: 200;
     line-height: 1.5;
@@ -454,6 +454,7 @@ h1, h2, h3, h4, h5, h6,
 
 h1, .h1 {
     font-size: 2.5rem;
+    font-weight: 400;
 }
 
 h2, .h2 {
@@ -2510,7 +2511,7 @@ textarea.form-control {
 
 .btn {
     display: inline-block;
-    font-weight: 200;
+    font-weight: 400;
     color: #151515;
     text-align: center;
     vertical-align: middle;
@@ -2778,7 +2779,7 @@ fieldset:disabled a.btn {
 .btn-light {
     color: #212529;
     background-color: white;
-    border-color: white;
+    border-color: black;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
@@ -4610,6 +4611,7 @@ input[type="button"].btn-block {
 
 .navbar-light .navbar-brand {
     color: rgba(0, 0, 0, 0.9);
+    
 }
 
     .navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
@@ -4618,6 +4620,7 @@ input[type="button"].btn-block {
 
 .navbar-light .navbar-nav .nav-link {
     color: rgba(0, 0, 0, 0.5);
+    font-weight: 400;
 }
 
     .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {

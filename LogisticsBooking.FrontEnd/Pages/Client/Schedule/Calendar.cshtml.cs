@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
+using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -17,6 +22,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
     
     public class Calendar : PageModel
     {
+        private readonly IScheduleDataService _scheduleDataService;
+
         [BindProperty] 
         public DateTime date { get; set; }
         
@@ -24,20 +31,24 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public int CurrentYear { get; set; }
 
 
-        public Calendar()
+        public Calendar(IScheduleDataService scheduleDataService)
         {
+            _scheduleDataService = scheduleDataService;
             date = DateTime.Today;
         }
       
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
 
+            var test = HttpContext.Session.GetObject<DataServices.Models.Schedule>("v");
             var guid = HttpContext.Session.GetObject<Guid>("scheduleId");
             
             
             var Subjectid = "";
-            
+            var res = await _scheduleDataService.GetScheduleById(guid);
            
+            HttpContext.Session.SetObject("v" , res);
+            
             Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
             var result = HttpContext.Session.GetObject<DateTime>(Subjectid);
@@ -52,25 +63,51 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             CurrentYear = date.Year;
             Console.WriteLine(date);
 
+            return Page();
         }
 
 
         [ValidateAntiForgeryToken]
         [EnableCors("MyPolicy")]
-        public IActionResult OnPost([FromBody]string[] value)
+        public async Task<IActionResult> OnPost([FromBody]string[] value)
         {
-            Console.WriteLine("msoæpqnm3dpoqædnpaeodnpaeidfnipwedfnwepn");
+            List<DateTime> list = new List<DateTime>(); 
+            var result = HttpContext.Session.GetObject<DataServices.Models.Schedule>("v");
+            
             for (int i = 0; i < value.Length; i++)
             {
                 if (value[i] != null)
                 {
-                    var a = DateTime.Parse(value[i]);
-                    Console.WriteLine(a);
-                    Console.WriteLine(DateTime.Today.AddMonths(7).ToString("d"));
-                    Console.WriteLine(DateTime.Today.AddMonths(7).Month);
+                    list.Add(DateTime.Parse(value[i]));
+                    
                 }
             }
-            return new RedirectToPageResult("Calendar");
+            
+            List<DataServices.Models.Schedule> schedules = new List<DataServices.Models.Schedule>();
+            foreach (var date in list)
+            {
+                var schedule = new DataServices.Models.Schedule
+                {
+                    CreatedBy = result.CreatedBy,
+                    Intervals = result.Intervals,
+                    MischellaneousPallets = result.MischellaneousPallets,
+                    Name = result.Name,
+                    ScheduleDay = date,
+                    ScheduleId = Guid.NewGuid(),
+                    shift = result.shift
+                };
+                
+                schedules.Add(schedule);
+
+            }
+
+            Console.WriteLine(schedules);
+
+            var d = await _scheduleDataService.CreateManySchedule(new ManySchedules {Schedules = schedules});
+
+
+            
+            return new RedirectToPageResult("ScheduleOverview");
         }
 
         public IActionResult OnPostForward()
