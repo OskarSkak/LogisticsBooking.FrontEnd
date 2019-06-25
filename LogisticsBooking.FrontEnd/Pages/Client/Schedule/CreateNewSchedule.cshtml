@@ -21,6 +21,42 @@
         text-align: left;
         padding: 8px;
     }
+    
+    
+    .div > input {
+        display: inline-block;
+        display: -moz-inline-box;
+        *display: inline; /* For IE7 */
+        zoom: 1; /* Trigger hasLayout */
+        width: 33%;
+        text-align: center;
+    }
+    
+    .parent{
+        width: 100%;
+        text-align: justify;
+    }
+
+    .kiddo{
+        display: inline-block;
+        vertical-align: top;
+        width: 31%;
+        margin: 10px;
+        text-align: left;
+    }
+    
+    .kiddo-25{
+        display: inline-block;
+        vertical-align: top;
+        width: 25%;
+        margin: 10px;
+        text-align: left;
+        
+    }
+
+    .bumper{
+        width: 100%;
+    }
 
 </style>
 
@@ -67,57 +103,33 @@
     <div class="py-1" style="">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="list-group" style="">
                         <text>
-                            <div class="list-group-item list-group-item-action display-spacebetween">
+                            <div class="list-group-item list-group-item-action display-spacebetween parent">
                                 <p style="font-weight: bold" title="Fjern/Tilføj et givent interval fra planen">+/-</p>
-                                <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval">Paller</p>
-                                <p style="font-weight: bold" title="Starttidspunkt for the givne interval">Start</p>
-                                <p style="font-weight: bold" title="Sluttidspunkt for the givne interval">Slut</p>
+                                <p style="font-weight: bold" title="Totalt antal bundpaller for the givne interval" class="kiddo-25">Paller</p>
+                                <p style="font-weight: bold" title="Starttidspunkt for the givne interval" class="kiddo-25">Start</p>
+                                <p style="font-weight: bold" title="Sluttidspunkt for the givne interval" class="kiddo-25">Slut</p>
                             </div>
                         </text>
-                        @foreach (var interval in @Model.Intervals.GetRange(0, @Model.Intervals.Count / 2))
+                        @foreach (var interval in @Model.Intervals.GetRange(0, @Model.Intervals.Count))
                         {
 
                             <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
                                 <div class="list-group-item list-group-item-action display-spacebetween" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
                                     <div class="btn input-group-res" onclick="toggle('@interval.InternalId')"><i class="fas fa-toggle-on"></i></div>
-                                    <div class="@interval.InternalId">
-                                        <input type="number" class="input-group-res" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
-                                        <input type="time" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
-                                        <input type="time" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
+                                    <div class="@interval.InternalId parent">
+                                        <input type="number" class="input-group- kiddo" style="text-align: center;" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
+                                        <input type="time" class="kiddo" style="text-align: center;" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
+                                        <input type="time" class="kiddo" style="text-align: center;" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
                                     </div>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="list-group" style="">
-                        <text>
-                            <div class="list-group-item list-group-item-action display-spacebetween">
-                                <p style="font-weight: bold">Max antal paller</p>
-                                <p style="font-weight: bold">Start</p>
-                                <p style="font-weight: bold">Slut</p>
-                                <p style="font-weight: bold">Slet</p>
-                            </div>
-                        </text>
-                        @foreach (var interval in @Model.Intervals.GetRange(Model.Intervals.Count / 2, Model.Intervals.Count / 2))
-                        {
-                            <div id="@Model.Intervals.IndexOf(interval)div" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                <div class="list-group-item list-group-item-action display-spacebetween" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
-                                    <div class="btn input-group-res" onclick="toggle('@interval.InternalId')"><i class="fas fa-toggle-on"></i></div>
-                                    <div class="@interval.InternalId">
-                                        <input type="number" class="input-group-res" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
-                                        <input type="time" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
-                                        <input type="time" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

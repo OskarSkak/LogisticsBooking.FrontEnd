@@ -66,9 +66,9 @@
                         <hr>
                         <ul class="list-unstyled my-3">
                             <p>Her kan gemte tidsplaner gennemses og det kan vælges hvilke dage de skal gælde for</p>
-                            <li class="mb-1"><a asp-page="./AllSchedules">Gemte planer [ALLE]</a></li>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Gemte dags-planer [DAG: 07-15]</a></li>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Gemte natte-planer [NAT: 22-06]</a></li>
+                            <li class="mb-1"><a asp-page="./AllSchedules" asp-route-id="All">Gemte planer [ALLE]</a></li>
+                            <li class="mb-1"><a asp-page="Booking/BookOrder" asp-route-id="Day">Gemte dags-planer [DAG: 07-15]</a></li>
+                            <li class="mb-1"><a asp-page="Booking/BookOrder" asp-route-id="Night">Gemte natte-planer [NAT: 22-06]</a></li>
                         </ul>
                     </div>
                 </div>
