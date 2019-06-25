@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models
 {
@@ -13,7 +14,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public DateTime ScheduleDay { get; set; }
         public Guid CreatedBy { get; set; }
         public int MischellaneousPallets { get; set; }
-        
+        public string Name { get; set; }
         public Guid ScheduleId { get; set; }
     }
 }
