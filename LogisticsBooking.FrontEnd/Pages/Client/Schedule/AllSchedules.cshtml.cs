@@ -16,12 +16,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public AllSchedules(IScheduleDataService scheduleDataService)
         {
             ScheduleDataService = scheduleDataService;
-            Schedules = scheduleDataService.GetSchedules().Result;
+            
         }
 
-        public async void OnGetAsync()
+        public async void OnGetAsync(string id)
         {
-            
+            var x = id;
+            Schedules = ScheduleDataService.GetSchedules().Result;
         }
     }
 }
