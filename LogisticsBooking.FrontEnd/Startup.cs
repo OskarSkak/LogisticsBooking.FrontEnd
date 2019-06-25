@@ -149,6 +149,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUtilBookingDataService, UtilBookingDataService>();
             services.AddTransient<IOrderDataService, OrderDataService>();
+            services.AddTransient<IScheduleDataService, ScheduleDataService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -168,7 +169,7 @@ namespace LogisticsBooking.FrontEnd
                 app.UseHsts();
             }
             
-            var defaultDateCulture = "-FR";
+            /*var defaultDateCulture = "-FR";
             var ci = new CultureInfo(defaultDateCulture);
             ci.NumberFormat.NumberDecimalSeparator = ".";
             ci.NumberFormat.CurrencyDecimalSeparator = ".";
@@ -186,7 +187,7 @@ namespace LogisticsBooking.FrontEnd
                     ci,
                 }
             });
-            
+            */
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
