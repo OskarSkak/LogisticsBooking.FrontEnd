@@ -18,7 +18,8 @@
           asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
           crossorigin="anonymous"
           integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
     <environment include="Development"></environment>
 </head>
@@ -26,13 +27,13 @@
     <nav class="navbar navbar-expand-md navbar-light border sticky-top bg-light">
         <div class="container">
             <a class="navbar-brand text-primary" asp-page="/content/Overview">
-                <b class="text-dark"> BRAND</b>
+                <b class="text-dark"> LT</b>
             </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4" style="">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar4">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-1"> <a class="nav-link" asp-page="/content/Slottider">Slottider</a> </li>
+                    <li class="nav-item mx-1"> <a class="nav-link" asp-page="/Client/Schedule/ScheduleOverview">Slottider</a> </li>
                     <li class="nav-item "> <a asp-page="/Client/Bookings/BookingOverview" class="nav-link">Ordre Oversigt</a> </li>
                     <li class="nav-item "> <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="nav-link">Administrer Ordre</a> </li>
                     <li class="nav-item"> <a asp-page="/Client/Transporters/Transporters" class="nav-link">Transportører</a> </li>

@@ -31,12 +31,14 @@
                     <div class="form-group"> <label for="form18">Slut læsning</label> <input asp-for="Booking.endLoading" type="time" class="form-control" id="form18" name="ViewEnd"> </div>
                     <input asp-for="Booking.endLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.internalId">
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" value="Opdater"/>
-                    <a asp-page="./BookingDelete" asp-route-id="@Model.Booking.internalId" class="btn btn-primary">Slet</a>
+                    <a class="trigger_popup_fricc btn btn-primary">Slet</a>
                 </form>
+                
             </div>
         </div>
     </div>
 </div>
+
 
 
 <div id="wrapper">
@@ -51,18 +53,71 @@
             <div class="col-md-12">
                 <div class="list-group" style="">
                     @if(@Model.Booking.Orders != null){
-                    foreach (var order in @Model.Booking.Orders)
-                    {
-                        <a asp-page="./OrderSingle" asp-route-id="@order.id" class="list-group-item list-group-item-action display-spacebetween">
-                            <div>OrdNr: @order.orderNumber</div>
-                            <div>Id: @order.ExternalId</div>
-                            <div>@order.InOut</div>
-                            <div>Paller: @order.TotalPallets</div>
-                        </a>
-                    }
+                        foreach (var order in @Model.Booking.Orders)
+                        {
+                            <a asp-page="./OrderSingle" asp-route-id="@order.id" class="list-group-item list-group-item-action display-spacebetween">
+                                <div>OrdNr: @order.orderNumber</div>
+                                <div>Id: @order.ExternalId</div>
+                                <div>@order.InOut</div>
+                                <div>Paller: @order.TotalPallets</div>
+                            </a>
+                        }
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+<div class="hover_bkgr_fricc centered">
+    <span class="helper"></span>
+
+    <div>
+        <div class="popupCloseButton">X</div>
+        <form asp-page-handler="delete" method="post">
+            <p class="spaced-typography">Du er ved at slette denne bookning. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+            <button class="btn btn-primary">Bekræft</button>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+
+    <script>
+        $(function () {
+            $("#example").DataTable();
+        });
+
+    </script>
+
+    <script>
+        $(window).load(function () {
+            $(".trigger_popup_fricc").click(function () {
+                $('.hover_bkgr_fricc').show();
+            });
+            $('.hover_bkgr_fricc').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+            $('.popupCloseButton').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var options = {
+                inlineCss: false
+            };
+            $("a.six").on("click", function (e) {
+                e.preventDefault();
+                $(this).simplePopup(options);
+            });
+        });
+    </script>
+}
+

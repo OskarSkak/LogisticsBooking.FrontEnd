@@ -59,6 +59,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
             return new RedirectToPageResult("./Transporters");
         }
+        
+        public async Task<IActionResult> OnPostDelete(string id)
+        {
+            var transporter = await dataService.GetTransporterByName(id);
+            
+            var result = await dataService.DeleteTransporter(transporter.ID);
+            
+            return new RedirectToPageResult("./Transporters");
+        }
 
     }
 }

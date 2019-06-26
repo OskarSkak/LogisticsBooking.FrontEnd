@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -19,6 +20,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Exceptionless;
+using Microsoft.AspNetCore.Localization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace LogisticsBooking.FrontEnd
 {
@@ -44,7 +48,7 @@ namespace LogisticsBooking.FrontEnd
         public void ConfigureServices(IServiceCollection services)
         {
 
-               
+            
             services.Configure<BackendServerUrlConfiguration>(
                 _config.GetSection(nameof(BackendServerUrlConfiguration)));
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
@@ -59,7 +63,14 @@ namespace LogisticsBooking.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             
-            
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+           
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
 
             
             
@@ -73,7 +84,18 @@ namespace LogisticsBooking.FrontEnd
             var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
             
-            
+            services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Management.API Auth", new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "application",
+                    Description = "This API uses the Management.API login Oauth2 Client Credentials flow",
+                    TokenUrl = "https://qa-auth-management-identity.azurewebsite.net/connect/token",
+                    Scopes = new Dictionary<string, string> { { "scope.fullacces", "Acces to all api-endpoints" } }
+                });
+                c.SwaggerDoc("v1", new Info { Title = "Management Backend", Version = "v1", Description = "Management API for use with prior agreement" });
+            });
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -127,6 +149,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUtilBookingDataService, UtilBookingDataService>();
             services.AddTransient<IOrderDataService, OrderDataService>();
+            services.AddTransient<IScheduleDataService, ScheduleDataService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -146,8 +169,25 @@ namespace LogisticsBooking.FrontEnd
                 app.UseHsts();
             }
             
-            
-            
+            /*var defaultDateCulture = "-FR";
+            var ci = new CultureInfo(defaultDateCulture);
+            ci.NumberFormat.NumberDecimalSeparator = ".";
+            ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
+// Configure the Localization middleware
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(ci),
+                SupportedCultures = new List<CultureInfo>
+                {
+                    ci,
+                },
+                SupportedUICultures = new List<CultureInfo>
+                {
+                    ci,
+                }
+            });
+            */
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -155,8 +195,12 @@ namespace LogisticsBooking.FrontEnd
             fordwardedHeaderOptions.KnownNetworks.Clear();
             fordwardedHeaderOptions.KnownProxies.Clear();
 
+             app.UseSwaggerUI(c =>
+                        {
+                            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+                        });
             app.UseForwardedHeaders(fordwardedHeaderOptions);
-
+            app.UseCors("MyPolicy");
             app.UseSession();
             app.UseAuthentication();
             app.UseHttpsRedirection();
@@ -164,6 +208,18 @@ namespace LogisticsBooking.FrontEnd
             app.UseCookiePolicy();
             
             app.UseMvc();
+            
+            //Logging of exception
+            app.UseExceptionless("2jiqmnyqSQvOgjxTyi2bXN6G8xSPm24hwByMK3Vy");
+            
+            /*
+             * Above only logs unhandled exceptions. Exceptions handled must be logged manually in the following way:
+             * try {
+                throw new ApplicationException(Guid.NewGuid().ToString());
+               } catch (Exception ex) {
+                ex.ToExceptionless().Submit();
+               }
+             */
         }
     }
 }

@@ -3,7 +3,7 @@
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 
 @{
-    ViewData["Title"] = "Home page";
+    
 }
 
 <style>
@@ -23,9 +23,13 @@
 
 <body onload="toggle('orderItem')">
 <br/>
-<div>
-    <button onclick="toggle('orderItem')" class="btn btn-primary">Gem/Vis Alle</button>
-</div>
+
+<button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
+
+<form asp-page-handler="ExportExcel" method="post">
+    <button class="btn fas fa-file-download" > Export</button>
+</form>
+
 <hr/>
 <table id="example" class="display" style="width: 100%">
     <thead>
@@ -119,7 +123,7 @@
             </td>
             <form method="post">
                 <td>
-                    <input type="time" asp-format="{0:HH:mm}" asp-for="@booking.actualArrival" name="actualArrival"/>
+                    <input type="time" asp-for="@booking.actualArrival" name="actualArrival"/>
                     
                     <div  class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold; ">Ind/Ud</div>
@@ -131,18 +135,26 @@
                 </td>
                 <td>
                     <div>
-                        <input type="time" asp-format="{0:HH:mm}" asp-for="@booking.startLoading" name="startLoading"/>
+                        <input type="time" asp-for="@booking.startLoading" name="startLoading"/>
                     </div>
                     <div  class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
-                            <div style="opacity: 0">@order.InOut</div>
+                            <div class="trigger_popup_fricc btn far fa-comment-alt "></div><br/>
+                            <div class="hover_bkgr_fricc centered">
+                                <span class="helper"></span>
+
+                                <div>
+                                    <div class="popupCloseButton">X</div>
+                                    <p class="spaced-typography">Følgende kommentar er tilknyttet denne ordre: </p> @order.Comment
+                                </div>
+                            </div>
                         }
                     </div>
                 </td>
                 <td>
-                    <input type="time" asp-format="{0:HH:mm}" asp-for="@booking.endLoading" name="endLoading"/>
+                    <input type="time" asp-for="@booking.endLoading" name="endLoading"/>
                     <div class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold; opacity: 0">Ind/Ud</div>
                         @foreach (var order in @booking.Orders)
@@ -178,20 +190,44 @@
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <script type="text/javascript" crossorigin="anonymous" asp-append-version="true" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
     
+    <script>
+        $(window).load(function () {
+            $(".trigger_popup_fricc").click(function () {
+                $('.hover_bkgr_fricc').show();
+            });
+            $('.hover_bkgr_fricc').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+            $('.popupCloseButton').click(function () {
+                $('.hover_bkgr_fricc').hide();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var options = {
+                inlineCss: false
+            };
+            $("a.six").on("click", function (e) {
+                e.preventDefault();
+                $(this).simplePopup(options);
+            });
+        });
+    </script>
     
     <script>
-
-
         $(function () {
             $("#example").DataTable({
                 "order": [[1, "desc"]], 
                 "columnDefs": [
                     { "orderable": false, "targets": [ 0, 2, 3, 6, 7, 8, 9, 10 ] }
-                ]
+                ], 
+                "pageLength": 1000
             });
         });
 
@@ -218,11 +254,8 @@
             $(x).show();
     }
 
-      function test() {
-        bootbox.alert("This is an alert with a callback!", function(){ 
-            console.log('This was logged in the callback!'); 
-        });
-    };
+    
+        
 
     
     </script>

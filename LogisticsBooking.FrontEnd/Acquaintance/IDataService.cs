@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 
 namespace LogisticsBooking.FrontEnd.Acquaintance
@@ -15,6 +16,16 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Booking> GetBookingById(Guid id);
         Task<Response> UpdateBooking(Booking booking);
         Task<Response> DeleteBooking(Guid id);
+    }
+
+    public interface IScheduleDataService
+    {
+        Task<Response> CreateSchedule(Schedule schedule);
+        Task<List<Schedule>> GetSchedules();
+        Task<Schedule> GetScheduleById(Guid id);
+        Task<Response> UpdateSchedule(Schedule schedule);
+        Task<Response> DeleteSchedule(Guid id);
+        Task<Response> CreateManySchedule(ManySchedules schedule);
     }
 
     public interface IOrderDataService
