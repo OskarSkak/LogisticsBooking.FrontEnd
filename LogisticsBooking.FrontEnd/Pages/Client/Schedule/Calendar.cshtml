@@ -312,10 +312,13 @@ $(".btn").click(function() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
-         console.log(data);
+            console.log("succes")
+            window.location.href='https://localhost:4434/Client/Schedule/ScheduleOverview';
       },
         failure: function(data) {
-         console.log(data);
+            console.log("fail")
+            window.location.href='https://localhost:4434/Client/Schedule/ScheduleOverview';
+            
       }
     });
         

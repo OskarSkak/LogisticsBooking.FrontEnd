@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using LogisticsBooking.FrontEnd.Acquaintance;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 {
@@ -106,8 +108,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             var d = await _scheduleDataService.CreateManySchedule(new ManySchedules {Schedules = schedules});
 
 
-            
-            return new RedirectToPageResult("ScheduleOverview");
+
+            return new ObjectResult(HttpStatusCode.OK);
+
         }
 
         public IActionResult OnPostForward()
