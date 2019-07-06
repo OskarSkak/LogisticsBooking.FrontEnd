@@ -16,6 +16,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Booking> GetBookingById(Guid id);
         Task<Response> UpdateBooking(Booking booking);
         Task<Response> DeleteBooking(Guid id);
+        Task<List<Booking>> GetBookingsInbetweenDates(DateTime from, DateTime to);
     }
 
     public interface IScheduleDataService
