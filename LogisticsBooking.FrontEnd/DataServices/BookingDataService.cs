@@ -37,16 +37,19 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<List<Booking>> GetBookings()
         {
-           
-
             var response = await GetAsync(baseurl);
-
-    
-            
             var result = await TryReadAsync<List<Booking>>(response);
             Console.WriteLine(result);
 
-            return result ;
+            return result;
+        }
+
+        public async Task<List<Booking>> GetBookingsInbetweenDates(DateTime from, DateTime to)
+        {
+            var endpoint = baseurl + from.ToString("MM-dd-yyyy") + "/" + to.ToString("MM-dd-yyyy");
+            var response = await GetAsync(endpoint);
+            var result = await TryReadAsync<List<Booking>>(response);
+            return result;
         }
 
         public async Task<Response> UpdateBooking(Booking booking)
