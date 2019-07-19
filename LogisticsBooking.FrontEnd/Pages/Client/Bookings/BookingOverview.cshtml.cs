@@ -22,6 +22,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     {
         [BindProperty] public int WEEK { get; } = 7;
         [BindProperty] public int MONTH { get; } = 31;
+        [BindProperty] public string NameOfFile { get; set; }
         
         private IBookingDataService bookingDataService;
         [BindProperty] public List<Booking> Bookings { get; set; }
@@ -36,15 +37,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         public async void OnGet(string id)
         {
             var numberOfDays = 0;
-            try
-            {
+            if(id != null) {
                 numberOfDays = Int32.Parse(id);
             }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine(e);
-            }
-            
             NumberOfDays = numberOfDays;
             Bookings = new List<Booking>();
 
@@ -58,19 +53,28 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             foreach (var booking in Bookings)
             {
                 if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
-                if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
+                    if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
 
-                booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-                booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay); 
-                booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
+                    booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
+                    booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
+                    booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
 
-                foreach (var order in booking.Orders)
+                    foreach (var order in booking.Orders)
+                    {
+                        if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
+                        if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
+                        if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
+                    }
+             }
+
+            for (int i = Bookings.Count - 1; i >= 0; i--)
+            {
+                if (Bookings[i].endLoading != default(DateTime))
                 {
-                    if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
-                    if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
-                    if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
+                    Bookings.Remove(Bookings[i]);
                 }
             }
+            
         }
 
         public async Task<IActionResult> OnPostUpdate(DateTime actualArrival, DateTime startLoading, DateTime endLoading, string id)
