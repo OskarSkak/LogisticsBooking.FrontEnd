@@ -1,6 +1,4 @@
 @page
-@using DocumentFormat.OpenXml.InkML
-@using DocumentFormat.OpenXml.Wordprocessing
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.Calendar
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
@@ -304,7 +302,8 @@
 $(".btn").click(function() {
   $.ajax({
         type: "POST" ,
-        url: "https://localhost:4434/Client/Schedule/Calendar" ,
+        
+        url: "https://app.logistictechnologies.eu/Client/Schedule/Calendar" ,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
@@ -314,10 +313,14 @@ $(".btn").click(function() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
-         console.log(data);
+            console.log("succes")
+            
+            window.location.href='https://app.logistictechnologies.eu/Client/Schedule/ScheduleOverview';
       },
         failure: function(data) {
-         console.log(data);
+            console.log("fail")
+            window.location.href='https://app.logistictechnologies.eu/Client/Schedule/ScheduleOverview';
+            
       }
     });
         
