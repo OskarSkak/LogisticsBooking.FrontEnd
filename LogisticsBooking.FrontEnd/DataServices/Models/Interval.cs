@@ -12,6 +12,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public Guid SecondaryBookingId { get; set; }
         public Guid TransporterId { get; set; }
         public int RemainingPallets { get; set; }
-        public Guid IntervalId { get;}
+        public Guid IntervalId { get; set;  }
     }
 }
