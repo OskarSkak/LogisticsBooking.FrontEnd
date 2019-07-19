@@ -34,11 +34,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Booking = BookingUtil.RemoveDates(Booking);
             var a = "";
 
-
-
-            var test = await bookingDataService.GetBookingsInbetweenDates(DateTime.Now.AddYears(-100),
-                DateTime.Now.AddYears(+100));
-            var la = "";
         }
 
         public async Task<IActionResult> OnPostDelete(string id)

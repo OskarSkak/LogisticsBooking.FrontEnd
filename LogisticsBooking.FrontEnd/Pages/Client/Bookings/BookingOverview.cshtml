@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{inBetweenDates=false}/{numberOfDays=0}"
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 
@@ -22,13 +22,18 @@
 </style>
 
 <body onload="toggle('orderItem')">
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
+        <form asp-page-handler="ExportExcel" method="post">
+            <button class="btn fas fa-file-download"> Export</button>
+        </form>
+        <a asp-page="/Client/Bookings/BookingOverview/{true}/{7}" asp-route-value="true" class="btn fas fa-calendar-alt">Ugen</a>
+        <a asp-page="/Client/Bookings/BookingOverview/{inBetweenDates:true}/{numberOfDays:31}"  class="btn fas fa-calendar-alt">Måneden</a>
+    </nav>
+</div>
+
 <br/>
-
-<button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
-
-<form asp-page-handler="ExportExcel" method="post">
-    <button class="btn fas fa-file-download" > Export</button>
-</form>
 
 <hr/>
 <table id="example" class="display" style="width: 100%">
@@ -104,7 +109,7 @@
             <td>
                 @booking.email
                 <div class="orderItem @booking.internalId">
-                    <div class="margin-1em-top" style="font-weight: bold; ">Bundpaller</div>
+                    <div class="margin-1em-top" style="font-weight: bold;">Bundpaller</div>
                     @foreach (var order in @booking.Orders)
                     {
                         <div style="">@order.BottomPallets</div>
@@ -114,7 +119,7 @@
             <td>
                 @booking.port
                 <div class="orderItem @booking.internalId">
-                    <div class="margin-1em-top" style="font-weight: bold; ">Paller i alt</div>
+                    <div class="margin-1em-top" style="font-weight: bold;">Paller i alt</div>
                     @foreach (var order in @booking.Orders)
                     {
                         <div>@order.TotalPallets</div>
@@ -124,9 +129,9 @@
             <form method="post">
                 <td>
                     <input type="time" asp-for="@booking.actualArrival" name="actualArrival"/>
-                    
-                    <div  class="orderItem @booking.internalId">
-                        <div class="margin-1em-top" style="font-weight: bold; ">Ind/Ud</div>
+
+                    <div class="orderItem @booking.internalId">
+                        <div class="margin-1em-top" style="font-weight: bold;">Ind/Ud</div>
                         @foreach (var order in @booking.Orders)
                         {
                             <div>@order.InOut</div>
@@ -137,7 +142,7 @@
                     <div>
                         <input type="time" asp-for="@booking.startLoading" name="startLoading"/>
                     </div>
-                    <div  class="orderItem @booking.internalId">
+                    <div class="orderItem @booking.internalId">
                         <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
                         @foreach (var order in @booking.Orders)
                         {
@@ -167,7 +172,7 @@
                     <button asp-page-handler="Update" asp-route-id="@booking.internalId"> <i class="far fa-edit"></i> </button>
 
                     <div class="orderItem @booking.internalId">
-                        <div class="margin-1em-top"  style="font-weight: bold; opacity: 0;">O</div>
+                        <div class="margin-1em-top" style="font-weight: bold; opacity: 0;">O</div>
                         @foreach (var order in @booking.Orders)
                         {
                             <div style="opacity: 0">@order.InOut</div>
