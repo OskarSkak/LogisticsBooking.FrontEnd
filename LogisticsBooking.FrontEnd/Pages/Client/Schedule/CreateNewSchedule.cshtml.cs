@@ -67,7 +67,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                     {
                         BottomPallets = internalInterval.BottomPallets, 
                         StartTime = internalInterval.StartTime, 
-                        EndTime = internalInterval.EndTime
+                        EndTime = internalInterval.EndTime,
+                        RemainingPallets = internalInterval.BottomPallets,
+                        IntervalId = Guid.NewGuid()
+                        
+                        
+                        
                     };
                     
                     Schedule.Intervals.Add(interval);

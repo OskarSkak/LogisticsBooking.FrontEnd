@@ -11,7 +11,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 {
     public interface IBookingDataService
     {
-        Task<Response> CreateBooking(Booking _booking);
+        Task<Response> CreateBooking(CreateBooking booking);
         Task<List<Booking>> GetBookings();
         Task<Booking> GetBookingById(Guid id);
         Task<Response> UpdateBooking(Booking booking);
@@ -27,6 +27,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> UpdateSchedule(Schedule schedule);
         Task<Response> DeleteSchedule(Guid id);
         Task<Response> CreateManySchedule(ManySchedules schedule);
+        Task<Schedule> GetScheduleBydate(DateTime date);
     }
 
     public interface IOrderDataService
