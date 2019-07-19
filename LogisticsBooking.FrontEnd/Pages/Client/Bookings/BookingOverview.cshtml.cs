@@ -14,11 +14,15 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
     public class BookingOverviewModel : PageModel
     {
+        [BindProperty] public int WEEK { get; } = 7;
+        [BindProperty] public int MONTH { get; } = 31;
+        
         private IBookingDataService bookingDataService;
         [BindProperty] public List<Booking> Bookings { get; set; }
         public bool InBetweenDates { get; set; }
@@ -29,13 +33,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             bookingDataService = _bookingDataService;
         }
 
-        public async void OnGet(bool inBetweenDates, int numberOfDays)
+        public async void OnGet(string id)
         {
-            InBetweenDates = inBetweenDates;
+            var numberOfDays = 0;
+            try
+            {
+                numberOfDays = Int32.Parse(id);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+            
             NumberOfDays = numberOfDays;
             Bookings = new List<Booking>();
 
-            if (InBetweenDates)
+            if (numberOfDays != 0)
             { 
                 Bookings = bookingDataService.GetBookingsInbetweenDates(DateTime.Now.AddDays(- NumberOfDays),
                     DateTime.Now).Result;

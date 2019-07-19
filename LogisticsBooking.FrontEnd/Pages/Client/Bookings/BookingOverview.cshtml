@@ -1,4 +1,4 @@
-﻿@page "{inBetweenDates=false}/{numberOfDays=0}"
+﻿@page "{id?}"
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 
@@ -28,8 +28,8 @@
         <form asp-page-handler="ExportExcel" method="post">
             <button class="btn fas fa-file-download"> Export</button>
         </form>
-        <a asp-page="/Client/Bookings/BookingOverview/{true}/{7}" asp-route-value="true" class="btn fas fa-calendar-alt">Ugen</a>
-        <a asp-page="/Client/Bookings/BookingOverview/{inBetweenDates:true}/{numberOfDays:31}"  class="btn fas fa-calendar-alt">Måneden</a>
+        <a asp-page="/Client/Bookings/BookingOverview" asp-route-id="7" class="btn fas fa-calendar-alt">Ugen</a>
+        <a asp-page="/Client/Bookings/BookingOverview" asp-route-id="31" class="btn fas fa-calendar-alt">Måneden</a>
     </nav>
 </div>
 
