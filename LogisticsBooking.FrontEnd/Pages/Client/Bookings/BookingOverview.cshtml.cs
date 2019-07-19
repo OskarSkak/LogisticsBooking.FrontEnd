@@ -21,21 +21,36 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     {
         private IBookingDataService bookingDataService;
         [BindProperty] public List<Booking> Bookings { get; set; }
+        public bool InBetweenDates { get; set; }
+        public int NumberOfDays { get; set; }
         
         public BookingOverviewModel(IBookingDataService _bookingDataService)
         {
             bookingDataService = _bookingDataService;
-            Bookings = new List<Booking>(); 
-            Bookings = bookingDataService.GetBookings().Result;
+        }
+
+        public async void OnGet(bool inBetweenDates, int numberOfDays)
+        {
+            InBetweenDates = inBetweenDates;
+            NumberOfDays = numberOfDays;
+            Bookings = new List<Booking>();
+
+            if (InBetweenDates)
+            { 
+                Bookings = bookingDataService.GetBookingsInbetweenDates(DateTime.Now.AddDays(- NumberOfDays),
+                    DateTime.Now).Result;
+            }
+            else{Bookings = bookingDataService.GetBookings().Result;}
+    
             foreach (var booking in Bookings)
             {
                 if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
                 if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
-                
+
                 booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-                booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
+                booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay); 
                 booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
-                
+
                 foreach (var order in booking.Orders)
                 {
                     if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
@@ -45,30 +60,23 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             }
         }
 
-        
-        
-        public void OnGet(){}
-
         public async Task<IActionResult> OnPostUpdate(DateTime actualArrival, DateTime startLoading, DateTime endLoading, string id)
         {
             var idConverted = Guid.Parse(id);
-
             var bookingToUpdate =  await bookingDataService.GetBookingById(idConverted);
+            
             bookingToUpdate.actualArrival = actualArrival;
             bookingToUpdate.startLoading = startLoading;
             bookingToUpdate.endLoading = endLoading;
 
             var response = await bookingDataService.UpdateBooking(bookingToUpdate);
-
             if (!response.IsSuccesfull) return new RedirectToPageResult("~Error");
             
             return new RedirectToPageResult("./BookingOverview");
         }
 
-
         public ActionResult OnPostExportExcel()
         {
-            //Generate list of lists
             Bookings = new List<Booking>(); 
             Bookings = bookingDataService.GetBookings().Result;
 
@@ -121,20 +129,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                     cellY++;
                     cellX = 1;
                 }
-                
-                
             }
-
+            //Fixed column width - comes out messy if not fixed
             worksheet.ColumnWidth = 20;
-            
             workbook.SaveAs(spreadsheetStream);
             spreadsheetStream.Position = 0;
             var fileName = "Ordre_FRA_" + fromDateString + "_TIL_" + endDate;
             
             return new FileStreamResult(spreadsheetStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") { FileDownloadName = fileName + ".xlsx" };
-
         }
-        
     }
-
 }
