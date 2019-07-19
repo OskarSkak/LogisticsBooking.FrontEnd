@@ -21,7 +21,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     {
         private IBookingDataService bookingDataService;
         [BindProperty] public Booking Booking { get; set; }
-
+        [BindProperty] public int ArrivalMinute { get; set; }
+        [BindProperty] public int ArrivalHour { get; set; }
+        
         public BookingSingleModel(IBookingDataService _bookingDataService)
         {
             bookingDataService = _bookingDataService;
@@ -32,8 +34,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Booking = new Booking();
             Booking = await bookingDataService.GetBookingById(Guid.Parse(id));
             Booking = BookingUtil.RemoveDates(Booking);
-            var a = "";
-
+            ArrivalHour = Booking.actualArrival.Hour;
+            ArrivalMinute = Booking.actualArrival.Minute;
         }
 
         public async Task<IActionResult> OnPostDelete(string id)
@@ -46,7 +48,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         }
 
         public async Task<IActionResult> OnPostUpdate(DateTime ViewBookTime,
-            int ViewPallets, int ViewPort, DateTime ViewActual, 
+            int ViewPallets, int ViewPort, int ActualArrivalHour,
+            int ActualArrivalMinute,
             DateTime ViewStart, DateTime ViewEnd, Guid ViewBookingId)
         {
             
@@ -55,7 +58,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 bookingTime = ViewBookTime, 
                 totalPallets = ViewPallets, 
                 port = ViewPort, 
-                actualArrival = ViewActual, 
+                actualArrival = GeneralUtil.TimeFromHourAndMinute(ActualArrivalHour, ActualArrivalMinute), 
                 startLoading = ViewStart, 
                 endLoading = ViewEnd, 
                 internalId = ViewBookingId
