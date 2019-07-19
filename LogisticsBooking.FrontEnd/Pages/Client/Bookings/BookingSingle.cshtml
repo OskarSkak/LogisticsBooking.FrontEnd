@@ -26,7 +26,10 @@
                     <div class="form-group"> <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.bookingTime" class="form-control" id="form18" name="ViewBookTime"> </div>
                     <div class="form-group"> <label for="form18">Antal paller</label> <input asp-for="Booking.totalPallets" class="form-control" id="form18" name="ViewPallets"> </div>
                     <div class="form-group"> <label for="form18">Port</label> <input asp-for="Booking.port" class="form-control" id="form18" name="ViewPort"> </div>
-                    <div class="form-group"> <label for="form18">Faktisk ankomst</label> <input asp-for="Booking.actualArrival" type="time" class="form-control" id="form18" name="ViewActual"> </div>
+                    <div class="form-group"> <label for="form18">Faktisk ankomst</label> 
+                        <input type="number" asp-for="@Model.ArrivalHour" name="ActualArrivalHour" style="width: 2.5em" max="23" min="0" required /> 
+                        : <input type="number" asp-for="@Model.ArrivalHour" name="ActualArrivalMinute" style="width: 2.5em" max="59" min="0" required />
+                    </div>
                     <div class="form-group"> <label for="form18">Start læsning</label> <input asp-for="Booking.startLoading" type="time" class="form-control" id="form18" name="ViewStart"> </div>
                     <div class="form-group"> <label for="form18">Slut læsning</label> <input asp-for="Booking.endLoading" type="time" class="form-control" id="form18" name="ViewEnd"> </div>
                     <input asp-for="Booking.endLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.internalId">
