@@ -24,6 +24,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         [BindProperty] public int ArrivalMinute { get; set; }
         [BindProperty] public int ArrivalHour { get; set; }
         
+        [BindProperty] public int StartMinute { get; set; }
+        [BindProperty] public int StartHour { get; set; }
+        
+        [BindProperty] public int EndMinute { get; set; }
+        [BindProperty] public int EndHour { get; set; }
+        
         public BookingSingleModel(IBookingDataService _bookingDataService)
         {
             bookingDataService = _bookingDataService;
@@ -36,6 +42,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Booking = BookingUtil.RemoveDates(Booking);
             ArrivalHour = Booking.actualArrival.Hour;
             ArrivalMinute = Booking.actualArrival.Minute;
+
+            StartMinute = Booking.startLoading.Minute;
+            EndMinute = Booking.endLoading.Minute;
+            StartHour = Booking.startLoading.Hour;
+            EndHour = Booking.endLoading.Hour;
         }
 
         public async Task<IActionResult> OnPostDelete(string id)
@@ -49,8 +60,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         public async Task<IActionResult> OnPostUpdate(DateTime ViewBookTime,
             int ViewPallets, int ViewPort, int ActualArrivalHour,
-            int ActualArrivalMinute,
-            DateTime ViewStart, DateTime ViewEnd, Guid ViewBookingId)
+            int ActualArrivalMinute, int startHour, int startMinute,
+            int endHour, int endMinute, Guid ViewBookingId)
         {
             
             var booking = new Booking
@@ -59,8 +70,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 totalPallets = ViewPallets, 
                 port = ViewPort, 
                 actualArrival = GeneralUtil.TimeFromHourAndMinute(ActualArrivalHour, ActualArrivalMinute), 
-                startLoading = ViewStart, 
-                endLoading = ViewEnd, 
+                startLoading = GeneralUtil.TimeFromHourAndMinute(startHour, startMinute), 
+                endLoading = GeneralUtil.TimeFromHourAndMinute(endHour, endMinute), 
                 internalId = ViewBookingId
             };
 
