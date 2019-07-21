@@ -75,7 +75,7 @@
                     @if(Model.Booking.Orders != null){
                         foreach (var order in @Model.Booking.Orders)
                         {
-                            <a asp-page="Transporter/Booking/ReservedOrderSingle" asp-route-id="@order.id" class="list-group-item list-group-item-action display-spacebetween">
+                            <a asp-page="./Booking/ReservedOrderSingle" asp-route-id="@order.id" class="list-group-item list-group-item-action display-spacebetween">
                                 <div>Bundpaller: @order.BottomPallets</div>
                                 <div>Id: @order.ExternalId</div>
                                 <div>Leverandør: @order.SupplierName</div>

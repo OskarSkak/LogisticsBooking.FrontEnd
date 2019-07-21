@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
+namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class ReservedOrderSingleModel : PageModel
     {
@@ -52,14 +52,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             if (!result.IsSuccesfull) return new RedirectToPageResult("Error");
             
-            return new RedirectToPageResult("BookingOverviewAdmin");
+            return new RedirectToPageResult("../ReservedBookings");
         }
 
         public async Task<IActionResult> OnPostDelete(string id)
         {
             var result = await _orderDataService.DeleteOrder(Guid.Parse(id));
 
-            return new RedirectToPageResult("BookingOverviewAdmin");
+            return new RedirectToPageResult("Transporter/ReservedBookings");
         }
         
 
