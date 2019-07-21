@@ -95,5 +95,13 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return new Response(false);
         
         }
+
+        public async Task<Schedule> GetScheduleBydate(DateTime date)
+        {
+            baseurl = baseurl + "date?date=" + date.ToString("yyyy-MM-dd");
+            var response = await GetAsync(baseurl);
+
+            return await TryReadAsync<Schedule>(response);
+        }
     }
 }
