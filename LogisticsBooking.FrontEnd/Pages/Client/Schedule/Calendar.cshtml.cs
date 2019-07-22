@@ -43,13 +43,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
 
             var test = HttpContext.Session.GetObject<DataServices.Models.Schedule>("v");
-            var guid = HttpContext.Session.GetObject<Guid>("scheduleId");
+            var Schedule = HttpContext.Session.GetObject<DataServices.Models.Schedule>("scheduleId");
             
             
             var Subjectid = "";
-            var res = await _scheduleDataService.GetScheduleById(guid);
+            
            
-            HttpContext.Session.SetObject("v" , res);
+            HttpContext.Session.SetObject("v" , Schedule);
             
             Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
