@@ -59,51 +59,43 @@
 </div>  
 <div class="py-5" style="">
     <div class="container">
-        
+        <div class="row">
+            <h2 class="text-center display-center col-md font-weight-bolder">Følgende tider er ledige</h2>
+        </div>
         <div class="row">
             <div class="mx-auto p-4 col-lg-8">
                
-                @foreach (Interval interval in Model.schedule.Intervals)
+                @foreach (Interval interval in Model.Schedule.Intervals)
                 {
-                   
-                    <div class="col-md">
-                        <div class="list-group" style="">
-                            <form method="post" >
-                                <button class="list-group-item list-group-item-action" type="submit"  asp-page-handler="SelectedTime" >                             
-                                    <div class="display-spacebetween">
-                                        <input type="hidden" asp-for="interval.IntervalId" value="@interval.IntervalId"/>
-                                        <input type="hidden" asp-for="schedule.ScheduleId"/>
-                                        <div class="">@interval.StartTime.ToString("t") - @interval.EndTime.ToString("t") </div>
-                                        <div class="">@interval.BottomPallets</div>
-                                    </div>                        
-                                </button>
-                            </form>             
-                           
-                        
+                    if (!interval.IsBooked)
+                     {
+                         <div class="col-md">
+                             <div class="list-group" style="">
+                                 <form method="post">
+                                     <button class="list-group-item list-group-item-action" type="submit" asp-page-handler="SelectedTime">
+                                         <div class="display-spacebetween">
+                                             <input type="hidden" asp-for="Interval.IntervalId" value="@interval.IntervalId"/>
+                                             <input type="hidden" asp-for="Schedule.ScheduleId"/>
 
-                        </div>
-                    </div>
-               
+                                             <div class="">@interval.StartTime.ToString("t") - @interval.EndTime.ToString("t") </div>
+                                             <div class=""> Ledige paller : @interval.RemainingPallets</div>
+
+
+                                         </div>
+                                     </button>
+                                 </form>
+
+
+
+                             </div>
+                         </div>
+                     }
+
                 }
                 
               
             </div>
-            <div class="mx-auto p-4 col-lg-4">
-                <form>
-                    
-                    <h1>Currently Booking</h1>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-auto">
-                                <p>Dato</p>
-                            </div>
-                            <div class="col-lg-auto">
-                                <p>type</p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+         
 
         </div>
     </div>

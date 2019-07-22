@@ -43,9 +43,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
-            var result = await ScheduleDataService.CreateSchedule(schedule);
+            //var result = await ScheduleDataService.CreateSchedule(schedule);
 
-            HttpContext.Session.SetObject("scheduleId", schedule.ScheduleId);
+            HttpContext.Session.SetObject("scheduleId", schedule);
             
             return new RedirectToPageResult("Calendar");
         }
