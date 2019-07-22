@@ -17,23 +17,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public List<InternalInterval> Intervals { get; set; }
         
         private IScheduleDataService ScheduleDataService { get;}
+        private readonly string DAY = "DAY";
+        private readonly string NIGHT = "NIGHT";
+        
+        [BindProperty] public bool IsDay { get; set; }
 
-        [BindProperty] public bool IsDay { get; set; } = true;
 
-
-        public void OnGet()
+        public void OnGet(string id)
         {
             Intervals = PopulateList(Intervals);
-            foreach (var VARIABLE in Intervals)
-            {
-                
-            }
-            var la = "";
+            if (id.Equals(DAY)) IsDay = true;
+            if (id.Equals(NIGHT)) IsDay = false;
         }
 
         public void OnPost()
         {
-            var la = "";
         }
         
         public CreateNewSchedule(IScheduleDataService scheduleDataService)
@@ -50,7 +48,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             HttpContext.Session.SetObject("scheduleId", schedule.ScheduleId);
             
             return new RedirectToPageResult("Calendar");
-            return Page();
         }
 
         private DataServices.Models.Schedule CreateScheduleFromInternalIntervals(List<InternalInterval> intervals)
@@ -69,10 +66,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                         StartTime = internalInterval.StartTime, 
                         EndTime = internalInterval.EndTime,
                         RemainingPallets = internalInterval.BottomPallets,
-                        IntervalId = Guid.NewGuid()
-                        
-                        
-                        
+                        IntervalId = Guid.NewGuid() 
                     };
                     
                     Schedule.Intervals.Add(interval);
