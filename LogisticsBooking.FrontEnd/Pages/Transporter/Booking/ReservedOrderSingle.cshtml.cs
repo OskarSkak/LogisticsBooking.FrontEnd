@@ -61,9 +61,5 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             return new RedirectToPageResult("Transporter/ReservedBookings");
         }
-        
-
-       
-        
     }
 }

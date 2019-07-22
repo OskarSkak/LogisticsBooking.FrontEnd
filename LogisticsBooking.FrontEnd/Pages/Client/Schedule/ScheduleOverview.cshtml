@@ -52,8 +52,8 @@
                             <p>Her kan nye planer oprettes. Planer kan oprettes ud fra eksisterende, eller som helt nye. Det skal specificeres om det er en dags vagt eller natte vagt</p>
                             <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende [DAG: 07-15]</a></li>
                             <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende [NAT: 22-06]</a></li>
-                            <li class="mb-1"><a asp-page="./CreateNewSchedule">Opret ny [DAG: 07-15]</a></li>
-                            <li class="mb-1"><a asp-page="./CreateNewSchedule">Opret fra ny [NAT: 22-06]</a></li>
+                            <li class="mb-1"><a asp-page="./CreateNewSchedule" asp-route-id="DAY">Opret ny [DAG: 07-15]</a></li>
+                            <li class="mb-1"><a asp-page="./CreateNewSchedule" asp-route-id="NIGHT">Opret fra ny [NAT: 22-06]</a></li>
                         </ul>
                         <p>Bemærk - Tider i en plan behøves ikke begrænses til ovenstående tider, de kan konfigureres under skabelsen af en plan</p>
                     </div>
