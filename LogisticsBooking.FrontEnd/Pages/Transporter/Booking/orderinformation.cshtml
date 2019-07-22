@@ -84,8 +84,6 @@
                     <div class="form-group "><label class="paddingleftbookingform">Kommentar til ordren</label><textarea  asp-for="OrderViewModel.Comment" class="form-control"></textarea></div>
                     <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select asp-for="OrderViewModel.InOut"> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div>
 
-                  
-                    <span asp-validation-for="OrderViewModel.Comment" class="text-danger"></span>
                     <div class="display-center">
                         <button type="submit"  class="btn btn-primary">Tilføj ordre</button>
                        
