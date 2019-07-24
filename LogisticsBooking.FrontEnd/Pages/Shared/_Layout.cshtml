@@ -39,8 +39,18 @@
                     <li class="nav-item"> <a asp-page="/Client/Transporters/Transporters" class="nav-link">Transportører</a> </li>
                     <li class="nav-item"> <a class="nav-link" asp-page="/Client/Suppliers/Suppliers">Kunder</a> </li>
                     <li class="nav-item"> <a asp-page="/content/Settings" class="nav-link">Indstillinger</a> </li>
-                </ul> <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 btn-light">Log Ud</a>
+                </ul> 
+               
             </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown button
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 btn-light">Log Ud</a>
+                </div>
+            </div>
+           
         </div>
     </nav>
 
