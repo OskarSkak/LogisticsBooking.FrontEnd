@@ -13,7 +13,12 @@
                     <div class="form-group"> <label for="form16">Kundenavn</label> <input asp-for="supplier.Name" type="text" class="form-control" id="form16" name="ViewName"> </div>
                     <div class="form-group"> <label for="form17">Kunde Nr</label> <input asp-for="supplier.Telephone" type="number" class="form-control" id="form17" name="ViewTelephone"> </div>
                     <div class="form-group"> <label for="form18">Kontakt</label> <input asp-for="supplier.Email" type="email" class="form-control" id="form18" name="ViewEmail"> </div>
+                 
+                        <div class="form-group"> <label for="form19">Leveringstidspunkt start</label> <input asp-for="supplier.DeliveryStart" type="time" class="form-control" id="form19" name="ViewDeliveryStart"> </div>
+                   
+                    
 
+                    <div class="form-group"> <label for="form20">Leveringstidspunkt Slut</label> <input asp-for="supplier.DeliveryEnd" type="time" class="form-control" id="form20" name="ViewDeliveryEnd"> </div>
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
                     <a class="trigger_popup_fricc btn btn-primary">Slet</a>                </form>
             </div>

@@ -79,8 +79,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             var endpoint = baseurl + id;
             
-            var response = await PutAsync<Supplier>(endpoint, new Supplier(
-                supplier.Email, supplier.Telephone, supplier.Name, supplier.ID));
+            var response = await PutAsync<Supplier>(endpoint, supplier);
             
             if (!response.IsSuccessStatusCode)
             {

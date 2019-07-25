@@ -22,7 +22,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdate(string id, int ViewTelephone, string ViewEmail, string ViewName)
+        public async Task<IActionResult> OnPostUpdate(string id, int ViewTelephone, string ViewEmail, string ViewName , DateTime ViewDeliveryStart , DateTime ViewDeliveryEnd)
         {
             var supplier = await supplierDataService.GetSupplierByName(id);
             var updatedSupplier = new Supplier
@@ -31,6 +31,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
                 Name = ViewName, 
                 Telephone = ViewTelephone
             };
+            updatedSupplier.DeliveryStart = ViewDeliveryStart;
+            updatedSupplier.DeliveryEnd = ViewDeliveryEnd;
 
             var result = await supplierDataService.UpdateSupplier(supplier.ID, updatedSupplier);
 
