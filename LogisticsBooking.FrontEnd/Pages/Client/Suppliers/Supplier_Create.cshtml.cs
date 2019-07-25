@@ -20,13 +20,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
             _dataService = DS;
         }
 
-        public async Task<ActionResult> OnPost(string Name, string Email, int Telephone)
+        public async Task<ActionResult> OnPost(string Name, string Email, int Telephone, DateTime DeliveryStart , DateTime DeliveryEnd)
         {
             var result = await _dataService.CreateSupplier(new DataServices.Models.Supplier
             {
                 Email = Email,
                 Telephone = Telephone,
-                Name = Name
+                Name = Name,
+                DeliveryStart = DeliveryStart,
+                DeliveryEnd = DeliveryEnd
             });
 
             if (!result.IsSuccesfull)
