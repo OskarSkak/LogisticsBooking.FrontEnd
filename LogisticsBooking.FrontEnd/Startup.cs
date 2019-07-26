@@ -112,12 +112,12 @@ namespace LogisticsBooking.FrontEnd
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
                     options.SaveTokens = true;
-
                     options.ResponseType = "code id_token";
                     options.Scope.Add("address");
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("roles");
+                    options.Scope.Add("Username");
                     options.Scope.Add("logisticbookingapi");
                     options.SignInScheme = "Cookies";
                     options.GetClaimsFromUserInfoEndpoint = true;

@@ -10182,7 +10182,7 @@ button.bg-dark:focus {
 }
 
 .text-primary {
-    color: #9E9D9E !important;
+    color: #212629 !important;
 }
 
 a.text-primary:hover, a.text-primary:focus {
@@ -10488,4 +10488,8 @@ END OF - popup css
         white-space: nowrap;
         overflow: hidden;
     }
+}
+
+.margin-right-1 {
+    margin-right: 1rem;
 }
