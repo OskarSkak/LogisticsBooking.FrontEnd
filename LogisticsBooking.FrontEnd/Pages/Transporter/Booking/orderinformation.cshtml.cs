@@ -28,6 +28,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         [BindProperty]
         public List<SelectListItem> Transporters { get; set;}
         
+        public bool IsSupplierAllowed { get; set; }
+        
         public int palletsRemaining { get; set; }
         
         [BindProperty]
@@ -198,6 +200,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             {
                 Transporters.Add(new SelectListItem{ Value = supplier.Name ,Text = supplier.Name});
             }
+        }
+
+        public void CheckIfSupplierChoosenIsAllowed(Guid ui)
+        {
+            
         }
     }
 }

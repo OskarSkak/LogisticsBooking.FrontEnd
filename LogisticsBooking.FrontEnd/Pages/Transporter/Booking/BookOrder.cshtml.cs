@@ -31,19 +31,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public async Task<IActionResult> OnPostAsync(BookingViewModel bookingOrderViewModel)
         {
-            // Get the logged in transporter       
-            var id = "";
-            
-            try
+            var id = GetUserId();
+
+            if (id == null)
             {
-                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine(ex);
                 return Page();
             }
-
             
             var bookingid = new UtilBooking();
              bookingid  = await _utilBookingDataService.GetBookingNumber();
@@ -55,5 +48,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             return new RedirectToPageResult("orderinformation");
         }
+        
+        public string GetUserId() {
+            // Get the logged in transporter       
+            var id = "";
+            
+            try
+            {
+                return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
     }
+    
+   
 }
