@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -20,10 +22,11 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         private string baseurl;
         
-        public async Task<Response> CreateSupplier(Supplier _supplier)
+        public async Task<Response> CreateSupplier(CreateSupplierViewModel _supplier)
         {
-            var response = await PostAsync<Supplier>(baseurl, _supplier);
+            var response = await PostAsync<CreateSupplierViewModel>(baseurl, _supplier);
 
+            
             if (!response.IsSuccessStatusCode)
             {
                 if (response.Content != null)
@@ -52,34 +55,34 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return Response.Succes();
         }
 
-        public async Task<Supplier> GetSupplierById(Guid id)
+        public async Task<SupplierViewModel> GetSupplierById(Guid id)
         {
             var endpoint = baseurl + id;
             var result = await GetAsync(endpoint);
-            return await TryReadAsync<Supplier>(result);
+            return await TryReadAsync<SupplierViewModel>(result);
         }
 
-        public async Task<IEnumerable<Supplier>> ListSuppliers(int page, int pageSize)
+        public async Task<SuppliersListViewModel> ListSuppliers(int page, int pageSize)
         {
             var result = await GetAsync(baseurl);
-            return await TryReadAsync<IEnumerable<Supplier>>(result);
+            return await TryReadAsync<SuppliersListViewModel>(result);
         }
 
-        public async Task<Supplier> GetSupplierByName(string name)
+        public async Task<SupplierViewModel> GetSupplierByName(string name)
         {
             var suppliersEnumerable = await ListSuppliers(0, 0);
-            var suppliersList = (List<Supplier>) suppliersEnumerable;
-            foreach (var item in suppliersList)
+            var suppliersList = suppliersEnumerable;
+            foreach (var item in suppliersList.Suppliers)
                 if (item.Name == name) return item;
 
             return null;
         }
 
-        public async Task<Response> UpdateSupplier(Guid id, Supplier supplier)
+        public async Task<Response> UpdateSupplier(Guid id, SupplierViewModel supplier)
         {
             var endpoint = baseurl + id;
             
-            var response = await PutAsync<Supplier>(endpoint, supplier);
+            var response = await PutAsync<SupplierViewModel>(endpoint, supplier);
             
             if (!response.IsSuccessStatusCode)
             {

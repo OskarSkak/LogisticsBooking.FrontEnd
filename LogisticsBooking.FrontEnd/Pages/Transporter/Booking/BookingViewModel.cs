@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -27,6 +28,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
         public List<OrderViewModel> OrderViewModels { get; set; }
         
-        public IEnumerable<DataServices.Models.Supplier> Suppliers { get; set; }
+        public SuppliersListViewModel Suppliers { get; set; }
     }
 }

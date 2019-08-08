@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,7 +14,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
     {
         private ITransporterDataService dataService;
         [BindProperty]
-        public DataServices.Models.Transporter transporter { get; set; }
+        public TransporterViewModel transporter { get; set; }
 
         [TempData]
         public Guid guid { get; set; }
@@ -27,13 +28,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         {
             var TransporterName = id;
             var Transporters = await dataService.ListTransporters(0, 0);
-            List<DataServices.Models.Transporter> TransporterList = (List<DataServices.Models.Transporter>)Transporters; 
-            foreach(var item in TransporterList)
+             
+            foreach(var item in Transporters.Transporters)
             {
                 if (item.Name == TransporterName)
                 {
                     transporter = item;
-                    guid = item.ID;
+                    guid = item.TransporterId;
                 }    
             }
             return Page();
@@ -42,8 +43,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         public async Task<IActionResult> OnPostUpdate(string id, string ViewName, string ViewEmail, int ViewTelephone, string ViewAddress)
         {
             var Transporters = await dataService.ListTransporters(0, 0);
-            Transporters = (List<DataServices.Models.Transporter>)Transporters;
-            foreach (var item in Transporters)
+            foreach (var item in Transporters.Transporters)
                 if (item.Name == id)
                     transporter = item;
 
@@ -52,7 +52,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             transporter.Telephone = ViewTelephone;
             transporter.Address = ViewAddress;
 
-            var result = await dataService.UpdateTransporter(transporter.ID, transporter);
+            var result = await dataService.UpdateTransporter(transporter.TransporterId, transporter);
 
             if (!result.IsSuccesfull)
                 return new RedirectToPageResult("Error");
@@ -64,7 +64,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         {
             var transporter = await dataService.GetTransporterByName(id);
             
-            var result = await dataService.DeleteTransporter(transporter.ID);
+            var result = await dataService.DeleteTransporter(transporter.TransporterId);
             
             return new RedirectToPageResult("./Transporters");
         }

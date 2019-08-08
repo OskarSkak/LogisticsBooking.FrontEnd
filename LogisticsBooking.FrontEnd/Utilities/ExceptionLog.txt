@@ -471,3 +471,296 @@ Stack Trace:
    at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
    at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
 
+********** 08/03/2019 11:47:57 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/03/2019 11:48:32 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/03/2019 11:48:35 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/03/2019 11:48:40 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/03/2019 12:35:28 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/03/2019 13:24:15 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/03/2019 14:58:37 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/06/2019 11:12:05 **********
+Inner Exception Type: System.IO.IOException
+Inner Exception: The server returned an invalid or unrecognized response.
+Inner Source: System.Net.Http
+Inner Stack Trace: 
+   at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.ReadNextResponseHeaderLineAsync(Boolean foldedHeadersAllowed)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: An error occurred while sending the request.
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithNtConnectionAuthAsync(HttpConnection connection, HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/07/2019 12:51:18 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/07/2019 19:55:34 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/07/2019 19:56:38 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/07/2019 20:15:41 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/08/2019 08:49:20 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 08/08/2019 08:52:37 **********
+Inner Exception Type: System.Net.Sockets.SocketException
+Inner Exception: Connection refused
+Inner Source: System.Private.CoreLib
+Inner Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Connection refused
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
