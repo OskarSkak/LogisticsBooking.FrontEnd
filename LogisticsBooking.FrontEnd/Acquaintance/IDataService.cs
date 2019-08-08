@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 
 namespace LogisticsBooking.FrontEnd.Acquaintance
@@ -41,22 +45,22 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
     public interface ITransporterDataService
     {
-        Task<Response> CreateTransporter(Transporter _transporter);
-        Task<Response> UpdateTransporter(Guid id, Transporter transporter);
-        Task<IEnumerable<Transporter>> ListTransporters(int page, int pageSize);
-        Task<Transporter> GetTransporterById(Guid id);
+        Task<Response> CreateTransporter(TransporterViewModel _transporter);
+        Task<Response> UpdateTransporter(Guid id, TransporterViewModel transporter);
+        Task<TransportersListViewModel> ListTransporters(int page, int pageSize);
+        Task<TransporterViewModel> GetTransporterById(Guid id);
         Task<Response> DeleteTransporter(Guid id);
-        Task<Transporter> GetTransporterByName(string name);
+        Task<TransporterViewModel> GetTransporterByName(string name);
     }
 
     public interface ISupplierDataService
     {
-        Task<Response> CreateSupplier(Supplier _supplier);
-        Task<Response> UpdateSupplier(Guid id, Supplier supplier);
+        Task<Response> CreateSupplier(CreateSupplierViewModel _supplier);
+        Task<Response> UpdateSupplier(Guid id, SupplierViewModel supplier);
         Task<Response> DeleteSupplier(Guid id);
-        Task<Supplier> GetSupplierById(Guid id);
-        Task<IEnumerable<Supplier>> ListSuppliers(int page, int pageSize);
-        Task<Supplier> GetSupplierByName(string name);
+        Task<SupplierViewModel> GetSupplierById(Guid id);
+        Task<SuppliersListViewModel> ListSuppliers(int page, int pageSize);
+        Task<SupplierViewModel> GetSupplierByName(string name);
     }
 
     public interface IUtilBookingDataService

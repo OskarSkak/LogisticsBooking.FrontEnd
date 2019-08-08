@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -67,7 +68,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             BookingViewModel.ExternalId = externalId.bookingid;
             BookingViewModel.Suppliers = await _supplierDataService.ListSuppliers(0, 0);
             
-            CreateSelectedList(BookingViewModel.Suppliers.ToList());
+            CreateSelectedList(BookingViewModel.Suppliers);
             
 
 
@@ -192,11 +193,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             return new RedirectToPageResult("orderinformation");
         }
 
-        public void CreateSelectedList(List<DataServices.Models.Supplier> suppliers) 
+        public void CreateSelectedList(SuppliersListViewModel suppliers) 
         {
             Transporters = new List<SelectListItem>();
 
-            foreach (var supplier in suppliers)
+            foreach (var supplier in suppliers.Suppliers)
             {
                 Transporters.Add(new SelectListItem{ Value = supplier.Name ,Text = supplier.Name});
             }

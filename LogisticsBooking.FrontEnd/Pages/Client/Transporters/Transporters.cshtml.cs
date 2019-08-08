@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,23 +12,23 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
     public class TransportersModel : PageModel
     {
         private ITransporterDataService transporterDataService;
-        [BindProperty] public List<DataServices.Models.Transporter> Transporters { get; set; }
+        [BindProperty] public List<TransporterViewModel> Transporters { get; set; }
 
         public TransportersModel(ITransporterDataService _transporterDataService)
         {
             transporterDataService = _transporterDataService;
-            Transporters = new List<DataServices.Models.Transporter>();
+            Transporters = new List<TransporterViewModel>();
             Transporters = PopulateList(transporterDataService, Transporters).Result;
         }
         public async void OnGet()
         {
         }
 
-        private static async Task<List<DataServices.Models.Transporter>> PopulateList(ITransporterDataService transporterDataService, List<DataServices.Models.Transporter> Transporters)
+        private static async Task<List<TransporterViewModel>> PopulateList(ITransporterDataService transporterDataService, List<TransporterViewModel> Transporters)
         {
             var TransportersEnumerable = await transporterDataService.ListTransporters(0, 0);
-            Transporters = (List<DataServices.Models.Transporter>)TransportersEnumerable;
-            return Transporters;
+            
+            return TransportersEnumerable.Transporters;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using LogisticsBooking.FrontEnd.DataServices.Models; 
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 {
@@ -14,7 +14,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         private ITransporterDataService _dataService {get; set;}
         
         [BindProperty]
-        public DataServices.Models.Transporter transporter { get; set; }
+        public TransporterViewModel transporter { get; set; }
 
         public Transporter_DeleteModel(ITransporterDataService DS)
         {
@@ -31,7 +31,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         {
 
             var tran = await _dataService.GetTransporterByName(id);
-            var result = await _dataService.DeleteTransporter(tran.ID);
+            var result = await _dataService.DeleteTransporter(tran.TransporterId);
             
             if(result.IsSuccesfull) return new RedirectToPageResult("./Transporters");
             
