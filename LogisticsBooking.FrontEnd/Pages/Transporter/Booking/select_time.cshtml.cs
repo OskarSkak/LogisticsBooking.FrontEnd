@@ -70,6 +70,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             Schedule = result;
 
+            
+            
             var sortedList = Schedule.Intervals.OrderBy(x => x.StartTime).ToList();
             Schedule.Intervals = sortedList;
            

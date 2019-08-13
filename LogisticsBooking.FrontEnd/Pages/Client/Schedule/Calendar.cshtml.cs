@@ -29,6 +29,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         [BindProperty] 
         public DateTime date { get; set; }
         
+        public List<DataServices.Models.Schedule> Schedules { get; set; }
         public int currentMonth { get; set; }
         public int CurrentYear { get; set; }
 
@@ -42,6 +43,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public async Task<IActionResult> OnGet()
         {
 
+            Schedules = await _scheduleDataService.GetSchedules();
             var test = HttpContext.Session.GetObject<DataServices.Models.Schedule>("v");
             var Schedule = HttpContext.Session.GetObject<DataServices.Models.Schedule>("scheduleId");
             
@@ -84,14 +86,46 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                     
                 }
             }
+
             
+
             List<DataServices.Models.Schedule> schedules = new List<DataServices.Models.Schedule>();
             foreach (var date in list)
             {
+                List<Interval> intervals = new List<Interval>();
+                foreach (var interval in result.Intervals)
+                {
+                    DateTime starttime, endtime;
+                    
+                    if (CorrectDay(date, interval))
+                    {
+                        starttime = date.AddDays(1).Add(interval.StartTime.TimeOfDay);
+                        endtime = date.AddDays(1).Add(interval.EndTime.TimeOfDay);
+                    }
+                    else
+                    {
+                        starttime = date.AddDays(0).Add(interval.StartTime.TimeOfDay);
+                        endtime = date.AddDays(0).Add(interval.EndTime.TimeOfDay); 
+                    }
+                    
+                    intervals.Add(new Interval
+                    {
+                        BookingId = interval.BookingId,
+                        BottomPallets = interval.BottomPallets,
+                        EndTime = endtime,
+                        IntervalId = Guid.NewGuid(),
+                        IsBooked = interval.IsBooked,
+                        RemainingPallets = interval.RemainingPallets,
+                        StartTime = starttime,
+                        TransporterId = interval.TransporterId,
+                        SecondaryBookingId = interval.SecondaryBookingId
+                    });
+                }
+                
                 var schedule = new DataServices.Models.Schedule
                 {
                     CreatedBy = result.CreatedBy,
-                    Intervals = result.Intervals,
+                    Intervals = intervals,
                     MischellaneousPallets = result.MischellaneousPallets,
                     Name = result.Name,
                     ScheduleDay = date,
@@ -99,11 +133,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                     shift = result.shift
                 };
                 
-                schedules.Add(schedule);
+                    schedules.Add(schedule);
+                
 
             }
-
-            Console.WriteLine(schedules);
 
             var d = await _scheduleDataService.CreateManySchedule(new ManySchedules {Schedules = schedules});
 
@@ -112,6 +145,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             return new ObjectResult(HttpStatusCode.OK);
 
         }
+
+        private bool CorrectDay(DateTime dateTime, Interval interval)
+        {
+            
+            if (1 <= interval.EndTime.Hour && interval.EndTime.Hour < 22)
+            {
+                return true;
+            } 
+            
+            
+
+            return false;
+        }
+        
+        
 
         public IActionResult OnPostForward()
         {
@@ -192,6 +240,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
 
             return new RedirectToPageResult("Calendar");
+        }
+
+        public DataServices.Models.Schedule DateAlreadyHasSchedule(DateTime dateTime, List<DataServices.Models.Schedule> schedules)
+        {
+            foreach (var schedule in schedules)
+            {
+                if (dateTime.Date == dateTime.Date)
+                {
+                    return schedule;
+                }
+            }
+
+            return null;
         }
         
         

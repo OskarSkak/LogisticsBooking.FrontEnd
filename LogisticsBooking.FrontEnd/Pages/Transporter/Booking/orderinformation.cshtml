@@ -219,8 +219,16 @@
                                    <button type="submit" asp-page="./select_time"  class="btn btn-success">Bekræft Booking</button>
                                </div>
                            }
+                       
+                       @if (!Model.BookingViewModel.isBookingAllowed)
+                       {
+                           <span> Denne kombination er ikke mulig da de valgte kunder ikke kan bookes sammen</span>
                            
+                           <span>Opret en ny ordre <a asp-page="bookOrder"> HER</a></span>
                            
+                           <span> Eller fors</span>
+                           
+                       }
                                
                               
                         
