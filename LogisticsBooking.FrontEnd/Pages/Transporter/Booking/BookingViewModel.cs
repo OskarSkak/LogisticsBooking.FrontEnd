@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,5 +30,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public List<OrderViewModel> OrderViewModels { get; set; }
         
         public SuppliersListViewModel Suppliers { get; set; }
+
+        public bool isBookingAllowed { get; set; } = true;
+        
+        public SupplierViewModel SupplierNotAllowed { get; set; }
     }
 }

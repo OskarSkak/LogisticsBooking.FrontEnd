@@ -32,6 +32,12 @@
     
 }
 
+.booked-color {
+    background-color: #00000082;
+    height: 5em;
+
+}
+
 .font-weight-700 {
     font-weight: 700;
 } 

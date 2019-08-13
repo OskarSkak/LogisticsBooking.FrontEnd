@@ -30,4 +30,9 @@
     <_ContentIncludedByDefault Remove="build\LogisticsBooking.FrontEnd.runtimeconfig.json" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="DataServices\Models\Booking\BookingValidation" />
+  </ItemGroup>
+
 </Project>
