@@ -108,169 +108,201 @@
             }
             @Html.AntiForgeryToken();
         </div>
+        
         <div class="row">
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @{
-                            var date = Model.DateAlreadyHasSchedule(Model.date.AddDays(totaldays), Model.Schedules);
-                        }
-                        @if (date == null)
+                    @for (int i = 0; i <= 6; i++)
+                    {
+                        if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
                         {
-                            
-                        
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
-                        {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                            <div id="test" class="col-lg max-em mt-2 border-days test ">
+                                <div class="text-center color-top">
+                                    <span class="font-weight-700">22-07-19</span>
+                                </div>
                                 @{
-                                    totaldays = totaldays + 1;
+                                    var date = Model.DateAlreadyHasSchedule(Model.date.AddDays(totaldays), Model.Schedules);
                                 }
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
+                                @if (date == null)
+                                {
+                                    
+                                
+                                @if (DateTime.Today > Model.date.AddDays(totaldays))
+                                {
+                                    <div class="content-color before-current-date " data-value="hej">
+                                        <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                        @{
+                                            totaldays = totaldays + 1;
+                                        }
+                                    </div>
                                 }
-
-
-                            </div>
-                        }
-                        }
-                        else
-                        {
-                            @if (DateTime.Today > Model.date.AddDays(totaldays))
-                             {
-                                 <div class="content-color before-current-date " data-value="hej">
-                                     <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                     @{
-                                         totaldays = totaldays + 1;
+                                else
+                                {
+                                    <div class="content-color test" data-value="hej">
+                                        <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                        @{
+                                            totaldays = totaldays + 1;
+                                        }
+        
+        
+                                    </div>
+                                }
+                                }
+                                else
+                                {
+                                    @if (DateTime.Today > Model.date.AddDays(totaldays))
+                                     {
+                                         <div class="content-color before-current-date " data-value="hej">
+                                             <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                             @{
+                                                 totaldays = totaldays + 1;
+                                             }
+                                         </div>
                                      }
-                                 </div>
-                             }
-                             else
-                             {
-                                 <div class="booked-color test" data-value="hej">
-                                     <!-- Button trigger modal -->
-                                     
-                                     <div class="modal fade" id="c_@totaldays" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                         <div class="modal-dialog" role="document">
-                                             <div class="modal-content">
-                                                 <div class="modal-header">
-                                                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                         <span aria-hidden="true">&times;</span>
-                                                     </button>
-                                                 </div>
-                                                 <div class="modal-body">
-                                                     @Model.Schedules.FirstOrDefault().Name 
-                                                     @foreach(Interval interval in Model.Schedules.FirstOrDefault().Intervals )
-                                                     {
-                                                         <span>@interval.StartTime - </span>  <span>@interval.EndTime</span>
-                                                     }
-                                                 </div>
-                                                 <div class="modal-footer">
-                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                     <button type="button" class="btn btn-primary">Save changes</button>
+                                     else
+                                     {
+                                         <div class="booked-color test" data-value="hej">
+                                             <!-- Button trigger modal -->
+                                             
+                                             <div class="modal fade" id="c_@totaldays" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                 <div class="modal-dialog" role="document">
+                                                     <div class="modal-content">
+                                                         <div class="modal-header">
+                                                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                 <span aria-hidden="true">&times;</span>
+                                                             </button>
+                                                         </div>
+                                                         <div class="modal-body">
+                                                             @Model.Schedules.FirstOrDefault().Name 
+                                                             @foreach(Interval interval in Model.Schedules.FirstOrDefault().Intervals )
+                                                             {
+                                                                 <span>@interval.StartTime - </span>  <span>@interval.EndTime</span>
+                                                             }
+                                                         </div>
+                                                         <div class="modal-footer">
+                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                             <button type="button" class="btn btn-primary">Save changes</button>
+                                                         </div>
+                                                     </div>
                                                  </div>
                                              </div>
+                                             
+                                             
+                                             <button type="button" class="" data-toggle="modal" data-target="#c_@totaldays">
+                                           
+                                         
+                                                 <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                                 @{
+                                                     totaldays = totaldays + 1;
+                                                 }
+                                             </button>
+        
                                          </div>
-                                     </div>
-                                     
-                                     
-                                     <button type="button" class="" data-toggle="modal" data-target="#c_@totaldays">
-                                   
-                                 
-                                         <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                         @{
-                                             totaldays = totaldays + 1;
-                                         }
-                                     </button>
-
-                                 </div>
-                                 
+                                         
+                                        
+                                     }
+                                }
                                 
-                             }
+                            </div>
                         }
-                        
-                    </div>
-                }
-            }
-        </div>
+                    }
+                </div>
         <div class="row">
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
+                    @for (int i = 0; i <= 6; i++)
+                    {
+                        if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
                         {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                            <div id="test" class="col-lg max-em mt-2 border-days test ">
+                                <div class="text-center color-top">
+                                    <span class="font-weight-700">22-07-19</span>
+                                </div>
                                 @{
-                                    totaldays = totaldays + 1;
+                                    var date = Model.DateAlreadyHasSchedule(Model.date.AddDays(totaldays), Model.Schedules);
                                 }
+                                @if (date == null)
+                                {
+                                    
+                                
+                                @if (DateTime.Today > Model.date.AddDays(totaldays))
+                                {
+                                    <div class="content-color before-current-date " data-value="hej">
+                                        <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                        @{
+                                            totaldays = totaldays + 1;
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="content-color test" data-value="hej">
+                                        <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                        @{
+                                            totaldays = totaldays + 1;
+                                        }
+        
+        
+                                    </div>
+                                }
+                                }
+                                else
+                                {
+                                    @if (DateTime.Today > Model.date.AddDays(totaldays))
+                                     {
+                                         <div class="content-color before-current-date " data-value="hej">
+                                             <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                             @{
+                                                 totaldays = totaldays + 1;
+                                             }
+                                         </div>
+                                     }
+                                     else
+                                     {
+                                         <div class="booked-color test" data-value="hej">
+                                             <!-- Button trigger modal -->
+                                             
+                                             <div class="modal fade" id="c_@totaldays" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                 <div class="modal-dialog" role="document">
+                                                     <div class="modal-content">
+                                                         <div class="modal-header">
+                                                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                 <span aria-hidden="true">&times;</span>
+                                                             </button>
+                                                         </div>
+                                                         <div class="modal-body">
+                                                             @Model.Schedules.FirstOrDefault().Name 
+                                                             @foreach(Interval interval in Model.Schedules.FirstOrDefault().Intervals )
+                                                             {
+                                                                 <span>@interval.StartTime - </span>  <span>@interval.EndTime</span>
+                                                             }
+                                                         </div>
+                                                         <div class="modal-footer">
+                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                             <button type="button" class="btn btn-primary">Save changes</button>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             
+                                             
+                                             <button type="button" class="" data-toggle="modal" data-target="#c_@totaldays">
+                                           
+                                         
+                                                 <span >@Model.date.AddDays(totaldays).ToString("D")</span>
+                                                 @{
+                                                     totaldays = totaldays + 1;
+                                                 }
+                                             </button>
+        
+                                         </div>
+                                         
+                                        
+                                     }
+                                }
+                                
                             </div>
                         }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-
-
-                            </div>
-                        }
-                    </div>
-                }
-            }
-        </div>
-        <div class="row">
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
-                        {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-
-
-                            </div>
-                        }
-                    </div>
-                }
-            }
-        </div>
+                    }
+                </div>
             <div class="row">
                 @for (int i = 0; i <= 6; i++)
                 {
