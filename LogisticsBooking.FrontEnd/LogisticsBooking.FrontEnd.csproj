@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="DataServices\Models\Booking\BookingValidation" />
+    <Folder Include="Styles" />
   </ItemGroup>
 
 </Project>

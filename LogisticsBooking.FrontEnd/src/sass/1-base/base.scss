@@ -1,0 +1,18 @@
+
+
+$body-bg: #f9fbaf;
+
+    
+$secondary-color: #dadada;
+
+
+nav {
+  background-color: $secondary-color;
+}
+
+a {
+  
+  &:hover {
+    text-decoration: none;
+  }
+}
