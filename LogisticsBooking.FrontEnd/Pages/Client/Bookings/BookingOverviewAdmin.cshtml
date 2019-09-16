@@ -9,8 +9,8 @@
 
 <style>
     .no-padding-marging {
-        margin: !important 0;
-        padding: !important 0;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 </style>
 
@@ -23,12 +23,12 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var booking in @Model.Bookings)
+            @foreach (var booking in @Model.BookingsListViewModel.Bookings)
             {
             <tr class="no-padding-marging">
                 <td>
                     <div class="list-group" style="">
-                        <a asp-page="./BookingSingle" asp-route-id="@booking.internalId" class="list-group-item list-group-item-action display-spacebetween">
+                        <a asp-page="./BookingSingle" asp-route-id="@booking.internalId" class="list-group-item d-flex justify-content-between ">
                             <div>@booking.bookingTime</div>
                             <div>@booking.ExternalId</div>
                             <div>@booking.transporterName</div>

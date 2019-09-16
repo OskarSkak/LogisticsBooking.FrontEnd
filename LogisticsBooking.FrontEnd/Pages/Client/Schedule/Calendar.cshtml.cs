@@ -4,9 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
@@ -21,20 +22,24 @@ using Newtonsoft.Json;
 namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 {
 
-    public class person
-    {
-        public string Name { get; set; }
-    }
+
 
     public class Calendar : PageModel
     {
         private readonly IScheduleDataService _scheduleDataService;
 
-        [BindProperty] public DateTime date { get; set; }
+
+        
 
         public SchedulesListViewModel SchedulesListViewModel { get; set; }
-        public int currentMonth { get; set; }
-        public int CurrentYear { get; set; }
+
+
+        [TempData]
+        public String Message { get; set; }
+
+        public DateChosen DateChosen { get; set; }
+
+        public CalenderViewModel CalenderViewModel { get; set; }
 
 
        
@@ -43,7 +48,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
         public Calendar(IScheduleDataService scheduleDataService)
         {
-           
+            _scheduleDataService = scheduleDataService;
         }
       
         public async Task<IActionResult> OnGet()
@@ -60,7 +65,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 calender = new CalenderViewModel();
             }
 
+            var dates =  HttpContext.Session.GetObject<DateChosen>("datechosen");
+
+            if (dates == null)
+            {
+                dates = new DateChosen();
+                dates.CosenDays = new List<DateTime>();
+            }
+
+            DateChosen = dates;
+            
+            
             CalenderViewModel = calender;
+
+            SchedulesListViewModel = await _scheduleDataService.GetSchedules();
 
             return Page();
             /*
@@ -98,11 +116,38 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         }
 
 
-        [ValidateAntiForgeryToken]
-        [EnableCors("MyPolicy")]
-        public async Task<IActionResult> OnPost([FromBody]string[] value)
+        
+        public async Task<IActionResult> OnPostConfirm([FromBody]string[] value)
         {
             
+            var calendar =  HttpContext.Session.GetObject<CalenderViewModel>("key");
+
+            if (calendar == null)
+            {
+                calendar = new CalenderViewModel();
+            }
+            var DateChosen =  HttpContext.Session.GetObject<DateChosen>("datechosen");
+
+            if (DateChosen == null)
+            {
+                DateChosen = AddDatesToList(value , new DateChosen() , calendar);
+            }
+            
+            DateChosen = AddDatesToList(value , DateChosen , calendar);
+
+           
+            DateChosen = CheckSameDates(DateChosen);
+
+            foreach (var VARIABLE in DateChosen.CosenDays)
+            {
+                Console.WriteLine(VARIABLE.ToString("d"));
+            }
+            
+           
+
+            Message = "Planen er nu opretttet korrekt";
+            
+         
             /*
             List<DateTime> list = new List<DateTime>(); 
             var result = HttpContext.Session.GetObject<ScheduleViewModel>("v");
@@ -115,67 +160,74 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                     
                 }
             }
+*/
+            var result = HttpContext.Session.GetObject<ScheduleViewModel>("scheduleId");
 
+            var scheduleID = Guid.NewGuid();
             
-
             SchedulesListViewModel schedules = new SchedulesListViewModel();
-            foreach (var date in list)
+            foreach (var date in DateChosen.CosenDays)
             {
                 List<IntervalViewModel> intervals = new List<IntervalViewModel>();
                 foreach (var interval in result.Intervals)
                 {
-                    DateTime starttime, endtime;
+                   
                     
-                    if (CorrectDay(date, interval))
+                    intervals.Add(new IntervalViewModel
                     {
-                        starttime = date.AddDays(1).Add(interval.StartTime.TimeOfDay);
-                        endtime = date.AddDays(1).Add(interval.EndTime.TimeOfDay);
-                    }
-                    else
-                    {
-                        starttime = date.AddDays(0).Add(interval.StartTime.TimeOfDay);
-                        endtime = date.AddDays(0).Add(interval.EndTime.TimeOfDay); 
-                    }
-                    
-                    intervals.Add(new Interval
-                    {
-                        BookingId = interval.BookingId,
-                        BottomPallets = interval.BottomPallets,
-                        EndTime = endtime,
                         IntervalId = Guid.NewGuid(),
-                        IsBooked = interval.IsBooked,
-                        RemainingPallets = interval.RemainingPallets,
-                        StartTime = starttime,
-                        TransporterId = interval.TransporterId,
-                        SecondaryBookingId = interval.SecondaryBookingId
+                        
+                        BottomPallets = interval.BottomPallets,
+                        EndTime = interval.EndTime,
+                        StartTime = interval.StartTime,
+                        RemainingPallets = interval.BottomPallets,
+                        Bookings = new List<BookingViewModel>(),
+                        IsBooked = false,
+                        ScheduleId = scheduleID
+                        
+                        
                     });
                 }
                 
-                var schedule = new DataServices.Models.Schedule
+                var schedule = new ScheduleViewModel()
                 {
                     CreatedBy = result.CreatedBy,
                     Intervals = intervals,
                     MischellaneousPallets = result.MischellaneousPallets,
                     Name = result.Name,
                     ScheduleDay = date,
-                    ScheduleId = Guid.NewGuid(),
-                    shift = result.shift
+                    ScheduleId = scheduleID,
+                    Shifts = result.Shifts
                 };
                 
-                    schedules.Add(schedule);
+                    schedules.Schedules.Add(schedule);
                 
 
             }
 
-            var d = await _scheduleDataService.CreateManySchedule(new SchedulesListViewModel {Schedules = schedules});
+            
+            var vm = new SchedulesListViewModel();
+            var vm1 = new CreateManyScheduleCommand();
+            vm.Schedules = schedules.Schedules;
+            vm1.SchedulesListViewModel = vm;
+            var response = await _scheduleDataService.CreateManySchedule(vm1);
 
-
-
+            if (response.IsSuccesfull)
+            {
+                Message = "Planen er nu oprettet Korrekt";
+            }
+            else
+            {
+                Message = response.HttpResponse.RequestMessage.ToString();
+            }
+            
+            HttpContext.Session.Clear();
             return new ObjectResult(HttpStatusCode.OK);
             
             */
             
             return new ObjectResult(HttpStatusCode.OK);
+
 
         }
 
@@ -193,8 +245,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         }
         
         
-
-        public IActionResult OnPostForward()
+        [ValidateAntiForgeryToken]
+        [EnableCors("MyPolicy")]
+        public IActionResult OnPostForward([FromBody]string[] value)
         { 
             var calendar =  HttpContext.Session.GetObject<CalenderViewModel>("key");
 
@@ -203,11 +256,26 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 calendar = new CalenderViewModel();
             }
 
-           calendar.AdvanceMonth();
+          
 
+           
+            
+           var DateChosen =  HttpContext.Session.GetObject<DateChosen>("datechosen");
+
+           if (DateChosen == null)
+           {
+               DateChosen = AddDatesToList(value , new DateChosen() , calendar);
+           }
+           DateChosen = AddDatesToList(value , DateChosen , calendar);
+
+           DateChosen = CheckSameDates(DateChosen);
+           
+           calendar.AdvanceMonth();
            HttpContext.Session.SetObject("key" , calendar);
             
-           return new RedirectToPageResult("Calendar");
+           HttpContext.Session.SetObject("datechosen" ,  DateChosen);
+           
+           return new ObjectResult(HttpStatusCode.OK);
             /*
             var id = "";
             
@@ -252,7 +320,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
         }
 
-        public IActionResult OnPostBack()
+        [ValidateAntiForgeryToken]
+        [EnableCors("MyPolicy")]
+        public IActionResult OnPostBack([FromBody]string[] value)
         {
             
             var calendar =  HttpContext.Session.GetObject<CalenderViewModel>("key");
@@ -262,12 +332,31 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 calendar = new CalenderViewModel();
             }
 
-            calendar.DecreaseMonth();
+            
+            
 
+           
+
+            var DateChosen =  HttpContext.Session.GetObject<DateChosen>("datechosen");
+
+            if (DateChosen == null)
+            {
+                
+                DateChosen = AddDatesToList(value ,new DateChosen() , calendar );
+            }
+
+            DateChosen = AddDatesToList(value , DateChosen , calendar);
+
+           
+            DateChosen = CheckSameDates(DateChosen);
+            
+            calendar.DecreaseMonth();
             HttpContext.Session.SetObject("key" , calendar);
+            HttpContext.Session.SetObject("datechosen" ,  DateChosen);
             
             
-            return new RedirectToPageResult("Calendar");
+            
+            return new ObjectResult(HttpStatusCode.OK);
             /*
             var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             var result = HttpContext.Session.GetObject<DateTime>(id);
@@ -311,6 +400,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
         }
 
+        private DateChosen CheckSameDates(DateChosen dateChosen)
+        {
+            var dates = dateChosen.CosenDays.Select(d => d.Date).Distinct().ToList();
+
+            dateChosen.CosenDays = dates;
+
+            return dateChosen;
+        }
+
         public ScheduleViewModel DateAlreadyHasSchedule(DateTime dateTime, SchedulesListViewModel schedules)
         {
             foreach (var schedule in SchedulesListViewModel.Schedules)
@@ -325,7 +423,35 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         }
 
 
+        public DateChosen AddDatesToList(string[] value , DateChosen dateChosen , CalenderViewModel calenderViewModel)
+        {
+            List<DateTime> list = new List<DateTime>(); 
+            var result = HttpContext.Session.GetObject<ScheduleViewModel>("v");
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i] != null)
+                {
+                    list.Add(DateTime.Parse(value[i]));
+                }
+            }
 
+            
+
+            foreach (var olddates in dateChosen.CosenDays)
+            {
+                if (!olddates.Month.Equals(calenderViewModel.CurrentDate.Month))
+                {
+                    list.Add(olddates);
+                }
+            
+                
+            }
+
+            dateChosen.CosenDays = list;
+            
+            return dateChosen;
+
+        }
         
         
     }

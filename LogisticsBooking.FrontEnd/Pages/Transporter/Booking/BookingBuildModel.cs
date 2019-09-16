@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
-    public class BookingViewModel
+    public class BookingBuildModel
     {
         
         public int ExternalId { get; set; }

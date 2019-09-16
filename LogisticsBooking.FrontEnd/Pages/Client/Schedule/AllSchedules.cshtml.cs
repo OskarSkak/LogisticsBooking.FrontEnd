@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,7 +11,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
     {
         private IScheduleDataService ScheduleDataService { get; }
         [BindProperty]
-        public List<DataServices.Models.Schedule> Schedules { get; set; }
+        public SchedulesListViewModel SchedulesListViewModel { get; set; }
         
 
         public AllSchedules(IScheduleDataService scheduleDataService)
@@ -22,7 +23,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public async void OnGetAsync(string id)
         {
             var x = id;
-            Schedules = ScheduleDataService.GetSchedules().Result;
+            SchedulesListViewModel = ScheduleDataService.GetSchedules().Result;
         }
     }
 }

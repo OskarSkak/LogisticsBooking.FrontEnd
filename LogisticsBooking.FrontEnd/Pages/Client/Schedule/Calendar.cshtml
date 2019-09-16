@@ -9,55 +9,66 @@
       <main class="py-5">
 
         
-        <div class="container">
-
-
-
-            
-                <div class="row justify-content-md-center">
-                    <div class="col align-self-center ">
-                        <form method="post" asp-page-handler="Back">
-                            <a onclick="$(this).closest('form').submit();" class="float-right fa-2x  fas fa-angle-left"></a>
-                        </form>
-                    </div>
-                    <div class="col-md-auto align-self-center">
-                        <p>@Model.CalenderViewModel.CurrentDate.ToString("MMMM")</p>
-                    </div>
-                    <div class="col align-self-center ">
-                        <form method="post" asp-page-handler="Forward">
-                        <a onclick="$(this).closest('form').submit();" class="fas fa-2x fa-angle-right"></a>
-                         </form>
-                    </div>
-                </div>
+          <div class="container-fluid">
+              
+              <div class="row justify-content-center ">
+                  <div class="col-2 align-self-center ">
+                          <form class="text-center" method="post" asp-page-handler="Back">
+                              <a class=" fa-2x  fas fa-angle-left sendBackAsync"></a>
+                          </form>
+                      </div>
+                      <div class="col-auto align-self-center text-center">
+                          <p class="">@Model.CalenderViewModel.CurrentDate.ToString("MMMM")</p>
+                      </div>
+                      <div class="col-2 align-self-center ">
+                          <form class="text-center" method="post" asp-page-handler="Forward">
+                              <a class="fas  fa-2x fa-angle-right sendForwardAsync"></a>
+                          </form>
+                      </div>
+                  
+                  
+                  
+              </div>
            
             
 
-        </div>
-
-   
+          </div>
           
+          <div class="container-fluid">
+              
+         
+              <div class="row justify-content-center">
+                  <div class="col-2 text-center">
+                      <button class="btn btn-primary" onclick="test()" >Bekræft</button> 
+                  </div>
+
+              </div>
+          </div>
+          
+
+
           <div class="container ">
-            <div class="row no-gutters">
+            <div class="row no-gutters sticky-top sticky-top-5">
                 <div class="col calendar-header center">
-                    <p>Mon</p>
+                    <p class="margin-top-right-1 text-dark">Mon</p>
                 </div>
                 <div class="col calendar-header">
-                    <p>TUE</p>
+                    <p class="margin-top-right-1 text-dark">TUE</p>
                 </div>
                 <div class="col calendar-header">
-                    <p>WED</p>
+                    <p class="margin-top-right-1 text-dark">WED</p>
                 </div>
                 <div class="col calendar-header">
-                    <p>THU</p>
+                    <p class="margin-top-right-1 text-dark">THU</p>
                 </div>
                 <div class="col calendar-header">
-                    <p>FRI</p>
+                    <p class="margin-top-right-1 text-dark">FRI</p>
                 </div>
                 <div class="col calendar-header">
-                    <p>SAT</p>
+                    <p class="margin-top-right-1 text-dark">SAT</p>
                 </div>
                 <div class="col calendar-header">
-                    <p>SUN</p>
+                    <p class="margin-top-right-1 text-dark">SUN</p>
                 </div>
             </div>
 
@@ -73,26 +84,78 @@
                       }
                       
                       
-                      @if ( date > DateTime.Now.Date )
+                      @if ( date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month  )
                       {
-                          if (date.Day == 19)
-                          {
-                              <div class="col day">
-                                  <div class="right-position">
-                                      <p>@date.Day</p>
-                                  </div>
-                                  <div data-toggle="modal" data-target="#popup" class="schedule">Nuværende plan</div>
-                              </div>
+                          
+                          var schedule = Model.SchedulesListViewModel.Schedules.Find(x => x.ScheduleDay.Equals(date));
+                          
+                          var chosenDay = Model.DateChosen.CosenDays.Find(x => x.Date.Equals(date));
+
+                         
+                          
+                          
                               
+                          
+
+                          if (!chosenDay.Equals(DateTime.MinValue))
+                          {
+                              if (schedule != null) 
+                              {
+                                  
+                                  <div class="col day">
+                                      <div class="right-position before-date">
+                                          <p class="margin-top-right-1">@date.Day</p>
+                                      </div>
+                                      <div data-toggle="modal" data-target="#popup" class="schedule">
+                                          <p class="margin-top-right-1">
+                                              Nuværende <plan></plan>
+                                          </p>@schedule.Name
+                                      </div>
+                                  </div> 
+                              }
+                              else
+                              {
+                                  <div id="test" class="col day-chosen adDay">
+                                      <div class="right-position">
+                                          <input class="date" type="hidden" value="@date.ToString("d")"/>
+                                          <p class="margin-top-right-1">@date.Day</p>
+                                      </div>
+                              
+                                  </div> 
+                              }
                           }
                           else
                           {
-                              <div class="col day">
-                                  <div class="right-position">
-                                      <p>@date.Day</p>
-                                  </div>
-                              </div>
+                              if (schedule != null) 
+                              {
+                                  <div class="col day">
+                                      <div class="right-position before-date">
+                                          <p class="margin-top-right-1">@date.Day</p>
+                                      </div>
+                                      <div data-toggle="modal" data-target="#popup" class="schedule">
+                                          <p class="margin-top-right-1">
+                                              Nuværende <plan></plan>
+                                          </p>@schedule.Name
+                                      </div>
+                                  </div> 
+                              }
+                              else
+                              {
+                                  <div id="test" class="col day adDay">
+                                      <div class="right-position">
+                                         <input class="date" type="hidden" value="@date.ToString("d")"/>
+                                          <p class="margin-top-right-1 ">@date.Day</p>
+                                      </div>
+                              
+                                  </div> 
+                              }
                           }
+                          
+                          
+                          
+                      
+                             
+                          
                           
                           
                       }
@@ -100,7 +163,7 @@
                       {
                           <div class="col day">
                               <div class="right-position before-date">
-                                  <p>@date.Day</p>
+                                  <p class="margin-top-right-1 font-weight-bold">@date.Day</p>
                               </div>
                           </div>
                           
@@ -113,8 +176,12 @@
 
     </div>
 
+          
+            
+          
+          
    
-    </main>
+      </main>
 
 
 
@@ -151,7 +218,7 @@
     
    
 
-    <script src="~/js/Util/util.js" language="javascript" type="text/javascript"></script>
+    
     <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -159,69 +226,175 @@
 
     
     <script>
-        var token = $('input[name="__RequestVerificationToken"]').val();
+var token = $('input[name="__RequestVerificationToken"]').val();
 
-        var headers = {};
+var headers = {};
 
-        headers['__RequestVerificationToken'] = token;
+headers['__RequestVerificationToken'] = token;
 
-    
-        var listOfDates = new Array(35);
-        $(".test").click(function() {
-            if ($(this).hasClass("content-color")) {
-                $(this).removeClass("content-color").addClass("ok");
-                var f = $(this).first().contents().eq(1).text();
-                listOfDates.push(f);
-            } else if ($(this).hasClass("ok")) {
 
-                $(this).removeClass("ok").addClass("content-color");
-                var f = $(this).first().contents().eq(1).text();
+var listOfDates = new Array(35);
 
-                function include(arr,obj) {
-                    return (arr.indexOf(obj) != -1);
-                }
-                var a = include(listOfDates , f);
-                var index = listOfDates.indexOf(a);
-                if (index > -1) {
-                listOfDates.splice(index, 1);
-                }
-                console.log(listOfDates);
-            }
 
-        });
+function codeAddress() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('day-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            listOfDates.push(f);
+        }
+    });
+}
+window.onload = codeAddress;
+
+
+
+$(".adDay").click(function() {
+    if ($(this).hasClass("day")) {
+        $(this).removeClass("day").addClass("day-chosen");
+
+    } else if ($(this).hasClass("day-chosen")) {
+
+        $(this).removeClass("day-chosen").addClass("day");
+
+        /*
+        function include(arr,obj) {
+            return (arr.indexOf(obj) != -1);
+        }
+        var a = include(listOfDates , f);
+        var index = listOfDates.indexOf(a);
+        if (index > -1) {
+        listOfDates.splice(index, 1);
+        }
+        console.log(listOfDates);
+
         
+         */
+    }
 
-            
-$(".sendAsync").click(function() {
-  $.ajax({
-        type: "POST" ,
-        
-        url: "https://localhost:4434/Client/Schedule/Calendar" ,
-        beforeSend: function (xhr) {
+});
+
+
+
+
+$(".sendBackAsync").click(function() {
+    listOfDates = [];
+    test1();
+    $.ajax({
+        type: "POST",
+
+        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Back",
+        beforeSend: function(xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
-        headers:headers, 
+        headers: headers,
         data: JSON.stringify(listOfDates),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
             console.log("succes")
-            
-            window.location.href='https://localhost:4434/Client/Schedule/ScheduleOverview';
-      },
+            location.reload();
+
+        },
         failure: function(data) {
             console.log("fail")
-            window.location.href='https://localhost:4434/Client/Schedule/ScheduleOverview';
-            
-      }
+            location.reload();
+
+        }
     });
-        
+
 });
 
 
-           
-     
+$(".sendForwardAsync").click(function() {
+    listOfDates = [];
+    test1();
+    for (i = 0; i < listOfDates.length; i++) {
+        console.log(listOfDates[i])
+    }
+    $.ajax({
+        type: "POST",
+
+        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Forward",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            location.reload();
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            location.reload();
+
+        }
+    });
+
+});
+
+
+
+function feed() {
+    $.ajax({
+        type: "POST",
+
+        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Confirm",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            window.location.replace("https://localhost:4434/Client/Schedule/ScheduleOverview");
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            window.location.replace("https://localhost:4434/Client/Schedule/ScheduleOverview");
+
+        }
+    });
+
+}
+
+function test() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('day-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            listOfDates.push(f);
+        }
+
+    });
+    feed();
+
+
+
+}
+
+function test1() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('day-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            console.log(f)
+            listOfDates.push(f);
+        }
+
+    });
+
+
+
+
+}
     </script>
 
 

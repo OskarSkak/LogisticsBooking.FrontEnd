@@ -8,6 +8,7 @@ using ClosedXML.Excel;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.Documents;
 using LogisticsBooking.FrontEnd.Utilities;
 using Microsoft.AspNetCore.Authentication;
@@ -25,7 +26,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         [BindProperty] public string NameOfFile { get; set; }
         
         private IBookingDataService bookingDataService;
-        [BindProperty] public List<Booking> Bookings { get; set; }
+        [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } = new BookingsListViewModel();
         public bool InBetweenDates { get; set; }
         public int NumberOfDays { get; set; }
         
@@ -34,23 +35,24 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             bookingDataService = _bookingDataService;
         }
 
-        public async void OnGet(string id)
+        public async void OnGet()
         {
+            string id = "7";
             var numberOfDays = 0;
             if(id != null) {
                 numberOfDays = Int32.Parse(id);
             }
             NumberOfDays = numberOfDays;
-            Bookings = new List<Booking>();
+            BookingsListViewModel.Bookings = new List<BookingViewModel>();
 
             if (numberOfDays != 0)
             { 
-                Bookings = bookingDataService.GetBookingsInbetweenDates(DateTime.Now.AddDays(- NumberOfDays),
-                    DateTime.Now).Result;
+                BookingsListViewModel = bookingDataService.GetBookingsInbetweenDates(DateTime.Now,
+                    DateTime.Now.AddDays(numberOfDays)).Result;
             }
-            else{Bookings = bookingDataService.GetBookings().Result;}
+            else{BookingsListViewModel = bookingDataService.GetBookings().Result;}
     
-            foreach (var booking in Bookings)
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
                 if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
                     if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
@@ -67,11 +69,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                     }
              }
 
-            for (int i = Bookings.Count - 1; i >= 0; i--)
+            for (int i = BookingsListViewModel.Bookings.Count - 1; i >= 0; i--)
             {
-                if (Bookings[i].endLoading != default(DateTime))
+                if (BookingsListViewModel.Bookings[i].endLoading.Date != default(DateTime))
                 {
-                    Bookings.Remove(Bookings[i]);
+                    BookingsListViewModel.Bookings.Remove(BookingsListViewModel.Bookings[i]);
                 }
             }
             
@@ -86,21 +88,41 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             bookingToUpdate.startLoading = startLoading;
             bookingToUpdate.endLoading = endLoading;
 
-            var response = await bookingDataService.UpdateBooking(bookingToUpdate);
+            
+            
+            var response = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(bookingToUpdate));
             if (!response.IsSuccesfull) return new RedirectToPageResult("~Error");
             
-            return new RedirectToPageResult("./BookingOverview");
+            return new RedirectToPageResult("BookingOverview" );
+        }
+
+        private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
+        {
+            return new UpdateBookingCommand
+            {
+                Email = bookingToUpdate.email,
+                Port = bookingToUpdate.port,
+                ActualArrival = bookingToUpdate.actualArrival,
+                BookingTime = bookingToUpdate.actualArrival,
+                EndLoading = bookingToUpdate.actualArrival,
+                ExternalId = bookingToUpdate.ExternalId,
+                InternalId = bookingToUpdate.internalId,
+                StartLoading = bookingToUpdate.startLoading,
+                TotalPallets = bookingToUpdate.totalPallets,
+                TransporterId = bookingToUpdate.TransporterId,
+                TransporterName = bookingToUpdate.transporterName
+            };
         }
 
         public ActionResult OnPostExportExcel()
         {
-            Bookings = new List<Booking>(); 
-            Bookings = bookingDataService.GetBookings().Result;
+            BookingsListViewModel.Bookings = new List<BookingViewModel>(); 
+            BookingsListViewModel = bookingDataService.GetBookings().Result;
 
             var from = DateTime.Now;
             var endDate = DateTime.Now.Date.ToShortDateString();
             
-            foreach (var booking in Bookings)
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
                 if (booking.bookingTime < from) from = booking.bookingTime;
             }
@@ -127,7 +149,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             var cellX = 1;
             var cellY = 2;
             
-            foreach (var booking in Bookings)
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
                 foreach (var order in booking.Orders)
                 {
