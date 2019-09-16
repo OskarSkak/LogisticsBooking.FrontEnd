@@ -15,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private readonly IUtilBookingDataService _utilBookingDataService;
 
         [BindProperty]  
-        public BookingViewModel BookingOrderViewModel { get; set; }
+        public BookingBuildModel BookingOrderViewModel { get; set; }
 
 
         public BookOrder(IUtilBookingDataService utilBookingDataService)
@@ -29,7 +29,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             Console.WriteLine();
         }
 
-        public async Task<IActionResult> OnPostAsync(BookingViewModel bookingOrderViewModel)
+        public async Task<IActionResult> OnPostAsync(BookingBuildModel bookingOrderViewModel)
         {
             var id = GetUserId();
 
@@ -44,7 +44,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             bookingOrderViewModel.PalletsRemaining = BookingOrderViewModel.TotalPallets;
             
             HttpContext.Session.SetObject(id ,bookingOrderViewModel);
-            HttpContext.Session.SetObject(bookingid.bookingid.ToString() , 1);
+            //HttpContext.Session.SetObject(bookingid.bookingid.ToString() , 1);
             
             return new RedirectToPageResult("orderinformation");
         }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.Documents;
 using LogisticsBooking.FrontEnd.Utilities;
 using Microsoft.AspNetCore.Authentication;
@@ -19,14 +20,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     public class BookingOvervieAdminwModel : PageModel
     {
         private IBookingDataService bookingDataService;
-        [BindProperty] public List<Booking> Bookings { get; set; }
-        
+        [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } = new BookingsListViewModel();
         public BookingOvervieAdminwModel(IBookingDataService _bookingDataService)
         {
             bookingDataService = _bookingDataService;
-            Bookings = new List<Booking>(); 
-            Bookings = bookingDataService.GetBookings().Result;
-            foreach (var booking in Bookings)
+            BookingsListViewModel.Bookings = new List<BookingViewModel>(); 
+            BookingsListViewModel = bookingDataService.GetBookings().Result;
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
                 if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
                 if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";

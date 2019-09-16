@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group" style="">
-                    @foreach (Booking booking in Model.Bookings)
+                    @foreach (var booking in Model.BookingsListViewModel.Bookings)
                     {
                         <a asp-page="/Supplier/Individual_MadeBooking" class="list-group-item list-group-item-action display-spacebetween">
                             <div>@booking.transporterName</div>

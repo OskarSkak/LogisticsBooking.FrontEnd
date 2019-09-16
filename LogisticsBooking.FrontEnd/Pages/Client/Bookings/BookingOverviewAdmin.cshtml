@@ -9,8 +9,8 @@
 
 <style>
     .no-padding-marging {
-        margin: !important 0;
-        padding: !important 0;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 </style>
 
@@ -23,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var booking in @Model.Bookings)
+            @foreach (var booking in @Model.BookingsListViewModel.Bookings)
             {
             <tr class="no-padding-marging">
                 <td>

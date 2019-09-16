@@ -32,7 +32,7 @@
 
 
   <ItemGroup>
-    <Folder Include="DataServices\Models\Booking\BookingValidation" />
+    <Folder Include="DataServices\Models\Interval\IntervalList" />
     <Folder Include="Styles" />
   </ItemGroup>
 

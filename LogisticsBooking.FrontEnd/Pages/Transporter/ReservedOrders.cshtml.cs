@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Utilities;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
     public class ReservedOrdersIndexModel : PageModel
     {
         private IBookingDataService BookingDataService { get; set; }
-        [BindProperty] public DataServices.Models.Booking Booking { get; set; }
+        [BindProperty] public BookingViewModel Booking { get; set; }
         [BindProperty] public int ArrivalHour { get; set; }
         [BindProperty] public int ArrivalMinute { get; set; }
         [BindProperty] public int startHour { get; set; }
@@ -58,7 +59,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
             int endHour, int endMinute, Guid ViewBookingId)
         {
             
-            var booking = new DataServices.Models.Booking
+            var booking = new BookingViewModel
             {
                 bookingTime = ViewBookTime, 
                 totalPallets = ViewPallets, 

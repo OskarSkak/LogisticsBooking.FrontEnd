@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
     {
         private IBookingDataService BookingDataService { get; set; }
         private ITransporterDataService TransporterDataService { get; set; }
-        [BindProperty] public List<DataServices.Models.Booking> Bookings { get; set; }
+        [BindProperty] public List<BookingViewModel> Bookings { get; set; }
 
         public ReservedBookingsIndexModel(IBookingDataService _bookingDataService, ITransporterDataService _transporterDataService)
         {
@@ -23,7 +25,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
         
         public async Task<IActionResult> OnGetAsync()
         {
-            Bookings = new List<DataServices.Models.Booking>();
+            Bookings = new List<BookingViewModel>();
             
             var stringId = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
@@ -33,7 +35,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
             
             var allBookings = await BookingDataService.GetBookings();
             
-            foreach (var booking in allBookings)
+            foreach (var booking in allBookings.Bookings)
             {
                 if (booking.transporterName == loggedIn.Name) Bookings.Add(booking);
             }

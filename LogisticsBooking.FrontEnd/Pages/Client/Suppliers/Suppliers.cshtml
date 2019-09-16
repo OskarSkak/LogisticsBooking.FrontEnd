@@ -19,19 +19,25 @@
         </div>
     </div>
 </div>
-<div class="py-5" style="">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="list-group" style="">
-                    @foreach (var item in Model.Suppliers.Suppliers)
-                    {
-                        <text>
-                            <a asp-page="./Supplier_Single" asp-route-id="@item.Name" class="list-group-item list-group-item-action display-spacebetween">@item.Name</a>
-                        </text>
-                    }
+
+@if (Model.Suppliers.Suppliers.Any())
+{
+    
+
+    <div class="py-5" style="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="list-group" style="">
+                        @foreach (var item in Model.Suppliers.Suppliers)
+                        {
+                            <text>
+                                <a asp-page="./Supplier_Single" asp-route-id="@item.Name" class="list-group-item list-group-item-action display-spacebetween">@item.Name</a>
+                            </text>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}

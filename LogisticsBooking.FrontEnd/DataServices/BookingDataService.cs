@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -35,28 +36,28 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return new Response(false);
         }
 
-        public async Task<List<Booking>> GetBookings()
+        public async Task<BookingsListViewModel> GetBookings()
         {
             var response = await GetAsync(baseurl);
-            var result = await TryReadAsync<List<Booking>>(response);
+            var result = await TryReadAsync<BookingsListViewModel>(response);
             Console.WriteLine(result);
 
             return result;
         }
 
-        public async Task<List<Booking>> GetBookingsInbetweenDates(DateTime from, DateTime to)
+        public async Task<BookingsListViewModel> GetBookingsInbetweenDates(DateTime from, DateTime to)
         {
             var endpoint = baseurl + from.ToString("MM-dd-yyyy") + "/" + to.ToString("MM-dd-yyyy");
             var response = await GetAsync(endpoint);
-            var result = await TryReadAsync<List<Booking>>(response);
+            var result = await TryReadAsync<BookingsListViewModel>(response);
             return result;
         }
 
-        public async Task<Response> UpdateBooking(Booking booking)
+        public async Task<Response> UpdateBooking(BookingViewModel booking)
         {
             var endpoint = baseurl + booking.internalId;   
         
-            var response = await PutAsync<Booking>(endpoint, booking);
+            var response = await PutAsync<BookingViewModel>(endpoint, booking);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -70,11 +71,11 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return Response.Succes();
         }
 
-        public async Task<Booking> GetBookingById(Guid id)
+        public async Task<BookingViewModel> GetBookingById(Guid id)
         {
             var endpoint = baseurl + id;
             var result = await GetAsync(endpoint);
-            return await TryReadAsync<Booking>(result);
+            return await TryReadAsync<BookingViewModel>(result);
 
         }
         
