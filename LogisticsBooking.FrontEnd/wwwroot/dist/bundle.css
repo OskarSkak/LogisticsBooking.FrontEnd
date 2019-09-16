@@ -8094,6 +8094,72 @@ a:hover {
   text-decoration: none; }
 
 /* MODULES */
+.day {
+  border-style: solid;
+  border-color: #00000017;
+  border-width: 1px;
+  height: 10em;
+  background-color: white; }
+
+.date {
+  height: 5em;
+  font-size: 17px;
+  font-weight: 600;
+  color: #47506b; }
+
+.before-date {
+  font-size: 17px;
+  font-weight: 600;
+  color: #c6c6c6; }
+
+.float-right {
+  float: right; }
+
+.right-position {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end; }
+
+.center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.calendar-header {
+  background-color: #d2d2d28f;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  height: 3em;
+  font-weight: 600;
+  color: #47506b; }
+
+div p {
+  margin-right: 1em;
+  margin-top: 1em; }
+
+.schedule {
+  height: calc(100% - 5em);
+  background-color: #dcf7e9;
+  border-left-style: solid;
+  border-color: #59ffa9;
+  border-width: 6px; }
+
+col {
+  background-color: white; }
+
 .btn-primary {
   color: #212529 !important;
   background-color: #d6d6d6 !important;
