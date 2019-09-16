@@ -2,6 +2,13 @@
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.ScheduleOverviewIndexModel
 @{
 }
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">
+        <strong>@Model.Message</strong> 
+    </div>
+}
 <div class="py-5">
     <div class="container">
         <div class="row">

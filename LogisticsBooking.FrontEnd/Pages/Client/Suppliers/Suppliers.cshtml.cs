@@ -14,12 +14,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
     public class SuppliersModel : PageModel
     {
         private ISupplierDataService _supplierDataService;
-        [BindProperty] public SuppliersListViewModel Suppliers { get; set; }
+        [BindProperty] 
+        public SuppliersListViewModel SuppliersListView { get; set; }
 
         public SuppliersModel(ISupplierDataService supplierDataService)
         {
             _supplierDataService = supplierDataService;
-            Suppliers = PopulateList(supplierDataService).Result; 
+            SuppliersListView = PopulateList(supplierDataService).Result; 
         }
         
         public void OnGet()

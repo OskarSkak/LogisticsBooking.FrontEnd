@@ -62,9 +62,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 if (response.Content != null)
                 {
                     var errorMsg = await response.Content.ReadAsStringAsync();
-                    return Response.Unsuccesfull(errorMsg);
+                    return Response.Unsuccesfull( response, errorMsg);
                 }
-                return Response.Unsuccesfull(response.ReasonPhrase);
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
             }
             return Response.Succes();
         }
@@ -78,14 +78,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 if (response.Content != null)
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    return Response.Unsuccesfull(errorMessage);
+                    return Response.Unsuccesfull(response , errorMessage);
                 }
-                return Response.Unsuccesfull(response.ReasonPhrase);
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
             }
             return Response.Succes();
         }
 
-        public async Task<Response> CreateManySchedule(SchedulesListViewModel schedule)
+        public async Task<Response> CreateManySchedule(CreateManyScheduleCommand schedule)
         {
             baseurl = baseurl + "list";
             var response = await PostAsync(baseurl, schedule);
@@ -100,7 +100,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<ScheduleViewModel> GetScheduleBydate(DateTime date)
         {
-            baseurl = baseurl + "date?date=" + date.ToString("yyyy-MM-dd");
+            baseurl = baseurl + "date/" + date.ToString("yyyy-MM-dd");
             var response = await GetAsync(baseurl);
 
             return await TryReadAsync<ScheduleViewModel>(response);

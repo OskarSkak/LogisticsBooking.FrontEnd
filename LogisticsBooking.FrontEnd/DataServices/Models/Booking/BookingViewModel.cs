@@ -15,8 +15,14 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public int port { get; set; }
         
         
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:H:mm}")]
         public DateTime actualArrival { get; set; }
+        
+        
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:H:mm}")]
         public DateTime startLoading { get; set; }
+        
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:H:mm}")]
         public DateTime endLoading { get; set; }
         
         
