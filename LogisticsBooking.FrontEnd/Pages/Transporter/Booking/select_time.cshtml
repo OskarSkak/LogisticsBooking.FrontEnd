@@ -70,8 +70,12 @@
                     <span> Der kan ikke bookes på denne dag endnu. </span>
                 }
                 
+                @if (!Model.ScheduleViewModel.Intervals.Any())
+                {
+                    @:ingen
+                }
 
-                    @foreach (var interval in Model.ScheduleViewModel.Intervals)
+                @foreach (var interval in Model.ScheduleViewModel.Intervals)
                      {
                          if (!interval.IsBooked)
                          {

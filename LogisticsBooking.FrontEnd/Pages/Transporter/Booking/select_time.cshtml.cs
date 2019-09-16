@@ -71,12 +71,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
 
-            ScheduleViewModel = result;
+            if (result != null)
+            {
+                ScheduleViewModel = result;
+            }
+           
 
             
             
             var sortedList = ScheduleViewModel.Intervals.OrderBy(x => x.StartTime).ToList();
-            ScheduleViewModel.Intervals = sortedList;
+            if (sortedList != null)
+            {
+                ScheduleViewModel.Intervals = sortedList;
+            }
+           
            
             return Page();
         }

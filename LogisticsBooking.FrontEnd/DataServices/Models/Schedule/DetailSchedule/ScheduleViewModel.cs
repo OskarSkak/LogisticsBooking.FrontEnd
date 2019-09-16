@@ -13,6 +13,10 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
     
     public class ScheduleViewModel
     {
+        public ScheduleViewModel()
+        {
+            Intervals = new List<IntervalViewModel>();
+        }
         public Guid ScheduleId { get; set; }
         
         public DateTime? ScheduleDay { get; set; }
@@ -22,6 +26,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
         public string Name { get; set; }
         
         public  List<IntervalViewModel> Intervals { get; set; }
+
+
 
 
     }

@@ -35,8 +35,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             bookingDataService = _bookingDataService;
         }
 
-        public async void OnGet(string id)
+        public async void OnGet()
         {
+            string id = "7";
             var numberOfDays = 0;
             if(id != null) {
                 numberOfDays = Int32.Parse(id);
@@ -46,8 +47,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             if (numberOfDays != 0)
             { 
-                BookingsListViewModel = bookingDataService.GetBookingsInbetweenDates(DateTime.Now.AddDays(- NumberOfDays),
-                    DateTime.Now).Result;
+                BookingsListViewModel = bookingDataService.GetBookingsInbetweenDates(DateTime.Now,
+                    DateTime.Now.AddDays(numberOfDays)).Result;
             }
             else{BookingsListViewModel = bookingDataService.GetBookings().Result;}
     
@@ -70,7 +71,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             for (int i = BookingsListViewModel.Bookings.Count - 1; i >= 0; i--)
             {
-                if (BookingsListViewModel.Bookings[i].endLoading != default(DateTime))
+                if (BookingsListViewModel.Bookings[i].endLoading.Date != default(DateTime))
                 {
                     BookingsListViewModel.Bookings.Remove(BookingsListViewModel.Bookings[i]);
                 }
@@ -87,10 +88,30 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             bookingToUpdate.startLoading = startLoading;
             bookingToUpdate.endLoading = endLoading;
 
-            var response = await bookingDataService.UpdateBooking(bookingToUpdate);
+            
+            
+            var response = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(bookingToUpdate));
             if (!response.IsSuccesfull) return new RedirectToPageResult("~Error");
             
-            return new RedirectToPageResult("./BookingOverview");
+            return new RedirectToPageResult("BookingOverview" );
+        }
+
+        private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
+        {
+            return new UpdateBookingCommand
+            {
+                Email = bookingToUpdate.email,
+                Port = bookingToUpdate.port,
+                ActualArrival = bookingToUpdate.actualArrival,
+                BookingTime = bookingToUpdate.actualArrival,
+                EndLoading = bookingToUpdate.actualArrival,
+                ExternalId = bookingToUpdate.ExternalId,
+                InternalId = bookingToUpdate.internalId,
+                StartLoading = bookingToUpdate.startLoading,
+                TotalPallets = bookingToUpdate.totalPallets,
+                TransporterId = bookingToUpdate.TransporterId,
+                TransporterName = bookingToUpdate.transporterName
+            };
         }
 
         public ActionResult OnPostExportExcel()

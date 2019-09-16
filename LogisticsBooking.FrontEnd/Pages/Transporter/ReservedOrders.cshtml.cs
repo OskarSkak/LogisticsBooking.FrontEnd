@@ -70,11 +70,29 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
                 internalId = ViewBookingId
             };
 
-            var result = await BookingDataService.UpdateBooking(booking);
+            var result = await BookingDataService.UpdateBooking(CreateUpdateBookingCommand(booking));
             
             if(result.IsSuccesfull) return new RedirectToPageResult("ReservedBookings");
 
             return new RedirectToPageResult("Error");
+        }
+        
+        private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
+        {
+            return new UpdateBookingCommand
+            {
+                Email = bookingToUpdate.email,
+                Port = bookingToUpdate.port,
+                ActualArrival = bookingToUpdate.actualArrival,
+                BookingTime = bookingToUpdate.actualArrival,
+                EndLoading = bookingToUpdate.actualArrival,
+                ExternalId = bookingToUpdate.ExternalId,
+                InternalId = bookingToUpdate.internalId,
+                StartLoading = bookingToUpdate.startLoading,
+                TotalPallets = bookingToUpdate.totalPallets,
+                TransporterId = bookingToUpdate.TransporterId,
+                TransporterName = bookingToUpdate.transporterName
+            };
         }
     }
 }

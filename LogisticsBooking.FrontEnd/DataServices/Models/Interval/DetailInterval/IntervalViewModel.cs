@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval
 {
@@ -10,6 +12,15 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval
         public bool IsBooked { get; set; }
         public int BottomPallets { get; set; }
         public int RemainingPallets { get; set; }
+        
+        
+        
+        // ************************************* Relations ******************************
+
+        
+        public Guid ScheduleId { get; set; }
+
+        public List<BookingViewModel> Bookings { get; set; }
 
 
     }

@@ -53,20 +53,20 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return result;
         }
 
-        public async Task<Response> UpdateBooking(BookingViewModel booking)
+        public async Task<Response> UpdateBooking(UpdateBookingCommand booking)
         {
-            var endpoint = baseurl + booking.internalId;   
+            var endpoint = baseurl;   
         
-            var response = await PutAsync<BookingViewModel>(endpoint, booking);
+            var response = await PutAsync(endpoint, booking);
 
             if (!response.IsSuccessStatusCode)
             {
                 if (response.Content != null)
                 {
                     var errorMsg = await response.Content.ReadAsStringAsync();
-                    return Response.Unsuccesfull(errorMsg);
+                    return Response.Unsuccesfull(response,errorMsg);
                 }
-                return Response.Unsuccesfull(response.ReasonPhrase);
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
             }
             return Response.Succes();
         }
@@ -88,9 +88,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 if (response.Content != null)
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    return Response.Unsuccesfull(errorMessage);
+                    return Response.Unsuccesfull(response ,errorMessage);
                 }
-                return Response.Unsuccesfull(response.ReasonPhrase);
+                return Response.Unsuccesfull(response ,response.ReasonPhrase);
             }
             return Response.Succes();
         }

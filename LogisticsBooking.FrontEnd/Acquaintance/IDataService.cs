@@ -21,7 +21,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> CreateBooking(CreateBooking booking);
         Task<BookingsListViewModel> GetBookings();
         Task<BookingViewModel> GetBookingById(Guid id);
-        Task<Response> UpdateBooking(BookingViewModel booking);
+        Task<Response> UpdateBooking(UpdateBookingCommand booking);
         Task<Response> DeleteBooking(Guid id);
         Task<BookingsListViewModel> GetBookingsInbetweenDates(DateTime from, DateTime to);
     }
@@ -33,7 +33,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<ScheduleViewModel> GetScheduleById(Guid id);
         Task<Response> UpdateSchedule(ScheduleViewModel schedule);
         Task<Response> DeleteSchedule(Guid id);
-        Task<Response> CreateManySchedule(SchedulesListViewModel schedule);
+        Task<Response> CreateManySchedule(CreateManyScheduleCommand schedule);
         Task<ScheduleViewModel> GetScheduleBydate(DateTime date);
     }
 
