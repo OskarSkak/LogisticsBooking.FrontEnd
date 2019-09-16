@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -15,10 +18,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private readonly IScheduleDataService _scheduleDataService;
         
         [BindProperty]
-        public Schedule Schedule { get; set; }
+        public ScheduleViewModel ScheduleViewModel { get; set; }
         
         [BindProperty]
-        public Interval Interval { get; set; }
+        public IntervalViewModel IntervalViewModel { get; set; }
 
         public select_time(IBookingDataService bookingDataService , IScheduleDataService scheduleDataService)
         {
@@ -40,11 +43,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 Console.WriteLine(ex);
             }
 
-            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
+            var CurrentBooking = HttpContext.Session.GetObject<BookingBuildModel>(id);
 
             var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
 
-            Schedule = result;
+            ScheduleViewModel = result;
            
             return Page();
             
@@ -64,21 +67,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 Console.WriteLine(ex);
             }
 
-            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
+            var CurrentBooking = HttpContext.Session.GetObject<BookingBuildModel>(id);
 
             var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
 
-            Schedule = result;
+            ScheduleViewModel = result;
 
             
             
-            var sortedList = Schedule.Intervals.OrderBy(x => x.StartTime).ToList();
-            Schedule.Intervals = sortedList;
+            var sortedList = ScheduleViewModel.Intervals.OrderBy(x => x.StartTime).ToList();
+            ScheduleViewModel.Intervals = sortedList;
            
             return Page();
         }
 
-        public async Task<IActionResult> OnPostSelectedTime(Interval interval , Schedule schedule)
+        public async Task<IActionResult> OnPostSelectedTime(string interval , ScheduleViewModel schedule)
         {
             var id = "";
             
@@ -92,12 +95,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 Console.WriteLine(ex);
             }
 
-            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
+            var CurrentBooking = HttpContext.Session.GetObject<BookingBuildModel>(id);
 
             
 
             // Map from BookingViewModel to Booking
-            var booking = new DataServices.Models.Booking
+            var booking = new BookingViewModel
             {
 
                 actualArrival = new DateTime(),
@@ -137,7 +140,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             await _bookingDataService.CreateBooking(new CreateBooking
             {
                 Booking = booking,
-                IntervalId = interval.IntervalId,
+                IntervalId = Guid.Parse(interval),
                 Schedule = schedule
             });
             

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -50,17 +52,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             return new RedirectToPageResult("Calendar");
         }
 
-        private DataServices.Models.Schedule CreateScheduleFromInternalIntervals(List<InternalInterval> intervals)
+        private ScheduleViewModel CreateScheduleFromInternalIntervals(List<InternalInterval> intervals)
         {
-            var Schedule = new DataServices.Models.Schedule();
-            Schedule.Intervals = new List<Interval>();
+            var Schedule = new ScheduleViewModel();
+            Schedule.Intervals = new List<IntervalViewModel>();
 
             foreach (var internalInterval in intervals)
             {
                 if (internalInterval.BottomPallets != 0 && internalInterval.StartTime != DateTime.MinValue
                     && internalInterval.EndTime != DateTime.MinValue)
                 {
-                    var interval = new Interval
+                    var interval = new IntervalViewModel
                     {
                         BottomPallets = internalInterval.BottomPallets, 
                         StartTime = internalInterval.StartTime, 

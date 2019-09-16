@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
@@ -16,22 +19,22 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IBookingDataService
     {
         Task<Response> CreateBooking(CreateBooking booking);
-        Task<List<Booking>> GetBookings();
-        Task<Booking> GetBookingById(Guid id);
-        Task<Response> UpdateBooking(Booking booking);
+        Task<BookingsListViewModel> GetBookings();
+        Task<BookingViewModel> GetBookingById(Guid id);
+        Task<Response> UpdateBooking(BookingViewModel booking);
         Task<Response> DeleteBooking(Guid id);
-        Task<List<Booking>> GetBookingsInbetweenDates(DateTime from, DateTime to);
+        Task<BookingsListViewModel> GetBookingsInbetweenDates(DateTime from, DateTime to);
     }
 
     public interface IScheduleDataService
     {
-        Task<Response> CreateSchedule(Schedule schedule);
-        Task<List<Schedule>> GetSchedules();
-        Task<Schedule> GetScheduleById(Guid id);
-        Task<Response> UpdateSchedule(Schedule schedule);
+        Task<Response> CreateSchedule(ScheduleViewModel schedule);
+        Task<SchedulesListViewModel> GetSchedules();
+        Task<ScheduleViewModel> GetScheduleById(Guid id);
+        Task<Response> UpdateSchedule(ScheduleViewModel schedule);
         Task<Response> DeleteSchedule(Guid id);
-        Task<Response> CreateManySchedule(ManySchedules schedule);
-        Task<Schedule> GetScheduleBydate(DateTime date);
+        Task<Response> CreateManySchedule(SchedulesListViewModel schedule);
+        Task<ScheduleViewModel> GetScheduleBydate(DateTime date);
     }
 
     public interface IOrderDataService

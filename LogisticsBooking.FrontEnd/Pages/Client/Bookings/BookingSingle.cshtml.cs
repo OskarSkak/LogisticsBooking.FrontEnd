@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Utilities;
 using LogisticsBooking.FrontEnd.Documents;
 using LogisticsBooking.FrontEnd.Utilities;
@@ -20,7 +21,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     public class BookingSingleModel : PageModel
     {
         private IBookingDataService bookingDataService;
-        [BindProperty] public Booking Booking { get; set; }
+        [BindProperty] public BookingViewModel Booking { get; set; }
         [BindProperty] public int ArrivalMinute { get; set; }
         [BindProperty] public int ArrivalHour { get; set; }
         
@@ -37,7 +38,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         public async Task OnGetAsync(string id)
         {
-            Booking = new Booking();
+            Booking = new BookingViewModel();
             Booking = await bookingDataService.GetBookingById(Guid.Parse(id));
             Booking = BookingUtil.RemoveDates(Booking);
             ArrivalHour = Booking.actualArrival.Hour;
@@ -64,7 +65,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             int endHour, int endMinute, Guid ViewBookingId)
         {
             
-            var booking = new Booking
+            var booking = new BookingViewModel()
             {
                 bookingTime = ViewBookTime, 
                 totalPallets = ViewPallets, 

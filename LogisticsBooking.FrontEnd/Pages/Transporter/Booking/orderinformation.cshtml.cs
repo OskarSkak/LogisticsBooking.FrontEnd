@@ -21,7 +21,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
 
         [BindProperty]
-        public BookingViewModel BookingViewModel { get; set; }
+        public BookingBuildModel BookingViewModel { get; set; }
         
         [BindProperty]
         public OrderViewModel OrderViewModel { get; set; }
@@ -48,7 +48,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var test = HttpContext.Session.GetObject<Object>(GetLoggedInUserId());
           
             var externalId  = await _utilBookingDataService.GetBookingNumber();
-            var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
+            var model = JsonConvert.DeserializeObject<BookingBuildModel>(test.ToString());
 
             
             BookingViewModel = model;
@@ -102,8 +102,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             
 
-                // ----- 
-
+                    
 
            
             
@@ -133,7 +132,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var test = HttpContext.Session.GetObject<Object>(id);
             
             
-            var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
+            var model = JsonConvert.DeserializeObject<BookingBuildModel>(test.ToString());
             var nextOrder = HttpContext.Session.GetObject<int>(model.ExternalId.ToString());
             nextOrder--;
 
@@ -155,7 +154,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             }
         }
 
-        public async Task<bool> CheckIfSupplierTimeOverlap(BookingViewModel bookingViewModel , OrderViewModel orderViewModel)
+        public async Task<bool> CheckIfSupplierTimeOverlap(BookingBuildModel bookingViewModel , OrderViewModel orderViewModel)
         {
             List<SupplierViewModel> orderViewModelsInCurrentBooking = new List<SupplierViewModel>();
             
@@ -191,17 +190,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
         }
 
-        public BookingViewModel GetBookingFromContext(string id)
+        public BookingBuildModel GetBookingFromContext(string id)
         {
             
             var BookingViewModelJson = HttpContext.Session.GetObject<Object>(id);
           
             
-            return JsonConvert.DeserializeObject<BookingViewModel>(BookingViewModelJson.ToString());
+            return JsonConvert.DeserializeObject<BookingBuildModel>(BookingViewModelJson.ToString());
             
         }
 
-        public async Task AddOrderToBookingViewModel(OrderViewModel orderViewModel , BookingViewModel bookingViewModel) 
+        public async Task AddOrderToBookingViewModel(OrderViewModel orderViewModel , BookingBuildModel bookingViewModel) 
         {
             // Getting Current Order number based on the Booking number from the HttpContext
             var externalBookingId  = await _utilBookingDataService.GetBookingNumber();

@@ -13,6 +13,35 @@
 
 
 
+<div class="calendar">
+
+    <form method="post">
+    <div class="container-fluid py-4"> 
+        <div class="row justify-content-center ">
+            <div class="col-lg text-center">
+                
+                    <input type="submit" asp-page-handler="back" class="fas fa-arrow-left arrow-size "> </input>
+                
+      
+            </div>
+            <div class="col-lg text-center">
+                
+                <span class="date-size"> @Model.date.Date.ToString("Y") </span>
+            </div>
+            <div class="col-lg text-center">
+                <input type="submit" asp-page-handler="Forward" class="fas fa-arrow-right arrow-size"></input>
+            </div>
+        </div>
+    </div>
+    </form>
+@{
+    var totaldays = 0;
+}
+@functions
+{
+<div class="calendar">
+
+
             
                 <div class="row justify-content-md-center">
                     <div class="col align-self-center ">

@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LogisticsBooking.FrontEnd.DataServices.Models
+namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
 {
-    public class Booking
+    public class BookingViewModel
     {
         public int ExternalId { get; set; }
         public int totalPallets { get; set; }
@@ -27,7 +27,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         
         public Guid TransporterId { get; set; }
 
-        public Booking()
+        public BookingViewModel()
         {
             
         }
