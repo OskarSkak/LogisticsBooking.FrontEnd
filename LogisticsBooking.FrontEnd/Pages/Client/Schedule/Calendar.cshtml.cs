@@ -43,7 +43,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
 
        
-        public CalenderViewModel CalenderViewModel { get; set; }
+     
 
 
         public Calendar(IScheduleDataService scheduleDataService)
@@ -223,6 +223,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
             HttpContext.Session.Clear();
             return new ObjectResult(HttpStatusCode.OK);
+            
+            
+            
+            
 
 
         }
