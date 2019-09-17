@@ -8171,7 +8171,7 @@ col {
   background-color: white; }
 
 .btn-primary {
-  color: #212529 !important;
+  color: #0f2900 !important;
   background-color: #d6d6d6 !important;
   border-color: #9E9D9E !important;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -8184,12 +8184,18 @@ col {
 
 .btn-primary:focus, .btn-primary.focus {
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(139, 139, 140, 0.5);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(139, 139, 140, 0.5); }
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(139, 139, 140, 0.5);
+  color: #dedad6;
+  background-color: #292929; }
 
 .btn-primary.disabled, .btn-primary:disabled {
   color: #212529;
   background-color: #d6d6d6;
   border-color: #9E9D9E; }
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 1000px; } }
 
 .navbar {
   height: 5rem; }
