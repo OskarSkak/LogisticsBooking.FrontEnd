@@ -24,6 +24,12 @@ using Exceptionless;
 using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
 
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
+using ILogger = Serilog.ILogger;
+
 namespace LogisticsBooking.FrontEnd
 {
 
@@ -53,7 +59,14 @@ namespace LogisticsBooking.FrontEnd
                 _config.GetSection(nameof(BackendServerUrlConfiguration)));
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
             
-            
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200/"))
+                {
+                    AutoRegisterTemplate = true
+                })
+                .Filter.ByExcluding((le) => le.Level ==LogEventLevel.Information)
+                .CreateLogger();
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -154,7 +167,7 @@ namespace LogisticsBooking.FrontEnd
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -189,6 +202,8 @@ namespace LogisticsBooking.FrontEnd
                 }
             });
             */
+
+            loggerFactory.AddSerilog();
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

@@ -30,9 +30,9 @@
                 <tr class="no-padding-marging">
                     <td>
                         <div class="list-group" style="">
-                            <a asp-page="./BookingSingle" asp-route-id="@schedule.ScheduleId" class="list-group-item list-group-item-action display-spacebetween">
-                                Navn: @schedule.Name
-                                    Dag/Nat:
+                            <a asp-page="./BookingSingle" asp-route-id="@schedule.ScheduleId" class="list-group-item list-group-item-action d-flex justify-content-between">
+                                <p>Navn: @schedule.Name
+                                    Dag/Nat:</p>
                                     @if (true)
                                     {
                                         <p>Dagsvagt (07-15)</p>

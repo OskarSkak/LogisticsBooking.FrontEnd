@@ -117,7 +117,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
 
         
-        public async Task<IActionResult> OnPostConfirm([FromBody]string[] value)
+        public async Task<IActionResult> OnPostConfirm([FromBody] string[] value)
         {
             
             var calendar =  HttpContext.Session.GetObject<CalenderViewModel>("key");
@@ -171,15 +171,27 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 List<IntervalViewModel> intervals = new List<IntervalViewModel>();
                 foreach (var interval in result.Intervals)
                 {
-                   
+
+                    DateTime starttime, endtime;	
+                    	
+                    if (CorrectDay(date, interval))	
+                    {	
+                        starttime = date.AddDays(1).Add(interval.StartTime.Value.TimeOfDay);	
+                        endtime = date.AddDays(1).Add(interval.EndTime.Value.TimeOfDay);	
+                    }	
+                    else	
+                    {	
+                        starttime = date.AddDays(0).Add(interval.StartTime.Value.TimeOfDay);	
+                        endtime = date.AddDays(0).Add(interval.EndTime.Value.TimeOfDay); 	
+                    }
                     
                     intervals.Add(new IntervalViewModel
                     {
                         IntervalId = Guid.NewGuid(),
                         
                         BottomPallets = interval.BottomPallets,
-                        EndTime = interval.EndTime,
-                        StartTime = interval.StartTime,
+                        EndTime = endtime,
+                        StartTime = starttime,
                         RemainingPallets = interval.BottomPallets,
                         Bookings = new List<BookingViewModel>(),
                         IsBooked = false,
@@ -229,6 +241,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
 
 
+        }
+
+        private void testmethod(IntervalViewModel interval, in DateTime date)
+        {
+            if (interval.StartTime.Value.Hour < 24)
+            {
+                interval.StartTime = interval.StartTime.Value.AddDays(1);
+            }
         }
 
         private bool CorrectDay(DateTime dateTime, IntervalViewModel interval)
