@@ -1,4 +1,5 @@
-﻿﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -25,10 +26,7 @@
         <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">Administrer Ordre</a> 
         <a asp-page="/Client/Transporters/Transporters" class="p-2 text-dark ">Transportører</a>
         <a class="p-2 text-dark " asp-page="/Client/Suppliers/Suppliers">Kunder</a>
-        <a asp-page="/content/Settings" class="p-2 text-dark ">Indstillinger</a> 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
     </div>
     <div class="navbar-collapse collapse w-25 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
@@ -39,7 +37,7 @@
                         Test@test.dk
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" asp-page="/Client/Settings/SettingsOverview">Indstillinger</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 ">Log Ud</a>
                     </div>

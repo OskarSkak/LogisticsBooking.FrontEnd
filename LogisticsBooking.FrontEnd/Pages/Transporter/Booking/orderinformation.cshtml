@@ -70,7 +70,7 @@
                         {
                             <select class="form-control"  ></select>
                         }                   
-                        <select class="form-control" asp-for="OrderViewModel.SupplierName" asp-items="Model.Transporters"></select>
+                        <select class="form-control" asp-for="OrderViewModel.SupplierId" asp-items="Model.Transporters"></select>
                         
                         
                         
@@ -192,7 +192,7 @@
                                              <span>@orderViewModel.totalPallets</span>                                         
                                              </div>
                                         <div class="col-2">
-                                            <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.id"><i class="fas fa-minus-circle"></i></a>
+                                            <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.OrderId"><i class="fas fa-minus-circle"></i></a>
                                         </div>
                                     
                                     </div>
@@ -220,7 +220,7 @@
                                </div>
                            }
                        
-                       @if (!Model.BookingViewModel.isBookingAllowed)
+                       @if (!Model.BookingViewModel.IsBookingAllowed)
                        {
                            <span> Denne kombination er ikke mulig da de valgte kunder ikke kan bookes sammen</span>
                            

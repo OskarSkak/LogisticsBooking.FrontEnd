@@ -50,33 +50,41 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 BookingsListViewModel = bookingDataService.GetBookingsInbetweenDates(DateTime.Now,
                     DateTime.Now.AddDays(numberOfDays)).Result;
             }
-            else{BookingsListViewModel = bookingDataService.GetBookings().Result;}
-    
-            foreach (var booking in BookingsListViewModel.Bookings)
+            else
             {
-                if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
-                    if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
 
-                    booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-                    booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
-                    booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
+                BookingsListViewModel = await bookingDataService.GetBookings();
 
-                    foreach (var order in booking.Orders)
-                    {
-                        if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
-                        if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
-                        if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
-                    }
-             }
-
-            for (int i = BookingsListViewModel.Bookings.Count - 1; i >= 0; i--)
-            {
-                if (BookingsListViewModel.Bookings[i].endLoading.Date != default(DateTime))
+                if (BookingsListViewModel != null)
                 {
-                    BookingsListViewModel.Bookings.Remove(BookingsListViewModel.Bookings[i]);
+                    foreach (var booking in BookingsListViewModel.Bookings)
+                    {
+                        if (String.IsNullOrWhiteSpace(booking.TransporterName)) booking.TransporterName = "N/A";
+                        if (String.IsNullOrWhiteSpace(booking.Email)) booking.Email = "N/A";
+
+                        booking.ActualArrival = default(DateTime).Add(booking.ActualArrival.TimeOfDay);
+                        booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
+                        booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
+
+                        foreach (var order in booking.Orders)
+                        {
+                            if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
+                            if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
+                            if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
+                        }
+                    }
+
+                    for (int i = BookingsListViewModel.Bookings.Count - 1; i >= 0; i--)
+                    {
+                        if (BookingsListViewModel.Bookings[i].EndLoading.Date != default(DateTime))
+                        {
+                            BookingsListViewModel.Bookings.Remove(BookingsListViewModel.Bookings[i]);
+                        }
+                    }
                 }
+
+
             }
-            
         }
 
         public async Task<IActionResult> OnPostUpdate(DateTime actualArrival, DateTime startLoading, DateTime endLoading, string id)
@@ -84,9 +92,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             var idConverted = Guid.Parse(id);
             var bookingToUpdate =  await bookingDataService.GetBookingById(idConverted);
             
-            bookingToUpdate.actualArrival = actualArrival;
-            bookingToUpdate.startLoading = startLoading;
-            bookingToUpdate.endLoading = endLoading;
+            bookingToUpdate.ActualArrival = actualArrival;
+            bookingToUpdate.StartLoading = startLoading;
+            bookingToUpdate.EndLoading = endLoading;
 
             
             
@@ -100,17 +108,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         {
             return new UpdateBookingCommand
             {
-                Email = bookingToUpdate.email,
-                Port = bookingToUpdate.port,
-                ActualArrival = bookingToUpdate.actualArrival,
-                BookingTime = bookingToUpdate.actualArrival,
-                EndLoading = bookingToUpdate.actualArrival,
+                Email = bookingToUpdate.Email,
+                Port = bookingToUpdate.Port,
+                ActualArrival = bookingToUpdate.ActualArrival,
+                BookingTime = bookingToUpdate.ActualArrival,
+                EndLoading = bookingToUpdate.ActualArrival,
                 ExternalId = bookingToUpdate.ExternalId,
-                InternalId = bookingToUpdate.internalId,
-                StartLoading = bookingToUpdate.startLoading,
-                TotalPallets = bookingToUpdate.totalPallets,
+                InternalId = bookingToUpdate.InternalId,
+                StartLoading = bookingToUpdate.StartLoading,
+                TotalPallets = bookingToUpdate.TotalPallets,
                 TransporterId = bookingToUpdate.TransporterId,
-                TransporterName = bookingToUpdate.transporterName
+                TransporterName = bookingToUpdate.TransporterName
             };
         }
 
@@ -124,7 +132,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             
             foreach (var booking in BookingsListViewModel.Bookings)
             {
-                if (booking.bookingTime < from) from = booking.bookingTime;
+                if (booking.BookingTime < from) from = booking.BookingTime;
             }
 
             var fromDateString = from.ToShortDateString();
@@ -154,17 +162,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 foreach (var order in booking.Orders)
                 {
                     worksheet.Cell(cellY, cellX++).SetValue(order.customerNumber);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.bookingTime.ToShortDateString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortDateString());
                     worksheet.Cell(cellY, cellX++).SetValue(order.orderNumber);
                     worksheet.Cell(cellY, cellX++).SetValue(order.TotalPallets);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.transporterName);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.email);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.bookingTime.ToShortTimeString());
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.port);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.TransporterName);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.Email);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.Port);
                     worksheet.Cell(cellY, cellX++).SetValue(order.SupplierName);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.actualArrival.ToShortTimeString());
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.startLoading.ToShortTimeString());
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.endLoading.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.ActualArrival.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.StartLoading.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.EndLoading.ToShortTimeString());
                     cellY++;
                     cellX = 1;
                 }

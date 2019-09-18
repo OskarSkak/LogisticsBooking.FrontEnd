@@ -16,12 +16,12 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto col-lg-6 col-10">
-                <h1>Booking fra @Model.Booking.transporterName</h1>
+                <h1>Booking fra @Model.Booking.TransporterName</h1>
                 <p class="mb-3">Opdater den ønskede information ved at redigere i det passende felt, og tryk derefter 'Opdater'</p>
                 <form method="post" class="text-left">
-                    <div class="form-group"> <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.bookingTime" class="form-control" id="form18" name="ViewBookTime"> </div>
-                    <div class="form-group"> <label for="form18">Antal paller</label> <input asp-for="Booking.totalPallets" class="form-control" id="form18" name="ViewPallets"> </div>
-                    <div class="form-group"> <label for="form18">Port</label> <input asp-for="Booking.port" class="form-control" id="form18" name="ViewPort"> </div>
+                    <div class="form-group"> <label for="form18">Leverings Dato</label> <input type="date" asp-for="Booking.BookingTime" class="form-control" id="form18" name="ViewBookTime"> </div>
+                    <div class="form-group"> <label for="form18">Antal paller</label> <input asp-for="Booking.TotalPallets" class="form-control" id="form18" name="ViewPallets"> </div>
+                    <div class="form-group"> <label for="form18">Port</label> <input asp-for="Booking.Port" class="form-control" id="form18" name="ViewPort"> </div>
                     <div class="form-group"> <label for="form18" style="width: 12em">Faktisk ankomst</label> 
                         <input type="number" asp-for="@Model.ArrivalHour" name="ActualArrivalHour" style="width: 2.5em" max="23" min="0" required /> 
                         : <input type="number" asp-for="@Model.ArrivalMinute" name="ActualArrivalMinute" style="width: 2.5em" max="59" min="0" required />
@@ -34,7 +34,7 @@
                         <input type="number" asp-for="@Model.endHour" name="endHour" style="width: 2.5em" max="23" min="0" required /> 
                         : <input type="number" asp-for="@Model.endMinute" name="endMinute" style="width: 2.5em" max="59" min="0" required />
                     </div>
-                    <input asp-for="Booking.endLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.internalId">
+                    <input asp-for="Booking.EndLoading" type="hidden" class="form-control" id="form18" name="ViewBookingId" value="@Model.Booking.InternalId">
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" value="Opdater"/>
                     <a class="trigger_popup_fricc btn btn-primary">Slet</a>
                 </form>

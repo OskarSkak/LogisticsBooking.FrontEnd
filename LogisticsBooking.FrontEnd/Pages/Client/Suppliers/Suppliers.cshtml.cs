@@ -20,11 +20,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         public SuppliersModel(ISupplierDataService supplierDataService)
         {
             _supplierDataService = supplierDataService;
-            SuppliersListView = PopulateList(supplierDataService).Result; 
+            
         }
         
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            SuppliersListView = await PopulateList(_supplierDataService);
+
+            return Page();
         }
 
         private static async Task<SuppliersListViewModel> PopulateList(ISupplierDataService supplierDataService)

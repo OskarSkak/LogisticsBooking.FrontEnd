@@ -28,12 +28,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             BookingsListViewModel = bookingDataService.GetBookings().Result;
             foreach (var booking in BookingsListViewModel.Bookings)
             {
-                if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
-                if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
+                if (String.IsNullOrWhiteSpace(booking.TransporterName)) booking.TransporterName = "N/A";
+                if (String.IsNullOrWhiteSpace(booking.Email)) booking.Email = "N/A";
                 
-                booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-                booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
-                booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
+                booking.ActualArrival = default(DateTime).Add(booking.ActualArrival.TimeOfDay);
+                booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
+                booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
                 
                 foreach (var order in booking.Orders)
                 {

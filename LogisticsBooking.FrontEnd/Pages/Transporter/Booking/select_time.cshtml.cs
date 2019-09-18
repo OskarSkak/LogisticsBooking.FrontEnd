@@ -103,53 +103,44 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 Console.WriteLine(ex);
             }
 
-            var CurrentBooking = HttpContext.Session.GetObject<BookingBuildModel>(id);
+            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
 
             
-
-            // Map from BookingViewModel to Booking
-            var booking = new BookingViewModel
-            {
-
-                actualArrival = new DateTime(),
-                bookingTime = CurrentBooking.BookingTime,
-                email = CurrentBooking.email,
-                endLoading = new DateTime(),
-                ExternalId = CurrentBooking.ExternalId,
-                startLoading = new DateTime(),
-                totalPallets = CurrentBooking.TotalPallets,
-                transporterName = CurrentBooking.TransporterName
-
-            };
             
-            List<Order> orders = new List<Order>();
+ 
+            
+            List<CreateOrderCommand> orders = new List<CreateOrderCommand>();
 
             foreach (var order in CurrentBooking.OrderViewModels)
             {
-                orders.Add(new Order
+                orders.Add(new CreateOrderCommand
                 {
-                    bookingId = order.bookingId,
+                    
                     BottomPallets = order.BottomPallets,
-                    Comment = order.Comment,
-                    customerNumber = order.customerNumber,
-                    ExternalId = order.ExternalId,
-                    id = order.id,
-                    InOut = order.InOut,
-                    orderNumber = order.orderNumber,
-                    SupplierName = order.SupplierName,
+                    Comments = order.Comment,
+                     ExternalId = order.ExternalId,
+                     // TODO InOut = order.InOut,
+                    OrderNumber = order.orderNumber,
+                    SupplierId = order.SupplierId,
                     TotalPallets = order.totalPallets,
-                    wareNumber = order.wareNumber
+                    
                 });
             }
 
-            booking.Orders = orders;
+            
 
+            
             // Create a booking on the chosen interval
-            await _bookingDataService.CreateBooking(new CreateBooking
+            await _bookingDataService.CreateBooking(new CreateBookingCommand
             {
-                Booking = booking,
+                DeliveryDate = CurrentBooking.BookingTime,
+                ExternalId = CurrentBooking.ExternalId,
                 IntervalId = Guid.Parse(interval),
-                Schedule = schedule
+                TotalPallets = CurrentBooking.TotalPallets,
+                TransporterId = CurrentBooking.TransporterId,
+                CreateOrderCommand = orders
+                
+                
             });
             
             
