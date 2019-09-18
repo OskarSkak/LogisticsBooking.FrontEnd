@@ -163,7 +163,8 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IOrderDataService, OrderDataService>();
             services.AddTransient<IScheduleDataService, ScheduleDataService>();
           
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

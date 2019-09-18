@@ -22,11 +22,11 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             baseurl = _APIServerURL + "/api/bookings/";
         }
-        public async Task<Response> CreateBooking(CreateBooking booking)
+        public async Task<Response> CreateBooking(CreateBookingCommand booking)
         {
             
 
-            var response = await PostAsync<CreateBooking>(baseurl, booking);
+            var response = await PostAsync<CreateBookingCommand>(baseurl, booking);
 
             
             if (response.IsSuccessStatusCode)

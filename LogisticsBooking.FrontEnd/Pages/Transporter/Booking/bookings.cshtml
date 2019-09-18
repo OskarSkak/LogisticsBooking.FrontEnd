@@ -25,10 +25,10 @@
                     @foreach (var booking in Model.BookingsListViewModel.Bookings)
                     {
                         <a asp-page="/Supplier/Individual_MadeBooking" class="list-group-item list-group-item-action display-spacebetween">
-                            <div>@booking.transporterName</div>
+                            <div>@booking.TransporterName</div>
                             
-                            <div>Dato: @booking.bookingTime.Date</div>
-                            <div>Tid: @booking.bookingTime.TimeOfDay</div>
+                            <div>Dato: @booking.BookingTime.Date</div>
+                            <div>Tid: @booking.BookingTime.TimeOfDay</div>
                         </a>
                     }
                     

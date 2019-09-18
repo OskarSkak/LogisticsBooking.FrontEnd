@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace LogisticsBooking.FrontEnd.ConfigHelpers
 {
-    public static class LoggedInUser
+    public static class User
     {
         
     }

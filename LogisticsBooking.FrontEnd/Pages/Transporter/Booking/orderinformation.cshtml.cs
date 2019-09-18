@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
 
         [BindProperty]
-        public BookingBuildModel BookingViewModel { get; set; }
+        public BookingViewModel BookingViewModel { get; set; }
         
         [BindProperty]
         public OrderViewModel OrderViewModel { get; set; }
@@ -42,23 +43,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             _supplierDataService = supplierDataService;
             _utilBookingDataService = utilBookingDataService;
         }
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             
-            var test = HttpContext.Session.GetObject<Object>(GetLoggedInUserId());
-          
-            var externalId  = await _utilBookingDataService.GetBookingNumber();
-            var model = JsonConvert.DeserializeObject<BookingBuildModel>(test.ToString());
-
+            BookingViewModel = HttpContext.Session.GetObject<BookingViewModel>(GetLoggedInUserId());
             
-            BookingViewModel = model;
+            var result = await _supplierDataService.ListSuppliers(2, 4);
+            BookingViewModel.SuppliersListViewModel = result;
+            HttpContext.Session.SetObject(GetLoggedInUserId() , BookingViewModel);
+            CreateSelectedList(BookingViewModel.SuppliersListViewModel);
 
-            BookingViewModel.ExternalId = externalId.bookingid;
-            BookingViewModel.Suppliers = await _supplierDataService.ListSuppliers(0, 0);
-            
-            CreateSelectedList(BookingViewModel.Suppliers);
-            
-
+            return Page();
 
         }
 
@@ -89,7 +84,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 }
                 else
                 {
-                    currentBookingViewModel.isBookingAllowed = false;
+                    currentBookingViewModel.IsBookingAllowed = false;
                     
                     HttpContext.Session.SetObject(GetLoggedInUserId() , currentBookingViewModel);
                 }
@@ -100,17 +95,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             }
             
 
-            
-
-                    
-
-           
-            
-            
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
             return new RedirectToPageResult("orderinformation");
 
         }
@@ -136,7 +120,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             var nextOrder = HttpContext.Session.GetObject<int>(model.ExternalId.ToString());
             nextOrder--;
 
-            var result = model.OrderViewModels.FirstOrDefault(x => x.id.Equals(orderId));
+            var result = model.OrderViewModels.FirstOrDefault(x => x.OrderId.Equals(orderId));
             model.PalletsRemaining += result.BottomPallets;
             model.OrderViewModels.Remove(result);
             HttpContext.Session.SetObject(id , model);
@@ -150,27 +134,27 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
             foreach (var supplier in suppliers.Suppliers)
             {
-                Transporters.Add(new SelectListItem{ Value = supplier.Name ,Text = supplier.Name});
+                Transporters.Add(new SelectListItem{ Value = supplier.SupplierId.ToString() ,Text = supplier.Name});
             }
         }
 
-        public async Task<bool> CheckIfSupplierTimeOverlap(BookingBuildModel bookingViewModel , OrderViewModel orderViewModel)
+        public async Task<bool> CheckIfSupplierTimeOverlap(BookingViewModel bookingViewModel , OrderViewModel orderViewModel)
         {
             List<SupplierViewModel> orderViewModelsInCurrentBooking = new List<SupplierViewModel>();
             
             foreach (var order in bookingViewModel.OrderViewModels)
             {
-                orderViewModelsInCurrentBooking.Add(await _supplierDataService.GetSupplierByName(order.SupplierName));
+                orderViewModelsInCurrentBooking.Add(await _supplierDataService.GetSupplierById(order.SupplierId));
             }
             
-            var SupplierTryingToBook = await _supplierDataService.GetSupplierByName(orderViewModel.SupplierName);
+            var SupplierTryingToBook = await _supplierDataService.GetSupplierById(orderViewModel.SupplierId);
 
             orderViewModelsInCurrentBooking.OrderBy(x => x.DeliveryStart);
 
             bool overlap = true;
             foreach (var supplier in orderViewModelsInCurrentBooking)
             {
-                overlap = supplier.DeliveryStart < SupplierTryingToBook.DeliveryEnd && SupplierTryingToBook.DeliveryStart < supplier.DeliveryEnd;
+                overlap = supplier.DeliveryStart.Hour < SupplierTryingToBook.DeliveryEnd.Hour && SupplierTryingToBook.DeliveryStart.Hour < supplier.DeliveryEnd.Hour;
 
                 if (overlap == false)
                 {
@@ -190,23 +174,23 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
         }
 
-        public BookingBuildModel GetBookingFromContext(string id)
+        public BookingViewModel GetBookingFromContext(string id)
         {
             
-            var BookingViewModelJson = HttpContext.Session.GetObject<Object>(id);
-          
+            return HttpContext.Session.GetObject<BookingViewModel>(id);
             
-            return JsonConvert.DeserializeObject<BookingBuildModel>(BookingViewModelJson.ToString());
             
         }
 
-        public async Task AddOrderToBookingViewModel(OrderViewModel orderViewModel , BookingBuildModel bookingViewModel) 
+        public async Task AddOrderToBookingViewModel(OrderViewModel orderViewModel , BookingViewModel bookingViewModel) 
         {
             // Getting Current Order number based on the Booking number from the HttpContext
-            var externalBookingId  = await _utilBookingDataService.GetBookingNumber();
+
             
-            var nextOrder = HttpContext.Session.GetObject<int>(externalBookingId.bookingid.ToString());
-            bookingViewModel.ExternalId = externalBookingId.bookingid;
+            var nextOrder = HttpContext.Session.GetObject<int>(bookingViewModel.ExternalId.ToString());
+
+            var suppliername = bookingViewModel.SuppliersListViewModel.Suppliers.FirstOrDefault(x => x.SupplierId.Equals(orderViewModel.SupplierId));
+            
             List<OrderViewModel> orderViewModels = null;
             bookingViewModel.PalletsRemaining -= orderViewModel.BottomPallets;
             if (bookingViewModel.OrderViewModels == null)
@@ -216,15 +200,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     new OrderViewModel 
                     {
                         orderNumber = orderViewModel.orderNumber,
-                        bookingId = orderViewModel.bookingId,
                         BottomPallets = orderViewModel.BottomPallets,
                         customerNumber = orderViewModel.customerNumber,
-                        id = Guid.NewGuid(),
                         InOut = orderViewModel.InOut,
                         totalPallets = orderViewModel.totalPallets,
                         wareNumber = orderViewModel.wareNumber,
-                        SupplierName = orderViewModel.SupplierName,
-                        ExternalId = externalBookingId.bookingid + "-" + nextOrder.ToString("D2"),
+                        SupplierName = suppliername.Name,
+                        SupplierId = suppliername.SupplierId,
+                        ExternalId = bookingViewModel.ExternalId + "-" + nextOrder.ToString("D2"),
                         createdOrders = 2,
                         Comment = orderViewModel.Comment
                         
@@ -237,16 +220,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 bookingViewModel.OrderViewModels.Add(new OrderViewModel
                 {
                     orderNumber = orderViewModel.orderNumber,
-                    bookingId = orderViewModel.bookingId,
                     BottomPallets = orderViewModel.BottomPallets,
                     customerNumber = orderViewModel.customerNumber,
-                    id = Guid.NewGuid(),
                     InOut = orderViewModel.InOut,
                     totalPallets = orderViewModel.totalPallets,
                     wareNumber = orderViewModel.wareNumber,
-                    SupplierName = orderViewModel.SupplierName,
-                    ExternalId = externalBookingId.bookingid + "-" + nextOrder.ToString("D2"),
-                    Comment = orderViewModel.Comment,
+                    SupplierName = suppliername.Name,
+                    SupplierId = suppliername.SupplierId,
+                    ExternalId = bookingViewModel.ExternalId + "-" + nextOrder.ToString("D2"),
+                    createdOrders = 2,
+                    Comment = orderViewModel.Comment
                     
                     
                     
@@ -260,9 +243,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 bookingViewModel.OrderViewModels = orderViewModels;
             }
 
-            bookingViewModel.isBookingAllowed = true;
+            bookingViewModel.IsBookingAllowed = true;
             nextOrder++;
-            HttpContext.Session.SetObject(externalBookingId.bookingid.ToString() , nextOrder);
+            HttpContext.Session.SetObject(bookingViewModel.ExternalId.ToString() , nextOrder);
       
             HttpContext.Session.SetObject(GetLoggedInUserId() , bookingViewModel);
 

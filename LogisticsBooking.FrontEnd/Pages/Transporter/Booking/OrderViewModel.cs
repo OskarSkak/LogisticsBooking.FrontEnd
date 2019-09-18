@@ -5,7 +5,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class OrderViewModel
     {
-        public Guid id { get; set; }
+        public Guid OrderId { get; set; }
         public Guid bookingId { get; set; }
         
         [Required]
@@ -19,6 +19,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public string InOut { get; set; }
         public int totalPallets { get; set; }
         public int BottomPallets { get; set; }
+
+        public Guid SupplierId { get; set; }
         
         public string SupplierName { get; set; }
     }

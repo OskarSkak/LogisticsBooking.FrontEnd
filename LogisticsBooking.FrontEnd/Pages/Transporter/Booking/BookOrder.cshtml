@@ -7,6 +7,13 @@
 }
 
 
+@if (Model.ShowMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.ScheduleAvailableMessage</strong> 
+    </div>
+}
+
 <div class="py-1" style="">
     <div class="container">
             <!-- Horizontal Steppers -->
@@ -62,8 +69,8 @@
                
                 <form method="post" >
                     
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-format="{0:dd/MM/yyyy}"  asp-for="BookingOrderViewModel.BookingTime" data-language='da'  class="form-control datepicker-here" id="form29" placeholder=""></div>
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen <span data-title="test"></span></label><input  asp-for="BookingOrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-format="{0:dd/MM/yyyy}"  asp-for="BookingViewModel.BookingTime" data-language='da'  class="form-control datepicker-here" id="form29" placeholder=""></div>
+                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen <span data-title="test"></span></label><input  asp-for="BookingViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
                     <div asp-validation-summary="ModelOnly"></div>
                     <!--         
                     <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div> -->

@@ -41,13 +41,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             Booking = new BookingViewModel();
             Booking = await bookingDataService.GetBookingById(Guid.Parse(id));
             Booking = BookingUtil.RemoveDates(Booking);
-            ArrivalHour = Booking.actualArrival.Hour;
-            ArrivalMinute = Booking.actualArrival.Minute;
+            ArrivalHour = Booking.ActualArrival.Hour;
+            ArrivalMinute = Booking.ActualArrival.Minute;
 
-            StartMinute = Booking.startLoading.Minute;
-            EndMinute = Booking.endLoading.Minute;
-            StartHour = Booking.startLoading.Hour;
-            EndHour = Booking.endLoading.Hour;
+            StartMinute = Booking.StartLoading.Minute;
+            EndMinute = Booking.EndLoading.Minute;
+            StartHour = Booking.StartLoading.Hour;
+            EndHour = Booking.EndLoading.Hour;
         }
 
         public async Task<IActionResult> OnPostDelete(string id)
@@ -67,13 +67,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             
             var booking = new BookingViewModel()
             {
-                bookingTime = ViewBookTime, 
-                totalPallets = ViewPallets, 
-                port = ViewPort, 
-                actualArrival = GeneralUtil.TimeFromHourAndMinute(ActualArrivalHour, ActualArrivalMinute), 
-                startLoading = GeneralUtil.TimeFromHourAndMinute(startHour, startMinute), 
-                endLoading = GeneralUtil.TimeFromHourAndMinute(endHour, endMinute), 
-                internalId = ViewBookingId
+                BookingTime = ViewBookTime, 
+                TotalPallets = ViewPallets, 
+                Port = ViewPort, 
+                ActualArrival = GeneralUtil.TimeFromHourAndMinute(ActualArrivalHour, ActualArrivalMinute), 
+                StartLoading = GeneralUtil.TimeFromHourAndMinute(startHour, startMinute), 
+                EndLoading = GeneralUtil.TimeFromHourAndMinute(endHour, endMinute), 
+                InternalId = ViewBookingId
             };
 
             var result = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(booking));
@@ -87,17 +87,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         {
             return new UpdateBookingCommand
             {
-                Email = bookingToUpdate.email,
-                Port = bookingToUpdate.port,
-                ActualArrival = bookingToUpdate.actualArrival,
-                BookingTime = bookingToUpdate.actualArrival,
-                EndLoading = bookingToUpdate.actualArrival,
+                Email = bookingToUpdate.Email,
+                Port = bookingToUpdate.Port,
+                ActualArrival = bookingToUpdate.ActualArrival,
+                BookingTime = bookingToUpdate.ActualArrival,
+                EndLoading = bookingToUpdate.ActualArrival,
                 ExternalId = bookingToUpdate.ExternalId,
-                InternalId = bookingToUpdate.internalId,
-                StartLoading = bookingToUpdate.startLoading,
-                TotalPallets = bookingToUpdate.totalPallets,
+                InternalId = bookingToUpdate.InternalId,
+                StartLoading = bookingToUpdate.StartLoading,
+                TotalPallets = bookingToUpdate.TotalPallets,
                 TransporterId = bookingToUpdate.TransporterId,
-                TransporterName = bookingToUpdate.transporterName
+                TransporterName = bookingToUpdate.TransporterName
             };
         }
     }
