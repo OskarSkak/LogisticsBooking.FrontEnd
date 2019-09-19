@@ -44,6 +44,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public List<OrderViewModel> OrderViewModels { get; set; }
         
         public bool IsBookingAllowed { get; set; }
+        
+        public int PalletsCurrentlyOnBooking { get; set; }
 
         public BookingViewModel()
         {

@@ -102,29 +102,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         
         public async Task<IActionResult> OnGetDeleteAsync(Guid orderId)
         {
-            var id = "";
-
-            try
-            {
-                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine(ex);
-            }
-
-            var test = HttpContext.Session.GetObject<Object>(id);
+            var currentBookingViewModel = GetBookingFromContext(GetLoggedInUserId());
             
             
-            var model = JsonConvert.DeserializeObject<BookingBuildModel>(test.ToString());
-            var nextOrder = HttpContext.Session.GetObject<int>(model.ExternalId.ToString());
+            
+            var nextOrder = HttpContext.Session.GetObject<int>(currentBookingViewModel.ExternalId.ToString());
             nextOrder--;
 
-            var result = model.OrderViewModels.FirstOrDefault(x => x.OrderId.Equals(orderId));
-            model.PalletsRemaining += result.BottomPallets;
-            model.OrderViewModels.Remove(result);
-            HttpContext.Session.SetObject(id , model);
-            HttpContext.Session.SetObject(model.ExternalId.ToString() , nextOrder);
+            var result = currentBookingViewModel.OrderViewModels.FirstOrDefault(x => x.OrderId.Equals(orderId));
+            currentBookingViewModel.PalletsRemaining += result.BottomPallets;
+            currentBookingViewModel.PalletsCurrentlyOnBooking -= result.BottomPallets;
+            currentBookingViewModel.OrderViewModels.Remove(result);
+            HttpContext.Session.SetObject(GetLoggedInUserId() , currentBookingViewModel);
+            HttpContext.Session.SetObject(currentBookingViewModel.ExternalId.ToString() , nextOrder);
             return new RedirectToPageResult("orderinformation");
         }
 
@@ -193,6 +183,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             List<OrderViewModel> orderViewModels = null;
             bookingViewModel.PalletsRemaining -= orderViewModel.BottomPallets;
+            bookingViewModel.PalletsCurrentlyOnBooking += orderViewModel.BottomPallets;
             if (bookingViewModel.OrderViewModels == null)
             {
                 orderViewModels = new List<OrderViewModel>
@@ -209,7 +200,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                         SupplierId = suppliername.SupplierId,
                         ExternalId = bookingViewModel.ExternalId + "-" + nextOrder.ToString("D2"),
                         createdOrders = 2,
-                        Comment = orderViewModel.Comment
+                        Comment = orderViewModel.Comment,
+                        OrderId = Guid.NewGuid()
                         
                         
                     }    
@@ -251,5 +243,31 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
            
         }
+
+        public async Task<IActionResult> OnPostEditOrder(OrderViewModel orderViewModel)
+        {
+            var currentBookingViewModel = GetBookingFromContext(GetLoggedInUserId());
+
+            var order = currentBookingViewModel.OrderViewModels.Find(x => x.OrderId.Equals(orderViewModel.OrderId));
+
+            
+            currentBookingViewModel.PalletsCurrentlyOnBooking -= order.BottomPallets;
+            currentBookingViewModel.PalletsRemaining += order.BottomPallets;
+
+            order.Comment = OrderViewModel.Comment;
+            order.BottomPallets = OrderViewModel.BottomPallets;
+            order.orderNumber = OrderViewModel.orderNumber;
+            order.BottomPallets = OrderViewModel.BottomPallets;
+            
+            
+            currentBookingViewModel.PalletsCurrentlyOnBooking += order.BottomPallets;
+            currentBookingViewModel.PalletsRemaining -= order.BottomPallets;
+            
+            HttpContext.Session.SetObject(GetLoggedInUserId() , currentBookingViewModel);
+            
+            return new RedirectToPageResult("");
+  
+        }
+        
     }
 }
