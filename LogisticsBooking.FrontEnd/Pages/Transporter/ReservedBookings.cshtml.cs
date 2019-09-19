@@ -37,7 +37,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
             
             foreach (var booking in allBookings.Bookings)
             {
-                if (booking.TransporterName == loggedIn.Name) Bookings.Add(booking);
+                if (booking.TransporterId == loggedIn.TransporterId) Bookings.Add(booking);
             }
 
             return Page();

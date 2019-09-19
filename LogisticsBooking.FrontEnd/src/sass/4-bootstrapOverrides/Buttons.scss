@@ -1,16 +1,15 @@
 
 .btn-primary {
   color: #0f2900 !important;
-  background-color: #d6d6d6 !important;
-  border-color: #9E9D9E !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+  background-color: #e8ecef !important;
+  border-color: #ced4da !important;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.21);
 }
 
 .btn-primary:hover {
-  color: #fff;
-  background-color: #8b8a8b;
-  border-color: #858385;
-  
+  background-color: #dfe3e6 !important;
+
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -25,8 +24,3 @@
   border-color: #9E9D9E;
 }
 
-@media (min-width: 576px){
-.modal-dialog {
-  max-width: 1000px;
-}
-}

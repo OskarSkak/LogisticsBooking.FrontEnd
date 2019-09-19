@@ -5,6 +5,12 @@
 @{
     Layout = "_Layout_Transporter";
 }
+<style>
+.popover> .arrow {
+    border-width: 16px;
+}
+    
+    </style>
 
 
 @if (Model.ShowMessage)
@@ -16,66 +22,58 @@
 
 <div class="py-1" style="">
     <div class="container">
-            <!-- Horizontal Steppers -->
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Stepers Wrapper -->
-                    <ul class="stepper stepper-horizontal">
-                        <!-- First Step -->
-                        <li class="active">
-                            <a href="#!">
-                                <span class="circle">1</span>
-                                <span class="label">Opret Ordre</span>
-                            </a>
-                        </li>
-
-                        <!-- Second Step -->
-                        <li class="">
-                            <a href="#!">
-                                <span class="circle">2</span>
-                                <span class="label">Oplysninger</span>
-                            </a>
-                        </li>
-
-                        <!-- Third Step -->
-                        <li class="">
-                            <a href="#!">
-                                <span class="circle">3</span>
-                                <span class="label">Tidspunkt</span>
-                            </a>
-                        </li>
-                        
-                        <!-- Third Step -->
-                        <li class="">
-                            <a href="#!">
-                                <span class="circle">3</span>
-                                <span class="label">Gennemført</span>
-                            </a>
-                        </li>
-
-                    </ul>
-                    <!-- /.Stepers Wrapper -->
-
-                </div>
-            </div>
-
-
+  <div class="md-stepper-horizontal blue">
+      <div class="md-step active ">
+        <div class="md-step-circle"><span></span><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i></div>
+        <div class="md-step-title">Leveringsdag</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step ">
+        <div class="md-step-circle"><span>2</span></div>
+        <div class="md-step-title">Opret Ordrer</div>
+          <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step ">
+        <div class="md-step-circle"><span>3</span></div>
+          <div class="md-step-title">Leveringstidspunkt</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step">
+        <div class="md-step-circle"><span>4</span></div>
+        <div class="md-step-title">Gennemført</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+    </div>
     </div>
 </div>  
 <div class="py-1" style="">
     <div class="container">
         <div class="row" >
-            <div class="mx-auto p-4 col-lg-8">
+            <div class="mx-auto p-4 col-lg-8 card">
                
                 <form method="post" >
-                    
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv Leveringsdato</label><input title="testee" type="date" asp-format="{0:dd/MM/yyyy}"  asp-for="BookingViewModel.BookingTime" data-language='da'  class="form-control datepicker-here" id="form29" placeholder=""></div>
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv totalt antal paller på bilen <span data-title="test"></span></label><input  asp-for="BookingViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
-                    <div asp-validation-summary="ModelOnly"></div>
-                    <!--         
-                    <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div> -->
-                    <div class="display-center">
-                        <button type="submit"   class="btn btn-primary">Bekræft</button>
+
+<div class="input-group mb-3">
+    <input title="" type="date" asp-format="{0:dd/MM/yyyy}" asp-for="BookingViewModel.BookingTime" data-language='da'  class="form-control" id="span" placeholder="Leveringsdato">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+      </div>
+</div>
+
+                   <div class="input-group mb-3">
+                      
+                             <input asp-for="BookingViewModel.TotalPallets" type="number" class="form-control" id="paller" placeholder="Antal Paller">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+                      </div>
+                </div>
+                
+                    <div class="form-group d-flex justify-content-center">
+                        <button type="submit"   class="btn btn-lg btn-primary">Bekræft</button>
                      
                     </div>
 
@@ -84,3 +82,38 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts
+{
+
+
+    <script> 
+
+    
+    $('#basic').click(function(){
+        $(this).popover({
+            title: 'Leveringsdato',
+            content: 'Angiv venligst leveringsdatoen i dette felt. ',
+            trigger: 'click',
+            placement:'right',
+            html: true
+        }).popover('show');
+        clickedAway = false
+        isVisible = true
+    });
+    $(document).click(function() {
+        if(isVisible & clickedAway){
+            $('#basic').popover('hide')
+        isVisible = clickedAway = false
+        }else{
+        clickedAway = true
+        }
+    });
+    
+    
+    
+    $('#paller').tooltip({'trigger':'focus', 'title': 'Angiv total antal paller på booking'  , 'placement': 'right'});
+    
+    </script>
+}

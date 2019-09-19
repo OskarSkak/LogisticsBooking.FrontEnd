@@ -173,7 +173,8 @@ namespace LogisticsBooking.FrontEnd
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+                // Usefull for enter a site that does not exists. 
+                app.UseStatusCodePagesWithRedirects("/Error");
                 
             }
             else
