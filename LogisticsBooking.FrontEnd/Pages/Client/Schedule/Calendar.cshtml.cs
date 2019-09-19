@@ -163,11 +163,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 */
             var result = HttpContext.Session.GetObject<ScheduleViewModel>("scheduleId");
 
-            var scheduleID = Guid.NewGuid();
+           
             
             SchedulesListViewModel schedules = new SchedulesListViewModel();
             foreach (var date in DateChosen.CosenDays)
             {
+                var scheduleID = Guid.NewGuid();
                 List<IntervalViewModel> intervals = new List<IntervalViewModel>();
                 foreach (var interval in result.Intervals)
                 {

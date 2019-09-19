@@ -33,7 +33,7 @@ module.exports = (env, argv) => {
                                 },
                                 options: {
                                     plugins: () => [require('autoprefixer')({
-                                        'browsers': ['last 2 versions', 'ie 8', 'ie 9']
+                                        'overrideBrowserslist': ['last 2 versions', 'ie 8', 'ie 9']
                                     })],
                                 }
                             },

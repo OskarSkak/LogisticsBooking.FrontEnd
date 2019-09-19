@@ -370,49 +370,7 @@ Own CSS
  */
 
 
-
-.margin-1em-top {
-    margin-top: 1em;
-}
-
-.py-5-top {
-    padding-top: 5rem;
-    padding-bottom: 0.2rem;
-}
-
-.small-info-text {
-    font-size: 0.8rem;
-    color: #9c9c9c;
-}
-
-.max-width {
-    width: 100% !important;
-}
-
-.display-spacebetween {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.display-center {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-
-.display-right {
-    display: flex !important;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-
-.paddingleftbookingform {
-    padding-left: 0.2em !important;
-}
-
-
+hr-thick
 .fieldsetContainer {
     height: 0;
     overflow: hidden;
