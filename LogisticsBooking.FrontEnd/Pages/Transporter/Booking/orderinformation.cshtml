@@ -6,236 +6,278 @@
     Layout = "_Layout_Transporter";
 }
 
+
+
 <div class="py-1" style="">
     <div class="container">
-
-            <!-- Horizontal Steppers -->
-            <div class="row">
-                <div class="col-md-12">
-
-                    <!-- Stepers Wrapper -->
-                    <ul class="stepper stepper-horizontal">
-
-                        <!-- First Step -->
-                        <li class="completed">
-                            <a href="#!">
-                                <span class="circle"><i class="fas fa-check"></i></span>
-                                <span class="label">Opret Ordre</span>
-                            </a>
-                        </li>
-
-                        <!-- Second Step -->
-                        <li class="active">
-                            <a href="#!">
-                                <span class="circle"><i class="fas fa-check"></i></span>
-                                <span class="label">Oplysninger</span>
-                            </a>
-                        </li>
-                        
-                        <!-- Third Step -->
-                        <li class="">
-                            <a href="#!">
-                                <span class="circle">3</span>
-                                <span class="label">Tidspunkt</span>
-                            </a>
-                        </li>
-                        
-                        <!-- Third Step -->
-                        <li class="">
-                            <a href="#!">
-                                <span class="circle">3</span>
-                                <span class="label">Gennemført</span>
-                            </a>
-                        </li>
-
-                    </ul>
-                    <!-- /.Stepers Wrapper -->
-
-                </div>
-            </div>
-
-
+  <div class="md-stepper-horizontal blue">
+      <div class="md-step active ">
+        <div class="md-step-circle"><span></span><i class="fas fa-check"></i></div>
+        <div class="md-step-title">Leveringsdag</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step active ">
+          <div class="md-step-circle"><span></span><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i></div>
+        <div class="md-step-title">Opret Ordrer</div>
+          <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step ">
+        <div class="md-step-circle"><span>3</span></div>
+        <div class="md-step-title">Leveringstidspunkt</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step">
+        <div class="md-step-circle"><span>4</span></div>
+        <div class="md-step-title">Gennemført</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+    </div>
     </div>
 </div>  
 
 
-<div class="py-1" style="">
-    <div class="container-fluid">
-        <div class="row" >
-            <div class="mx-auto p-4 col-lg-4">
-                <form method="post">
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv leverandør</label>
-                        
-                        @if (Model.Transporters == null)
-                        {
-                            <select class="form-control"  ></select>
-                        }                   
-                        <select class="form-control" asp-for="OrderViewModel.SupplierId" asp-items="Model.Transporters"></select>
-                        
-                        
-                        
-                        
-                    </div>
+<div class="py-4 m-5" s>
+        <div class="container-fluid card">
+        
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    
+                    <div class="py-4">
+                        <div>
+                            <h2 class="">Angiv Ordre Informationer</h2>
+                        </div>
 
-                    <div class="form-group"><label class="paddingleftbookingform">Angiv samlet antal bundpaller på denne ordre</label><input asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
-                    <div class="form-group "><label class="paddingleftbookingform">Angiv paller i alt på ordren</label><input asp-for="OrderViewModel.totalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller"></div>
-                    <div class="form-group "><label class="paddingleftbookingform">Angiv Ordre reference nummer </label><input asp-for="OrderViewModel.orderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr"></div>
 
-                    <div class="form-group "><label class="paddingleftbookingform">Kommentar til ordren</label><textarea  asp-for="OrderViewModel.Comment" class="form-control"></textarea></div>
-                    <div class="form-group display-spacebetween"><label class="paddingleftbookingform">Angiv om ordren er af typen ind eller ud</label><select asp-for="OrderViewModel.InOut"> <option value="Ind">Ind</option> <option value="Ud">Ud</option></select></div>
 
-                  
-                    <span asp-validation-for="OrderViewModel.Comment" class="text-danger"></span>
-                    <div class="display-center">
-                        <button type="submit"  class="btn btn-primary">Tilføj ordre</button>
-                       
 
                     </div>
 
-                </form>
+                </div>
             </div>
-            <div class="mx-auto p-4 col-lg-8 currently-booking">
-                <form method="post">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h1>Ordreoversigt</h1>
-                            </div> 
-                            <div class="col-lg-6 display-center">
-                                @if (@Model.BookingViewModel.ExternalId == null)
-                                {
-                                    <span> Ordrenummer: xxxxxx</span>
-                                }
-                                else
-                                {
-                                    <span> Ordrenummer: @Model.BookingViewModel.ExternalId</span>
-                                }
-                                
-                            </div> 
+            
+            <form method="post">
+                <div class="row">
+                    
+                    <div class="col-6">
+                        <div class="input-group mb-3 margin-2">
+                    
+                    
+                            <select class="form-control" asp-for="OrderViewModel.SupplierId" asp-items="Model.Transporters"></select>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+                            </div>
                         </div>
-                        
-                        <div class="row">
-                        
+                    
+                    </div>
+                    
+                    
+                    <div class="col-6">
+                        <div class="input-group mb-3 margin-2">
+
+                            <input asp-for="@Model.OrderViewModel.orderNumber" type="number" type="text" class="form-control" placeholder="Ordre Reference" aria-label="Username"
+                                   aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+                            </div>
+                        </div>
+
+                    </div>
                     
                     
                     
-                    @if (Model.BookingViewModel.PalletsRemaining == 0)
-                    {
-                        <div class="col-lg-12">
-                            <span class="text-success"> Der mangler 0 paller at bliver booket</span>
-                        </div> 
-                        
-                    }
-                    else if (Model.BookingViewModel.PalletsRemaining < 0)
-                    {
-                        <div class="col-lg-12">
-                            <span class="text-danger"> Der er booket for mange paller i forhold til hvad der er valgt</span>
-                        </div> 
-                       
-                    } else 
-                    {
-                        <div class="col-lg-12">
-                            <span>Der mangler at blive booket<b class="font-weight-bold"> @Model.BookingViewModel.PalletsRemaining</b> paller</span>
-                        </div> 
-                        
-                    }
+                   
+                    
+                    
+
+                </div>
+            
+
+      <div class="row">
+                      <div class="col-3">
+                          <div class="input-group mb-3 margin-2">
+      
+                              <input asp-for="@Model.OrderViewModel.BottomPallets" type="text" class="form-control" placeholder="Bundpaller" aria-label="Username"
+                                  aria-describedby="basic-addon1">
+                              <div class="input-group-prepend">
+                               <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-3">
+                          <div class="input-group mb-3 margin-2">
+      
+                              <input asp-for="@Model.OrderViewModel.totalPallets" type="text" class="form-control" placeholder="Paller i alt" aria-label="Username"
+                                  aria-describedby="basic-addon1">
+                              <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+                              </div>
+                          </div>
+                      </div>
+      
+      
+      
+      
+                      <div class="col-6">
+                          <div class="input-group mb-3 margin-2">
+      
+                              <textarea asp-for="@Model.OrderViewModel.Comment" class="form-control" placeholder="Angiv en kommentar" aria-label="Username"
+                                  aria-describedby="basic-addon1"></textarea>
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic"><i class="fas fa-question"></i></span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <button type="submit" class="btn btn-primary btn-block">Opret Ordre</button>
+                  </div>
+            </form>
+            
+        </div>
+    
+                
+      
+</div>
+
+
+<div class="py-4 m-5">
+        <div class="container-fluid card">
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <div class="py-4">
+                        <div>
+                            <h2 class="">Booking Oversigt</h2>
                         </div>
-            </div>
-                    <hr class="hr-smaller"></hr>
-                    <div class="container">
-                        <div class="row py-2-bottom">
-                            <div class="col-2">
-                                <span class="font-weight-bold">Booking ID</span>
-                            </div>
-                            
-                            <div class="col-2">
-                                <span class="font-weight-bold">OrdreNr</span>
-                            </div>
-                            <div class="col-2">
-                                <span class="font-weight-bold">Leverandør</span>
-                            </div>
-                           
-                            <div class="col-2">
-                                <span class="font-weight-bold">Bundpaller</span>
-                            </div>
-                            <div class="col-2">
-                                <span class="font-weight-bold">Paller totalt</span>
-                            </div>
-                            <div class="col-2">
-                                <span class="font-weight-bold">Slet</span>
-                            </div>
+                        <div class="text-center">
+                             @if (@Model.BookingViewModel.ExternalId == null)
+                               {
+                                 <small class="">Booking nummer: <strong>xxxxx</strong></small>
+                               }
+                               else
+                               {
+                               <span> Booking nummer: <strong>@Model.BookingViewModel.ExternalId</strong> </span>
+                               }
                         </div>
-                        <hr class="hr-smaller"></hr>
-                        
-                        
-                       @if (Model.BookingViewModel.OrderViewModels != null)
-                       {
-                           foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrderViewModels)
+                        <div class="text-center">
+                            @if (Model.BookingViewModel.PalletsRemaining == 0)
+                            {
+                                <small class="text-succes">Der mangler at blive booket 0 paller</small>
+                                <div class="col-lg-12">
+                                    <span class="text-success"> Der mangler 0 paller at bliver booket</span>
+                                </div> 
+                                                    
+                            }
+                            else if (Model.BookingViewModel.PalletsRemaining < 0)
                             {
                                 
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <p>@orderViewModel.ExternalId</p>
-                                        </div>
-                                    
-                                        <div class="col-2">
-                                            <span>@orderViewModel.orderNumber</span>
-                                        </div>
-                                        <div class="col-2">
-                                            <span>@orderViewModel.SupplierName</span>
-                                        </div>
-                                    
-                                        <div class="col-2">
-                                            <span>@orderViewModel.BottomPallets</span>
-                                        </div>
-                                         <div class="col-2">
-                                             <span>@orderViewModel.totalPallets</span>                                         
-                                             </div>
-                                        <div class="col-2">
-                                            <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.OrderId"><i class="fas fa-minus-circle"></i></a>
-                                        </div>
-                                    
-                                    </div>
-                               
+                                <small class="">Der er booket for mange paller i forhold til hvad der er valgt</small>
+                                                   
+                            } 
+                            else 
+                            {
                                 
-                            
-                                <div class="hr-smaller">
+                                <small class="text-danger">Der mangler at blive booket @Model.BookingViewModel.PalletsRemaining  paller</small>              
                                 
-                                
-                                </div>
-                            }    
-                       }
-                       
-                       <hr class="hr-thick"></hr>
-                       <div>
-                           
-                       </div>
-                       
-                      
-                      
-                       @if (Model.BookingViewModel.PalletsRemaining == 0)
-                           {
-                               <div class=" row justify-content-center p2">
-                                   <button type="submit" asp-page="./select_time"  class="btn btn-success">Bekræft Booking</button>
-                               </div>
-                           }
-                       
-                       @if (!Model.BookingViewModel.IsBookingAllowed)
-                       {
-                           <span> Denne kombination er ikke mulig da de valgte kunder ikke kan bookes sammen</span>
-                           
-                           <span>Opret en ny ordre <a asp-page="bookOrder"> HER</a></span>
-                           
-                           <span> Eller fors</span>
-                           
-                       }
-                               
-                              
+                                                    
+                            }
+                        </div>
                         
                     </div>
-                    
-                </form>
+
+                </div>
             </div>
+
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ordre ID</th>
+                            <th scope="col">Ordre Nummer</th>
+                            <th scope="col">Leverandør</th>
+                            <th scope="col">Bundpaller</th>
+                            <th scope="col">Paller i alt</th>
+                            <th> Slet ordre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                     @if (Model.BookingViewModel.OrderViewModels != null)
+                     {
+                     foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrderViewModels)
+                     {
+                              
+                         <tr>
+                             <th scope="row">@orderViewModel.ExternalId</th>
+                             <td>@orderViewModel.orderNumber</td>
+                             <td>@orderViewModel.SupplierName</td>
+                             <td>@orderViewModel.BottomPallets</td>
+                             <td>@orderViewModel.totalPallets</td>
+                             <td> <a asp-page="orderinformation" asp-page-handler="Delete" asp-route-orderId="@orderViewModel.OrderId"><i class="fas fa-minus-circle"></i></a></td>
+                         </tr>
+                  
+                                                   
+                                                    
+                                                        
+                         }    
+                         }
+                    
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+              @if (Model.BookingViewModel.PalletsRemaining == 0)
+               {
+                   <div class="row">
+                       <button asp-page="./select_time"  class="btn btn-success btn-block">Bekræft Booking</button>
+                   </div>
+                  
+               }
+           
         </div>
+        @if (!Model.BookingViewModel.IsBookingAllowed)
+         {
+             <span> Denne kombination er ikke mulig da de valgte kunder ikke kan bookes sammen</span>
+             
+                                   
+             <span>Opret en ny ordre <a asp-page="bookOrder"> HER</a></span>
+             
+                                   
+             <span> Eller fors</span>
+             
+                                   
+             
+          }
+        
     </div>
-</div>
+    
+
+          
+@section Scripts
+{
+    <script>
+        $('#def').click(function(){
+            $(this).popover({
+                title: 'Leveringsdato',
+                content: 'Angiv venligst leveringsdatoen i dette felt. ',
+                trigger: 'click',
+                placement:'right',
+                html: true
+            }).popover('show');
+            clickedAway = false
+            isVisible = true
+        });
+        $(document).click(function() {
+            if(isVisible & clickedAway){
+                $('#def').popover('hide')
+            isVisible = clickedAway = false
+            }else{
+            clickedAway = true
+            }
+        });
+    </script>
+}
