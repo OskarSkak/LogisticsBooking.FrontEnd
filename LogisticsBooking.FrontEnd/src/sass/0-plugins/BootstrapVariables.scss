@@ -15,6 +15,11 @@ $theme-colors: (
         "info": #5f6b81	,
         "succes": #67af70,
         "warning": #e49f38,
-        "secondary": #999999
+        "secondary": #a5afba
 );
 
+
+$card-spacer-y:                     4rem !default;
+$card-spacer-x:                     4rem !default;
+
+$card-border-radius:                7px !default;
