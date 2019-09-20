@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
@@ -46,6 +47,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public bool IsBookingAllowed { get; set; }
         
         public int PalletsCurrentlyOnBooking { get; set; }
+        
+        public IntervalViewModel Interval { get; set; }
 
         public BookingViewModel()
         {
