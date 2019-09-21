@@ -12,6 +12,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.Documents;
 using LogisticsBooking.FrontEnd.Utilities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -122,10 +123,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             };
         }
 
-        public ActionResult OnPostExportExcel()
+        public async Task<ActionResult> OnPostExportExcel()
         {
             BookingsListViewModel.Bookings = new List<BookingViewModel>(); 
-            BookingsListViewModel = bookingDataService.GetBookings().Result;
+            BookingsListViewModel = await bookingDataService.GetBookings();
 
             var from = DateTime.Now;
             var endDate = DateTime.Now.Date.ToShortDateString();
@@ -184,6 +185,28 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             var fileName = "Ordre_FRA_" + fromDateString + "_TIL_" + endDate;
             
             return new FileStreamResult(spreadsheetStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") { FileDownloadName = fileName + ".xlsx" };
+        }
+
+
+        public async Task<IActionResult> OnGetTest()
+        {
+
+            var bookings = await bookingDataService.GetBookings();
+            
+            
+            var json = new JsonResult(bookings);
+           
+            return json;
+
+        }
+        
+        [ValidateAntiForgeryToken]
+        [EnableCors("MyPolicy")]
+        public async Task<IActionResult> OnPostTest(string end)
+        {
+            
+            Console.WriteLine();
+            return Page();
         }
     }
 }
