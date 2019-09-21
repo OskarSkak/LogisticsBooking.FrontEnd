@@ -34,7 +34,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public Guid InternalId { get; set; }
         public string Email { get; set; }
         
-        public List<Order> Orders { get; set; }
         
         public Guid TransporterId { get; set; }
         

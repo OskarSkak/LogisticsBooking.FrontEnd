@@ -2,9 +2,7 @@
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 
-@{
-    
-}
+
 
         <style>
                 td.details-control {
@@ -57,7 +55,8 @@
     </div>
 </div>
 
-<form method="post" asp-page-handler="Test">
+<form method="post" asp-page-handler="Update">
+
 <table style="background-color: white;" id="example" class="table" width="100%" >
     <thead>
     <tr>
@@ -71,9 +70,18 @@
         <th>Faktisk<br/>Ankomst</th>
         <th>Start<br/>Læsning</th>
         <th>Slut<br/>Læsning</th>
+        
     </tr>
     </thead>
 
+    <tbody>
+    @foreach (var schedule in @Model.BookingsListViewModel.Bookings)
+    {
+        <tr hidden="hidden">
+            <input type="hidden" name="id" value="@schedule.InternalId"/>
+        </tr>
+    }
+    </tbody>
    
 
 </table>
@@ -84,11 +92,14 @@
 
 @section Scripts{
 
-        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-    
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     
+
     <script>
+        
         $(function () {
        var table = $('#example').DataTable( {
            "processing": true,
@@ -105,32 +116,33 @@
                    {
                                         "className": 'details-control',
                                         "orderable": false,
-                                        "data": null,
+                                        "data": "internalId",
                                         "defaultContent": '',
-                                        "render": function () {
-                                            return '<i class="fa fa-plus-square" aria-hidden="true"></i>';
+                                        "render": function (data) {
+                                            return '<i class="fa fa-plus-square" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
                                         },
                                         width:"15px"
                                     },
                    { 
                        "data": "bookingTime" , render: function(data ) {
-                           return moment(data).format("dddd DD MM");
+                           return moment(data).format("dddd DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
                        }
                    },
                    { "data": "externalId" },
+                  
                    { "data": "totalPallets" },
                    { "data": "transporterName" },
                    { "data": "email" },
                    {"data" : "port"},
                    {"data" : "actualArrival" , render: function(data){
-                        return '<input class="form-control" value="' +moment(data).format("HH : mm")+'" type="time"/> '
+                        return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
                    } },
                                                                   
                    {"data" : "startLoading" , render: function(data){
-                                                                    return '<input class="form-control" value="' +moment(data).format("HH : mm")+'" type="time"/> '
+                                                                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
                                                                }},
                    {"data" : "endLoading" , render: function(data){
-                                                                  return  ' <input  class="form-control" name="end" '+  moment(data).format("HH : mm")   +' type="time"/>  '
+                                                                  return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                                                              }},
                    
                    
@@ -150,14 +162,13 @@
                  row.child.hide();
                  tr.removeClass('shown');
                  tdi.first().removeClass('fa-minus-square');
-                 tdi.first().addClass('fa-plus-square');
+                 tdi.first().addClass('fas fa-angle-down');
              }
              else {
                  // Open this row
                  row.child(format(row.data())).show();
-                 $(row.child()).addClass('smalltable');
                  tr.addClass('shown');
-                 tdi.first().removeClass('fa-plus-square');
+                 tdi.first().removeClass('fas fa-angle-down');
                  tdi.first().addClass('fa-minus-square');
              }
          });
@@ -194,14 +205,40 @@
 
       
     function format(d){
+            
+            for(var i=0; i<d.orderViewModels.length;i++) {
+     
+             }
+            
+            var table = "";
+            for(var i=0; i<d.orderViewModels.length;i++) {
+                table += '<table cellpadding="5" class="table table-hover table-sm " cellspacing="0" border="0" style="background-color: #f8f9fa; width: 100%; padding-left:50px;">' +
+                                                              
+                                                              '<thead class="thead-dark">' + 
+                                                              '<tr>' + 
+                                                              '<td> ID </td>' + 
+                                                               '<td> Kunde  </td>' +
+                                                                  '<td> Kunde tlf  </td>' +
+                                                                '<td> Total pallets </td>' +
+                                                                '<td> Bottom Pallets </td>' +
+                                                                '<td> Comment </td>' +
+                                                                '</tr>' + 
+                                                                '</thead>' + 
+                                                                '<tbody>' + 
+                                                              '<tr>' + 
+                                                                '<td>'+ d.orderViewModels[i].externalId +'</td>' +  
+                                                                 '<td>'+ d.orderViewModels[i].supplierViewModel.name +'</td>' +  
+                                                                 '<td>'+ d.orderViewModels[i].supplierViewModel.telephone +'</td>' +  
+                                                                  '<td>'+ d.orderViewModels[i].totalPallets +'</td>' +  
+                                                                  '<td>'+ d.orderViewModels[i].bottomPallets+' </td>' +    
+                                                                     '<td>'+ d.orderViewModels[i].comment+' </td>' +    
+                                                              '</tr>' +
+                                                              '</tbody>' + 
+                                                             
+                                                          '</table>';  
+            }
         
-       return  '<table cellpadding="5" class="table table-hover table-sm table-borderless" cellspacing="0" border="0" style=" width: 100%; padding-left:50px;">' +
-                                     '<tr>' + 
-                                         '<td>Full name:</td>' +  
-                                         '<td>' +  '</td>' +
-                                     '</tr>' +
-                                    
-                                 '</table>';  
+       return  table;
             
              // `d` is the original data object for the row
             

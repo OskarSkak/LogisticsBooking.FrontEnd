@@ -1420,3 +1420,77 @@ Stack Trace:
    at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
    at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
 
+********** 09/21/2019 15:28:15 **********
+Inner Exception Type: System.IO.IOException
+Inner Exception: The server returned an invalid or unrecognized response.
+Inner Source: System.Net.Http
+Inner Stack Trace: 
+   at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.ChunkedEncodingReadStream.CopyToAsyncCore(Stream destination, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnection.HttpConnectionResponseContent.SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Error while copying content to a stream.
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 09/21/2019 15:56:27 **********
+Inner Exception Type: System.IO.IOException
+Inner Exception: The server returned an invalid or unrecognized response.
+Inner Source: System.Net.Http
+Inner Stack Trace: 
+   at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.ChunkedEncodingReadStream.CopyToAsyncCore(Stream destination, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnection.HttpConnectionResponseContent.SerializeToStreamAsync(Stream stream, TransportContext context, CancellationToken cancellationToken)
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: Error while copying content to a stream.
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.HttpContent.LoadIntoBufferAsyncCore(Task serializeToStreamTask, MemoryStream tempBuffer)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 09/21/2019 16:31:47 **********
+Inner Exception Type: System.IO.IOException
+Inner Exception: The server returned an invalid or unrecognized response.
+Inner Source: System.Net.Http
+Inner Stack Trace: 
+   at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.ReadNextResponseHeaderLineAsync(Boolean foldedHeadersAllowed)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: An error occurred while sending the request.
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithNtConnectionAuthAsync(HttpConnection connection, HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
+********** 09/21/2019 17:33:59 **********
+Inner Exception Type: System.IO.IOException
+Inner Exception: The server returned an invalid or unrecognized response.
+Inner Source: System.Net.Http
+Inner Stack Trace: 
+   at System.Net.Http.HttpConnection.FillAsync()
+   at System.Net.Http.HttpConnection.ReadNextResponseHeaderLineAsync(Boolean foldedHeadersAllowed)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+Exception Type: System.Net.Http.HttpRequestException
+Exception: An error occurred while sending the request.
+Source: Base DataServices, PostAsync<T>
+Stack Trace: 
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithNtConnectionAuthAsync(HttpConnection connection, HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   at LogisticsBooking.FrontEnd.DataServices.BaseDataService.GetAsync(String baseurl) in /Users/casperhasnsen/Documents/Projects/LogisticBooking/LogisticsBooking.FrontEnd/LogisticsBooking.FrontEnd/DataServices/BaseDataService.cs:line 148
+
