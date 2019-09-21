@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                         booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
                         booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
 
-                        foreach (var order in booking.Orders)
+                        foreach (var order in booking.OrderViewModels)
                         {
                             if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
                             if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
@@ -88,14 +89,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             }
         }
 
-        public async Task<IActionResult> OnPostUpdate(DateTime actualArrival, DateTime startLoading, DateTime endLoading, string id)
+        public async Task<IActionResult> OnPostUpdate(DateTime dateTo , string actualArrival, string startLoading, string endLoading, Guid id)
         {
-            var idConverted = Guid.Parse(id);
+            var idConverted = id;
             var bookingToUpdate =  await bookingDataService.GetBookingById(idConverted);
+
+        
             
-            bookingToUpdate.ActualArrival = actualArrival;
-            bookingToUpdate.StartLoading = startLoading;
-            bookingToUpdate.EndLoading = endLoading;
+             bookingToUpdate.ActualArrival = new DateTime(dateTo.Year , dateTo.Month , dateTo.Day , TimeSpan.Parse(actualArrival).Hours  , TimeSpan.Parse(actualArrival).Minutes , 0);
+             bookingToUpdate.StartLoading = new DateTime(dateTo.Year , dateTo.Month , dateTo.Day , TimeSpan.Parse(startLoading).Hours  , TimeSpan.Parse(startLoading).Minutes , 0);
+             bookingToUpdate.EndLoading = new DateTime(dateTo.Year , dateTo.Month , dateTo.Day , TimeSpan.Parse(endLoading).Hours  , TimeSpan.Parse(endLoading).Minutes , 0);
 
             
             
@@ -113,7 +116,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 Port = bookingToUpdate.Port,
                 ActualArrival = bookingToUpdate.ActualArrival,
                 BookingTime = bookingToUpdate.ActualArrival,
-                EndLoading = bookingToUpdate.ActualArrival,
+                EndLoading = bookingToUpdate.EndLoading,
                 ExternalId = bookingToUpdate.ExternalId,
                 InternalId = bookingToUpdate.InternalId,
                 StartLoading = bookingToUpdate.StartLoading,
@@ -160,12 +163,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             
             foreach (var booking in BookingsListViewModel.Bookings)
             {
-                foreach (var order in booking.Orders)
+                foreach (var order in booking.OrderViewModels)
                 {
                     worksheet.Cell(cellY, cellX++).SetValue(order.customerNumber);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortDateString());
                     worksheet.Cell(cellY, cellX++).SetValue(order.orderNumber);
-                    worksheet.Cell(cellY, cellX++).SetValue(order.TotalPallets);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.totalPallets);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.TransporterName);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.Email);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortTimeString());
@@ -200,8 +203,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         }
         
-        [ValidateAntiForgeryToken]
-        [EnableCors("MyPolicy")]
+    
         public async Task<IActionResult> OnPostTest(string end)
         {
             

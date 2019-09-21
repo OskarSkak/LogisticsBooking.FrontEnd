@@ -35,7 +35,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                 booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
                 booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
                 
-                foreach (var order in booking.Orders)
+                foreach (var order in booking.OrderViewModels)
                 {
                     if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
                     if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
