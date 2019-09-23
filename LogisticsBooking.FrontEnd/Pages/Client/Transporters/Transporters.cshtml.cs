@@ -13,6 +13,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
     {
         private ITransporterDataService transporterDataService;
         [BindProperty] public List<TransporterViewModel> Transporters { get; set; }
+        
+        [TempData]
+        public String ResponseMessage { get; set; }
+        
+        public bool ShowResponseMessage => !String.IsNullOrEmpty(ResponseMessage);
 
         public TransportersModel(ITransporterDataService _transporterDataService)
         {

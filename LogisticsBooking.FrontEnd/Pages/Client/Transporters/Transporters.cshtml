@@ -4,6 +4,13 @@
 @{
 }
 
+@if (Model.ShowResponseMessage)
+{
+    <div class="alert alert-success">
+        <strong>@Model.ResponseMessage</strong> 
+    </div>
+}
+
 <div class="py-5 text-center">
   
         <div class="container">
@@ -32,7 +39,7 @@
                     {
                        
                         <text>
-                    <a asp-page="./Transporter_Single" asp-route-id="@Transporter.Name" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
+                    <a asp-page="./Transporter_Single" asp-route-id="@Transporter.TransporterId" class="list-group-item list-group-item-action display-spacebetween">@Transporter.Name</a>
                         </text>
                     }
                 </div>

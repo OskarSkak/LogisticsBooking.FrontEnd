@@ -20,26 +20,40 @@
 
                     <div class="form-group"> <label for="form20">Leveringstidspunkt Slut</label> <input asp-for="supplier.DeliveryEnd" type="time" class="form-control" id="form20" name="ViewDeliveryEnd"> </div>
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                    <a class="trigger_popup_fricc btn btn-primary">Slet</a>                </form>
+                     </form>
+                    <button data-toggle="modal" data-target="#popup"  class="btn btn-primary">Slet</button>           
             </div>
         </div>
     </div>
 </div>
 
-<div class="hover_bkgr_fricc centered">
-    <span class="helper"></span>
 
-    <div>
-        <div class="popupCloseButton">X</div>
-        <form asp-page-handler="delete" method="post">
-            <p class="spaced-typography">Du er ved at slette denne leverandør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
-            <button class="btn btn-primary">Bekræft</button>
-        </form>
+  <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                      <p class="spaced-typography">Du er ved at slette denne leverandør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+                </div>
+                <div class="modal-footer">
+                    <form asp-page-handler="delete" method="post"> 
+                        <button type="submut" class="btn btn-primary">Bekræft</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
 
 @section Scripts{
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   
     
 
     <script>
