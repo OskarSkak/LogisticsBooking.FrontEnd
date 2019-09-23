@@ -4,7 +4,9 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -21,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Exceptionless;
+using LogisticsBooking.FrontEnd.AutoMapper;
 using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -109,6 +112,10 @@ namespace LogisticsBooking.FrontEnd
                 });
                 c.SwaggerDoc("v1", new Info { Title = "Management Backend", Version = "v1", Description = "Management API for use with prior agreement" });
             });
+            
+            services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
+            
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -162,6 +169,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IUtilBookingDataService, UtilBookingDataService>();
             services.AddTransient<IOrderDataService, OrderDataService>();
             services.AddTransient<IScheduleDataService, ScheduleDataService>();
+            services.AddTransient<IIntervalDataService , IntervalDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);;

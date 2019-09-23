@@ -65,14 +65,23 @@
                                  <div class="list-group" style="">
                                      <form method="post">
                                          <button class="list-group-item list-group-item-action" type="submit" asp-page-handler="SelectedTime">
-                                             <div class="display-spacebetween">
-                                                 <input type="hidden" value="@interval.EndTime.Value.DayOfWeek.ToString("G") - @interval.EndTime.Value.ToString("M")"/>
-                                                 <input type="hidden" asp-for="ScheduleViewModel.ScheduleId"/>
-                                                 <input type="hidden" name="interval" value="@interval.IntervalId">
+                                             <div class="row">
+                                                 <div class="col">
+                                                     <input type="hidden" value="@interval.EndTime.Value.DayOfWeek.ToString("G") - @interval.EndTime.Value.ToString("M")"/>
+                                                     <input type="hidden" asp-for="ScheduleViewModel.ScheduleId"/>
+                                                     <input type="hidden" name="interval" value="@interval.IntervalId">
+
+                                                     <div class="">@interval.EndTime.Value.DayOfWeek.ToString("G") - @interval.EndTime.Value.ToString("MM/dd") </div>
+                                                 </div>
+                                                 <div class="col">
+                                                                                                      <div class="">@interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t") </div>
+
+                                                 </div>
+                                                 <div class="col">
+                                                                                                    <div class=""> Ledige paller : @interval.RemainingPallets</div>
+  
+                                                 </div>
                                                  
-                                                 <div class="">@interval.EndTime.Value.DayOfWeek.ToString("G") - @interval.EndTime.Value.ToString("MM/dd") </div>
-                                                 <div class="">@interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t") </div>
-                                                 <div class=""> Ledige paller : @interval.RemainingPallets</div>
 
 
                                              </div>

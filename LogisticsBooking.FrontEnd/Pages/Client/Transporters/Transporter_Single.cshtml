@@ -14,14 +14,16 @@
                 <form method="post" class="text-left">
                     <div class="form-group"> 
                         <label for="form16">Firma</label>
-                        <input asp-for="transporter.Name" name="ViewName" class="form-control" />
+                        <input asp-for="TransporterUpdateBuildModel.Name" class="form-control" />
                     </div>
-                    <div class="form-group"> <label for="form18">Email</label> <input asp-for="transporter.Email" type="email" class="form-control" id="form18"      name="ViewEmail"> </div>
-                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="transporter.Address" class="form-control" id="form18" name="ViewAddress"> </div>
-                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="transporter.Telephone" class="form-control" id="form18" name="ViewTelephone" > </div>
+                    <input type="hidden" asp-for="TransporterUpdateBuildModel.TransporterId"/>
+                    <div class="form-group"> <label for="form18">Email</label> <input asp-for="TransporterUpdateBuildModel.Email" type="email" class="form-control" id="form18"  > </div>
+                    <div class="form-group"> <label for="form18">Adresse</label> <input asp-for="TransporterUpdateBuildModel.Address" class="form-control" id="form18" > </div>
+                    <div class="form-group"> <label for="form18">Tel. nr</label> <input asp-for="TransporterUpdateBuildModel.Telephone" class="form-control" id="form18"  > </div>
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                    <a class="trigger_popup_fricc btn btn-primary">Slet</a>
+                 
                 </form>
+                   <button data-toggle="modal" data-target="#popup"  class="btn btn-primary">Slet</button>
                 
               
             </div>
@@ -29,17 +31,30 @@
     </div>
 </div>
 
-<div class="hover_bkgr_fricc centered">
-    <span class="helper"></span>
 
-    <div>
-        <div class="popupCloseButton">X</div>
-        <form asp-page-handler="delete" method="post">
+  <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
             <p class="spaced-typography">Du er ved at slette transportør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
-            <button class="btn btn-primary">Bekræft</button>
-        </form>
+                </div>
+                <div class="modal-footer">
+                    <form asp-page-handler="delete" method="post"> 
+                        <button type="submut" class="btn btn-primary">Bekræft</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
 
 @section Scripts{
     <script>

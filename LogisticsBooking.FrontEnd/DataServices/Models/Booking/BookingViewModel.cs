@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
@@ -33,7 +34,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public Guid InternalId { get; set; }
         public string Email { get; set; }
         
-        public List<Order> Orders { get; set; }
         
         public Guid TransporterId { get; set; }
         
@@ -44,6 +44,10 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public List<OrderViewModel> OrderViewModels { get; set; }
         
         public bool IsBookingAllowed { get; set; }
+        
+        public int PalletsCurrentlyOnBooking { get; set; }
+        
+        public IntervalViewModel Interval { get; set; }
 
         public BookingViewModel()
         {

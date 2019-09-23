@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -39,7 +41,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
             var transporters = await ScheduleDataService.GetSchedules();
 
-           
+            var list = new List<IntervalViewModel>();
+
+            foreach (var schedule in transporters.Schedules)
+            {
+                schedule.Intervals =   schedule.Intervals.OrderBy(x => x.StartTime).ToList();
+            }
+            
             var json = new JsonResult(transporters);
            
             return json;

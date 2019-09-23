@@ -2,26 +2,33 @@
 @using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 
-@{
-    
-}
 
-<style>
-    .td {
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    .th {
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    .div{
-        white-space: nowrap;
-        overflow: hidden;
-    }
-</style>
 
-<body onload="toggle('orderItem')">
+        <style>
+                td.details-control {
+                    text-align:center;
+                    color:forestgreen;
+            cursor: pointer;
+        }
+        tr.shown td.details-control {
+            text-align:center; 
+            color:red;
+        }
+        
+        
+       .container-fluid {
+       width: 90%;
+       }
+       
+       #example_filter {
+       display: flex;
+       justify-content: flex-end;
+       }
+       
+        
+    </style>
+
+<body>
 <div class="container">
     <div class="row bg-light dis">
         <div class="col">
@@ -48,8 +55,9 @@
     </div>
 </div>
 
+<form method="post" asp-page-handler="Update">
 
-<table id="example" class=" " style="width: 100%">
+<table style="background-color: white;" id="example" class="table" width="100%" >
     <thead>
     <tr>
         <th> </th>
@@ -62,198 +70,116 @@
         <th>Faktisk<br/>Ankomst</th>
         <th>Start<br/>Læsning</th>
         <th>Slut<br/>Læsning</th>
-        <th> </th>
+        
     </tr>
     </thead>
 
-    @if (Model.BookingsListViewModel != null)
+    <tbody>
+    @foreach (var schedule in @Model.BookingsListViewModel.Bookings)
     {
-        <tbody>
-        @foreach (var booking in @Model.BookingsListViewModel.Bookings)
-        {
-            <tr>
-                <td>
-                    <button class="no-sort" onclick="toggle('@booking.InternalId')"><i class="fas fa-angle-down"></i></button>
-                    <div class="orderItem @booking.InternalId">
-                        <div style="font-weight: bold; opacity: 0;">O</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div style="opacity: 0">O</div>
-                        }
-                    </div>
-                </td>
-                <td>
-                    @booking.BookingTime.ToString("d")
-                    <div class="orderItem @booking.InternalId">
-                        <div class="margin-1em-top" style="font-weight: bold; opacity: 0;">Leverandør</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div style="opacity: 0">@order.SupplierName</div>
-                        }
-                    </div>
-                </td>
-                <td>
-                    @booking.ExternalId
-                    <div class="orderItem @booking.InternalId">
-                        <div class="margin-1em-top" style="font-weight: bold">Booking ID</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div>@order.ExternalId</div>
-                        }
-                    </div>
-                </td>
-                <td>
-                    @booking.TotalPallets
-                    <div class="orderItem @booking.InternalId">
-                        <div class="margin-1em-top" style="font-weight: bold">Ordrenr</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div>@order.orderNumber</div>
-                        }
-                    </div>
-                </td>
-                <td>
-                    <div style="white-space: nowrap; overflow: hidden">@booking.TransporterName</div>
-                    <div class="orderItem @booking.InternalId">
-                        <div class="margin-1em-top" style="font-weight: bold">Leverandør</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div>@order.SupplierName</div>
-                        }
-                    </div>
-                </td>
-                <td>
-                    @booking.Email
-                    <div class="orderItem @booking.InternalId">
-                        <div class="margin-1em-top" style="font-weight: bold;">Bundpaller</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div style="">@order.BottomPallets</div>
-                        }
-                    </div>
-                </td>
-                <td>
-                    @booking.Port
-                    <div class="orderItem @booking.InternalId">
-                        <div class="margin-1em-top" style="font-weight: bold;">Paller i alt</div>
-                        @foreach (var order in @booking.Orders)
-                        {
-                            <div>@order.TotalPallets</div>
-                        }
-                    </div>
-                </td>
-                <form method="post">
-                    <td>
-                        <input type="time" class="form-control" asp-for="@booking.ActualArrival" name="actualArrival"/>
-    
-                        <div class="orderItem @booking.InternalId">
-                            <div class="margin-1em-top" style="font-weight: bold;">Ind/Ud</div>
-                            @foreach (var order in @booking.Orders)
-                            {
-                                <div>@order.InOut</div>
-                            }
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <input type="time" class="form-control" asp-for="@booking.StartLoading" name="startLoading"/>
-                        </div>
-                        <div class="orderItem @booking.InternalId">
-                            <div class="margin-1em-top" style="font-weight: bold;">Bemærkninger</div>
-                            @foreach (var order in @booking.Orders)
-                            {
-                                <div class="trigger_popup_fricc btn far fa-comment-alt "></div><br/>
-                                <div class="hover_bkgr_fricc centered">
-                                    <span class="helper"></span>
-    
-                                    <div>
-                                        <div class="popupCloseButton">X</div>
-                                        <p class="spaced-typography">Følgende kommentar er tilknyttet denne ordre: </p> @order.Comment
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </td>
-                    <td>
-                        <input type="time" class="form-control" asp-for="@booking.EndLoading" name="endLoading"/>
-                        <div class="orderItem @booking.InternalId">
-                            <div class="margin-1em-top" style="font-weight: bold; opacity: 0">Ind/Ud</div>
-                            @foreach (var order in @booking.Orders)
-                            {
-                                <div style="opacity: 0">@order.InOut</div>
-                            }
-                        </div>
-                    </td>
-                    <td>
-                        <button asp-page-handler="Update" asp-route-id="@booking.InternalId"> <i class="far fa-edit"></i> </button>
-    
-                        <div class="orderItem @booking.InternalId">
-                            <div class="margin-1em-top" style="font-weight: bold; opacity: 0;">O</div>
-                            @foreach (var order in @booking.Orders)
-                            {
-                                <div style="opacity: 0">@order.InOut</div>
-                            }
-                        </div>
-                    </td>
-                </form>
-            </tr>
-        }
-        </tbody>
+        <tr hidden="hidden">
+            <input type="hidden" name="id" value="@schedule.InternalId"/>
+        </tr>
     }
+    </tbody>
+   
 
 </table>
+    <input type="submit" hidden="hidden"/>
+</form>
 </body>
 
 
 @section Scripts{
-    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-    <script type="text/javascript" crossorigin="anonymous" asp-append-version="true" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     
+
     <script>
-        $(window).load(function () {
-            $(".trigger_popup_fricc").click(function () {
-                $('.hover_bkgr_fricc').show();
-            });
-            $('.hover_bkgr_fricc').click(function () {
-                $('.hover_bkgr_fricc').hide();
-            });
-            $('.popupCloseButton').click(function () {
-                $('.hover_bkgr_fricc').hide();
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            var options = {
-                inlineCss: false
-            };
-            $("a.six").on("click", function (e) {
-                e.preventDefault();
-                $(this).simplePopup(options);
-            });
-        });
-    </script>
-    
-    <script>
+        
         $(function () {
-            $("#example").DataTable({
-                "order": [[1, "desc"]], 
-                "columnDefs": [
-                    { "orderable": false, "targets": [ 0, 2, 3, 6, 7, 8, 9, 10 ] }
-                ], 
-                "pageLength": 1000
-            });
-        });
+       var table = $('#example').DataTable( {
+           "processing": true,
+           "serverSide": false,
+               "ajax": {
+                               "url": "BookingOverview?handler=test",
+                               "type": "GET",
+                               "datatype": "application/json",
+                               "dataSrc": "bookings",
+                               
+                           },
+                           
+               "columns": [
+                   {
+                                        "className": 'details-control',
+                                        "orderable": false,
+                                        "data": "internalId",
+                                        "defaultContent": '',
+                                        "render": function (data) {
+                                            return '<i class="fa fa-plus-square" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
+                                        },
+                                        width:"15px"
+                                    },
+                   { 
+                       "data": "bookingTime" , render: function(data ) {
+                           return moment(data).format("dddd DD MM") + '<input type="hidden" name="dateTo" value=" ' + data + ' "/>';
+                       }
+                   },
+                   { "data": "externalId" },
+                  
+                   { "data": "totalPallets" },
+                   { "data": "transporterName" },
+                   { "data": "email" },
+                   {"data" : "port"},
+                   {"data" : "actualArrival" , render: function(data){
+                        return '<input class="form-control" name="actualArrival" value="' +moment(data).format("HH:mm")+'" type="time"/> '
+                   } },
+                                                                  
+                   {"data" : "startLoading" , render: function(data){
+                                                                    return '<input class="form-control" name="startLoading" value="' + moment(data).format("HH:mm")+'"  type="time"/> '
+                                                               }},
+                   {"data" : "endLoading" , render: function(data){
+                                                                  return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
+                                                             }},
+                   
+                   
+               ]
+           } );
+       
+      
+            
+    // Add event listener for opening and closing details
+         $('#example tbody').on('click', 'td.details-control', function () {
+             var tr = $(this).closest('tr');
+             var tdi = tr.find("i.fa");
+             var row = table.row(tr);
 
+             if (row.child.isShown()) {
+                 // This row is already open - close it
+                 row.child.hide();
+                 tr.removeClass('shown');
+                 tdi.first().removeClass('fa-minus-square');
+                 tdi.first().addClass('fas fa-angle-down');
+             }
+             else {
+                 // Open this row
+                 row.child(format(row.data())).show();
+                 tr.addClass('shown');
+                 tdi.first().removeClass('fas fa-angle-down');
+                 tdi.first().addClass('fa-minus-square');
+             }
+         });
+
+         table.on("user-select", function (e, dt, type, cell, originalEvent) {
+             if ($(cell.node()).hasClass("details-control")) {
+                 e.preventDefault();
+             }
+         });
+         
+    } );
    
         function toggle(className) {
             var x = '.' + className;
@@ -277,7 +203,48 @@
             $(x).show();
     }
 
+      
+    function format(d){
+            
+            for(var i=0; i<d.orderViewModels.length;i++) {
+     
+             }
+            
+            var table = "";
+            for(var i=0; i<d.orderViewModels.length;i++) {
+                table += '<table cellpadding="5" class="table table-hover table-sm " cellspacing="0" border="0" style="background-color: #f8f9fa; width: 100%; padding-left:50px;">' +
+                                                              
+                                                              '<thead class="thead-dark">' + 
+                                                              '<tr>' + 
+                                                              '<td> ID </td>' + 
+                                                               '<td> Kunde  </td>' +
+                                                                  '<td> Kunde tlf  </td>' +
+                                                                '<td> Total pallets </td>' +
+                                                                '<td> Bottom Pallets </td>' +
+                                                                '<td> Comment </td>' +
+                                                                '</tr>' + 
+                                                                '</thead>' + 
+                                                                '<tbody>' + 
+                                                              '<tr>' + 
+                                                                '<td>'+ d.orderViewModels[i].externalId +'</td>' +  
+                                                                 '<td>'+ d.orderViewModels[i].supplierViewModel.name +'</td>' +  
+                                                                 '<td>'+ d.orderViewModels[i].supplierViewModel.telephone +'</td>' +  
+                                                                  '<td>'+ d.orderViewModels[i].totalPallets +'</td>' +  
+                                                                  '<td>'+ d.orderViewModels[i].bottomPallets+' </td>' +    
+                                                                     '<td>'+ d.orderViewModels[i].comment+' </td>' +    
+                                                              '</tr>' +
+                                                              '</tbody>' + 
+                                                             
+                                                          '</table>';  
+            }
+        
+       return  table;
+            
+             // `d` is the original data object for the row
+            
+        }
     
+ 
         
 
     
