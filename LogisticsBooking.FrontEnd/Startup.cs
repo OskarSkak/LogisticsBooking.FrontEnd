@@ -4,7 +4,9 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -21,8 +23,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Exceptionless;
+using LogisticsBooking.FrontEnd.AutoMapper;
 using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
+
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
+using ILogger = Serilog.ILogger;
 
 namespace LogisticsBooking.FrontEnd
 {
@@ -53,7 +62,14 @@ namespace LogisticsBooking.FrontEnd
                 _config.GetSection(nameof(BackendServerUrlConfiguration)));
             services.Configure<IdentityServerConfiguration>(_config.GetSection(nameof(IdentityServerConfiguration)));
             
-            
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200/"))
+                {
+                    AutoRegisterTemplate = true
+                })
+                .Filter.ByExcluding((le) => le.Level ==LogEventLevel.Information)
+                .CreateLogger();
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -96,6 +112,10 @@ namespace LogisticsBooking.FrontEnd
                 });
                 c.SwaggerDoc("v1", new Info { Title = "Management Backend", Version = "v1", Description = "Management API for use with prior agreement" });
             });
+            
+            services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
+            
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -112,7 +132,6 @@ namespace LogisticsBooking.FrontEnd
                     options.ClientSecret = "secret";
                     options.ClientId = "LogisticBooking";
                     options.SaveTokens = true;
-
                     options.ResponseType = "code id_token";
                     options.Scope.Add("address");
                     options.Scope.Add("openid");
@@ -150,20 +169,25 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IUtilBookingDataService, UtilBookingDataService>();
             services.AddTransient<IOrderDataService, OrderDataService>();
             services.AddTransient<IScheduleDataService, ScheduleDataService>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddTransient<IIntervalDataService , IntervalDataService>();
+          
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+                // Usefull for enter a site that does not exists. 
+                app.UseStatusCodePagesWithRedirects("/Error");
                 
             }
             else
             {
+                //ON exception trown (Whilst not in dev mode) redirect to this page:
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -188,6 +212,8 @@ namespace LogisticsBooking.FrontEnd
                 }
             });
             */
+
+            loggerFactory.AddSerilog();
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

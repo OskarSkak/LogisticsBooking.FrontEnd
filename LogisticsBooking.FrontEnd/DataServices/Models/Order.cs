@@ -20,5 +20,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         public int wareNumber { get; set; }
         public string InOut { get; set; }
         public string SupplierName { get; set; }
+        
+        public Guid SupplierId { get; set; }
     }
 }

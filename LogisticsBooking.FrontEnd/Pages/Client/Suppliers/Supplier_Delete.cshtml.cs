@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,7 +13,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
     public class Supplier_DeleteModel : PageModel
     {
         private ISupplierDataService supplierDataService;
-        [BindProperty] public Supplier supplier { get; set;}
+        [BindProperty] public SupplierViewModel supplier { get; set;}
         
         public Supplier_DeleteModel(ISupplierDataService _dataService){supplierDataService = _dataService;}
 

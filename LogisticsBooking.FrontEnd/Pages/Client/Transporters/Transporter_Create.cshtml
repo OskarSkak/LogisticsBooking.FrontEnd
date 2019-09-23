@@ -10,17 +10,25 @@
                 <h1>Ny Transportør</h1>
                 <p class="mb-3">Formular til at oprette transportører i systemet</p>
                 <form method="post" class="text-left">
-                    <div class="form-group"> <label for="form16">Firma Navn</label> <input type="text" class="form-control" id="form16" placeholder="xxxxxxxxx" name="Name"> </div>
-                    <div class="form-group"> <label for="form18">Email</label> <input type="email" class="form-control" id="form18" placeholder="xxxx@mail.com" name="Email"> </div>
-                    <div class="form-group"> <label for="form18">Adresse</label> <input class="form-control" id="form18" placeholder="xxxx xxxx, 0000x" name="Address"> </div>
-                    <div class="form-group"> <label for="form18">Tel. nr</label> <input class="form-control" id="form18" placeholder="00000000" name="Telephone"> </div>
+                    <div class="form-group">
+                        <label for="form16">Firma Navn</label> <input asp-for="@Model.TransporterCreateBuildModel.Name" type="text" class="form-control" id="form16" placeholder="xxxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Email</label> <input asp-for="@Model.TransporterCreateBuildModel.Email" type="email" class="form-control" id="form18" placeholder="xxxx@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Adresse</label> <input asp-for="@Model.TransporterCreateBuildModel.Address" class="form-control" id="form18" placeholder="xxxx xxxx, 0000x">
+                    </div>
+                    <div class="form-group">
+                        <label for="form18">Tel. nr</label> <input asp-for="@Model.TransporterCreateBuildModel.Telephone" class="form-control" id="form18" placeholder="00000000">
+                    </div>
 
                     <div class="form-group">
 
                     </div>
-                    
-                        <button type="submit" class="btn btn-primary">Opret</button>
-                    
+
+                    <button type="submit" class="btn btn-primary">Opret</button>
+
                 </form>
             </div>
         </div>

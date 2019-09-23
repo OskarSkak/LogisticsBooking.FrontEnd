@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,23 +19,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         public List<InternalInterval> Intervals { get; set; }
         
         private IScheduleDataService ScheduleDataService { get;}
+        private readonly string DAY = "DAY";
+        private readonly string NIGHT = "NIGHT";
+        
+        [BindProperty] public bool IsDay { get; set; }
 
-        [BindProperty] public bool IsDay { get; set; } = true;
 
-
-        public void OnGet()
+        public void OnGet(string id)
         {
             Intervals = PopulateList(Intervals);
-            foreach (var VARIABLE in Intervals)
-            {
-                
-            }
-            var la = "";
+            if (id.Equals(DAY)) IsDay = true;
+            if (id.Equals(NIGHT)) IsDay = false;
         }
 
         public void OnPost()
         {
-            var la = "";
         }
         
         public CreateNewSchedule(IScheduleDataService scheduleDataService)
@@ -45,29 +45,30 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
-            var result = await ScheduleDataService.CreateSchedule(schedule);
+            //var result = await ScheduleDataService.CreateSchedule(schedule);
 
-            HttpContext.Session.SetObject("scheduleId", schedule.ScheduleId);
+            HttpContext.Session.SetObject("scheduleId", schedule);
             
             return new RedirectToPageResult("Calendar");
-            return Page();
         }
 
-        private DataServices.Models.Schedule CreateScheduleFromInternalIntervals(List<InternalInterval> intervals)
+        private ScheduleViewModel CreateScheduleFromInternalIntervals(List<InternalInterval> intervals)
         {
-            var Schedule = new DataServices.Models.Schedule();
-            Schedule.Intervals = new List<Interval>();
+            var Schedule = new ScheduleViewModel();
+            Schedule.Intervals = new List<IntervalViewModel>();
 
             foreach (var internalInterval in intervals)
             {
                 if (internalInterval.BottomPallets != 0 && internalInterval.StartTime != DateTime.MinValue
                     && internalInterval.EndTime != DateTime.MinValue)
                 {
-                    var interval = new Interval
+                    var interval = new IntervalViewModel
                     {
                         BottomPallets = internalInterval.BottomPallets, 
                         StartTime = internalInterval.StartTime, 
-                        EndTime = internalInterval.EndTime
+                        EndTime = internalInterval.EndTime,
+                        RemainingPallets = internalInterval.BottomPallets,
+                        IntervalId = Guid.NewGuid() 
                     };
                     
                     Schedule.Intervals.Add(interval);

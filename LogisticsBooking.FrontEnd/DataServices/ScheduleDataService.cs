@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.Documents;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -22,9 +24,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
         }
 
 
-        public async Task<Response> CreateSchedule(Schedule schedule)
+        public async Task<Response> CreateSchedule(ScheduleViewModel schedule)
         {
-            var response = await PostAsync<Schedule>(baseurl, schedule);
+            var response = await PostAsync<ScheduleViewModel>(baseurl, schedule);
             
             if (response.IsSuccessStatusCode)
             {
@@ -33,36 +35,36 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return new Response(false);
         }
 
-        public async Task<List<Schedule>> GetSchedules()
+        public async Task<SchedulesListViewModel> GetSchedules()
         {
             var response = await GetAsync(this.baseurl);
             
-            var result = await TryReadAsync<List<Schedule>>(response);
+            var result = await TryReadAsync<SchedulesListViewModel>(response);
 
             return result;
         }
 
-        public async Task<Schedule> GetScheduleById(Guid id)
+        public async Task<ScheduleViewModel> GetScheduleById(Guid id)
         {
             var endpoint = baseurl + id;
             var result = await GetAsync(endpoint);
-            return await TryReadAsync<Schedule>(result);
+            return await TryReadAsync<ScheduleViewModel>(result);
         }
 
-        public async Task<Response> UpdateSchedule(Schedule schedule)
+        public async Task<Response> UpdateSchedule(ScheduleViewModel schedule)
         {
             var endpoint = baseurl + schedule.ScheduleId;  
         
-            var response = await PutAsync<Schedule>(endpoint, schedule);
+            var response = await PutAsync<ScheduleViewModel>(endpoint, schedule);
 
             if (!response.IsSuccessStatusCode)
             {
                 if (response.Content != null)
                 {
                     var errorMsg = await response.Content.ReadAsStringAsync();
-                    return Response.Unsuccesfull(errorMsg);
+                    return Response.Unsuccesfull( response, errorMsg);
                 }
-                return Response.Unsuccesfull(response.ReasonPhrase);
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
             }
             return Response.Succes();
         }
@@ -76,14 +78,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
                 if (response.Content != null)
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    return Response.Unsuccesfull(errorMessage);
+                    return Response.Unsuccesfull(response , errorMessage);
                 }
-                return Response.Unsuccesfull(response.ReasonPhrase);
+                return Response.Unsuccesfull(response , response.ReasonPhrase);
             }
             return Response.Succes();
         }
 
-        public async Task<Response> CreateManySchedule(ManySchedules schedule)
+        public async Task<Response> CreateManySchedule(CreateManyScheduleCommand schedule)
         {
             baseurl = baseurl + "list";
             var response = await PostAsync(baseurl, schedule);
@@ -94,6 +96,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
             }
             return new Response(false);
         
+        }
+
+        public async Task<ScheduleViewModel> GetScheduleBydate(DateTime date)
+        {
+            baseurl = baseurl + "date/" + date.ToString("yyyy-MM-dd");
+            var response = await GetAsync(baseurl);
+
+            return await TryReadAsync<ScheduleViewModel>(response);
         }
     }
 }

@@ -1,264 +1,224 @@
 @page
+@using LogisticsBooking.FrontEnd.DataServices.Models
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.Calendar
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 
 
 
-@using (Html.BeginForm())
-{
-  
-}
+      <main class="py-5">
 
-<div class="calendar">
-
-    <form method="post">
-    <div class="container-fluid py-4"> 
-        <div class="row justify-content-center ">
-            <div class="col-lg text-center">
-                
-                    <input type="submit" asp-page-handler="back" class="fas fa-arrow-left arrow-size "> </input>
-                
-      
-            </div>
-            <div class="col-lg text-center">
-                
-                <span class="date-size"> @Model.date.Date.ToString("Y") </span>
-            </div>
-            <div class="col-lg text-center">
-                <input type="submit" asp-page-handler="Forward" class="fas fa-arrow-right arrow-size"></input>
-            </div>
-        </div>
-    </div>
-    </form>
-@{
-    var totaldays = 0;
-}
-@functions
-{
-
-    public int getMonth(DateTime dateTime)
-    {
-        switch (dateTime.Month)
-        {
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 3;
-            case 4:
-                return 4;
-            case 5:
-                return 5;
-            case 6:
-                return 6;
-            case 7:
-                return 7;
-            case 8:
-                return 8;
-            case 9:
-                return 9;
-            case 10:
-                return 10;
-            case 11:
-                return 11;
-            case 12:
-                return 12;
-           default:
-                return 0;
-        }
-    }
-
-}
-    <div class="container-fluid py-4" >
-        <div class="row">
+        
+          <div class="container-fluid">
+              
+              <div class="row justify-content-center ">
+                  <div class="col-2 align-self-center ">
+                          <form class="text-center" method="post" asp-page-handler="Back">
+                              <a class=" fa-2x  fas fa-angle-left sendBackAsync"></a>
+                          </form>
+                      </div>
+                      <div class="col-auto align-self-center text-center">
+                          <p class="">@Model.CalenderViewModel.CurrentDate.ToString("MMMM")</p>
+                      </div>
+                      <div class="col-2 align-self-center ">
+                          <form class="text-center" method="post" asp-page-handler="Forward">
+                              <a class="fas  fa-2x fa-angle-right sendForwardAsync"></a>
+                          </form>
+                      </div>
+                  
+                  
+                  
+              </div>
+           
             
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
-                        {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
+
+          </div>
+          
+          <div class="container-fluid">
+              
+         
+              <div class="row justify-content-center">
+                  <div class="col-2 text-center">
+                      <button class="btn btn-primary" onclick="test()" >Bekræft</button> 
+                  </div>
+
+              </div>
+          </div>
+          
 
 
-                            </div>
-                        }
-                    </div>
-                }
-            }
-            @Html.AntiForgeryToken();
-        </div>
-        <div class="row">
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
-                        {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-
-
-                            </div>
-                        }
-                    </div>
-                }
-            }
-        </div>
-        <div class="row">
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
-                        {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-
-
-                            </div>
-                        }
-                    </div>
-                }
-            }
-        </div>
-        <div class="row">
-            @for (int i = 0; i <= 6; i++)
-            {
-                if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                {
-                    <div id="test" class="col-lg max-em mt-2 border-days test ">
-                        <div class="text-center color-top">
-                            <span class="font-weight-700">22-07-19</span>
-                        </div>
-                        @if (DateTime.Today > Model.date.AddDays(totaldays))
-                        {
-                            <div class="content-color before-current-date " data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="content-color test" data-value="hej">
-                                <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                @{
-                                    totaldays = totaldays + 1;
-                                }
-
-
-                            </div>
-                        }
-                    </div>
-                }
-            }
-        </div>
-            <div class="row">
-                @for (int i = 0; i <= 6; i++)
-                {
-                    if (Model.date.AddDays(totaldays).Month == Model.currentMonth)
-                    {
-                        <div id="test" class="col-lg max-em mt-2 border-days test ">
-                            <div class="text-center color-top">
-                                <span class="font-weight-700">22-07-19</span>
-                            </div>
-                            @if (DateTime.Today > Model.date.AddDays(totaldays))
-                            {
-                                <div class="content-color before-current-date " data-value="hej">
-                                    <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                    @{
-                                        totaldays = totaldays + 1;
-                                    }
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="content-color test" data-value="hej">
-                                    <span >@Model.date.AddDays(totaldays).ToString("D")</span>
-                                    @{
-                                        totaldays = totaldays + 1;
-                                    }
-
-
-                                </div>
-                            }
-                        </div>
-                    }
-                }
+          <div class="container ">
+            <div class="row no-gutters sticky-top sticky-top-5">
+                <div class="col calendar-header center">
+                    <p class="margin-top-right-1 text-dark">Mon</p>
+                </div>
+                <div class="col calendar-header">
+                    <p class="margin-top-right-1 text-dark">TUE</p>
+                </div>
+                <div class="col calendar-header">
+                    <p class="margin-top-right-1 text-dark">WED</p>
+                </div>
+                <div class="col calendar-header">
+                    <p class="margin-top-right-1 text-dark">THU</p>
+                </div>
+                <div class="col calendar-header">
+                    <p class="margin-top-right-1 text-dark">FRI</p>
+                </div>
+                <div class="col calendar-header">
+                    <p class="margin-top-right-1 text-dark">SAT</p>
+                </div>
+                <div class="col calendar-header">
+                    <p class="margin-top-right-1 text-dark">SUN</p>
+                </div>
             </div>
+
+
+            <div class="row no-gutters">
+      @for (int i = 0; i < 42; i++)
+      {
+          DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
+                      
+                      @if (i % 7 == 0 && i > 0) 
+                      {
+                          @:</div> <div class="row no-gutters">
+                      }
+                      
+                      
+                      @if ( date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month  )
+                      {
+                          
+                          var schedule = Model.SchedulesListViewModel.Schedules.Find(x => x.ScheduleDay.Equals(date));
+                          
+                          var chosenDay = Model.DateChosen.CosenDays.Find(x => x.Date.Equals(date));
+
+                         
+                          
+                          
+                              
+                          
+
+                          if (!chosenDay.Equals(DateTime.MinValue))
+                          {
+                              if (schedule != null) 
+                              {
+                                  
+                                  <div class="col day">
+                                      <div class="right-position before-date">
+                                          <p class="margin-top-right-1">@date.Day</p>
+                                      </div>
+                                      <div data-toggle="modal" data-target="#popup" class="schedule">
+                                          <p class="margin-top-right-1">
+                                              Nuværende <plan></plan>
+                                          </p>@schedule.Name
+                                      </div>
+                                  </div> 
+                              }
+                              else
+                              {
+                                  <div id="test" class="col day-chosen adDay">
+                                      <div class="right-position">
+                                          <input class="date" type="hidden" value="@date.ToString("d")"/>
+                                          <p class="margin-top-right-1">@date.Day</p>
+                                      </div>
+                              
+                                  </div> 
+                              }
+                          }
+                          else
+                          {
+                              if (schedule != null) 
+                              {
+                                  <div class="col day">
+                                      <div class="right-position before-date">
+                                          <p class="margin-top-right-1">@date.Day</p>
+                                      </div>
+                                      <div data-toggle="modal" data-target="#popup" class="schedule">
+                                          <p class="margin-top-right-1">
+                                              Nuværende <plan></plan>
+                                          </p>@schedule.Name
+                                      </div>
+                                  </div> 
+                              }
+                              else
+                              {
+                                  <div id="test" class="col day adDay">
+                                      <div class="right-position">
+                                         <input class="date" type="hidden" value="@date.ToString("d")"/>
+                                          <p class="margin-top-right-1 ">@date.Day</p>
+                                      </div>
+                              
+                                  </div> 
+                              }
+                          }
+                          
+                          
+                          
+                      
+                             
+                          
+                          
+                          
+                      }
+                      else
+                      {
+                          <div class="col day">
+                              <div class="right-position before-date">
+                                  <p class="margin-top-right-1 font-weight-bold">@date.Day</p>
+                              </div>
+                          </div>
+                          
+                      }
+                  }
+           
+
             
         </div>
-        <span class="btn"> Send data </span>
 
     </div>
 
-      
+          
+            
+          
+          
+   
+      </main>
 
 
 
 
+<!-- Modal -->
 
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 @section Scripts {
     
     
-    <link rel="stylesheet" type="text/css" href="~/css/Calendar.css"/>
+   
 
-    <script src="~/js/Util/util.js" language="javascript" type="text/javascript"></script>
+    
     <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -266,69 +226,175 @@
 
     
     <script>
-        var token = $('input[name="__RequestVerificationToken"]').val();
+var token = $('input[name="__RequestVerificationToken"]').val();
 
-        var headers = {};
+var headers = {};
 
-        headers['__RequestVerificationToken'] = token;
+headers['__RequestVerificationToken'] = token;
 
-    
-        var listOfDates = new Array(35);
-        $(".test").click(function() {
-            if ($(this).hasClass("content-color")) {
-                $(this).removeClass("content-color").addClass("ok");
-                var f = $(this).first().contents().eq(1).text();
-                listOfDates.push(f);
-            } else if ($(this).hasClass("ok")) {
 
-                $(this).removeClass("ok").addClass("content-color");
-                var f = $(this).first().contents().eq(1).text();
+var listOfDates = new Array(35);
 
-                function include(arr,obj) {
-                    return (arr.indexOf(obj) != -1);
-                }
-                var a = include(listOfDates , f);
-                var index = listOfDates.indexOf(a);
-                if (index > -1) {
-                listOfDates.splice(index, 1);
-                }
-                console.log(listOfDates);
-            }
 
-        });
+function codeAddress() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('day-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            listOfDates.push(f);
+        }
+    });
+}
+window.onload = codeAddress;
+
+
+
+$(".adDay").click(function() {
+    if ($(this).hasClass("day")) {
+        $(this).removeClass("day").addClass("day-chosen");
+
+    } else if ($(this).hasClass("day-chosen")) {
+
+        $(this).removeClass("day-chosen").addClass("day");
+
+        /*
+        function include(arr,obj) {
+            return (arr.indexOf(obj) != -1);
+        }
+        var a = include(listOfDates , f);
+        var index = listOfDates.indexOf(a);
+        if (index > -1) {
+        listOfDates.splice(index, 1);
+        }
+        console.log(listOfDates);
+
         
+         */
+    }
 
-            
-$(".btn").click(function() {
-  $.ajax({
-        type: "POST" ,
-        
-        url: "https://app.logistictechnologies.eu/Client/Schedule/Calendar" ,
-        beforeSend: function (xhr) {
+});
+
+
+
+
+$(".sendBackAsync").click(function() {
+    listOfDates = [];
+    test1();
+    $.ajax({
+        type: "POST",
+
+        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Back",
+        beforeSend: function(xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
-        headers:headers, 
+        headers: headers,
         data: JSON.stringify(listOfDates),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(data) {
             console.log("succes")
-            
-            window.location.href='https://app.logistictechnologies.eu/Client/Schedule/ScheduleOverview';
-      },
+            location.reload();
+
+        },
         failure: function(data) {
             console.log("fail")
-            window.location.href='https://app.logistictechnologies.eu/Client/Schedule/ScheduleOverview';
-            
-      }
+            location.reload();
+
+        }
     });
-        
+
 });
 
 
-           
-     
+$(".sendForwardAsync").click(function() {
+    listOfDates = [];
+    test1();
+    for (i = 0; i < listOfDates.length; i++) {
+        console.log(listOfDates[i])
+    }
+    $.ajax({
+        type: "POST",
+
+        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Forward",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            location.reload();
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            location.reload();
+
+        }
+    });
+
+});
+
+
+
+function feed() {
+    $.ajax({
+        type: "POST",
+
+        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Confirm",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        headers: headers,
+        data: JSON.stringify(listOfDates),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data) {
+            console.log("succes")
+            window.location.replace("https://localhost:4434/Client/Schedule/ScheduleOverview");
+
+        },
+        failure: function(data) {
+            console.log("fail")
+            window.location.replace("https://localhost:4434/Client/Schedule/ScheduleOverview");
+
+        }
+    });
+
+}
+
+function test() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('day-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            listOfDates.push(f);
+        }
+
+    });
+    feed();
+
+
+
+}
+
+function test1() {
+    document.querySelectorAll('*').forEach(function(node) {
+        if (node.classList.contains('day-chosen')) {
+            var f = node.getElementsByClassName("date").item(0).value;
+            console.log(f)
+            listOfDates.push(f);
+        }
+
+    });
+
+
+
+
+}
     </script>
 
 

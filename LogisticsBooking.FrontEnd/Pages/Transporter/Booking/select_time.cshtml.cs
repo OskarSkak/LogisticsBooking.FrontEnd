@@ -4,89 +4,148 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class select_time : PageModel
     {
         private readonly IBookingDataService _bookingDataService;
+        private readonly IScheduleDataService _scheduleDataService;
+        
+        [BindProperty]
+        public ScheduleViewModel ScheduleViewModel { get; set; }
+        
+        [BindProperty]
+        public IntervalViewModel IntervalViewModel { get; set; }
 
-        public select_time(IBookingDataService bookingDataService)
+        public select_time(IBookingDataService bookingDataService , IScheduleDataService scheduleDataService)
         {
             _bookingDataService = bookingDataService;
+            _scheduleDataService = scheduleDataService;
         }
         
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            Console.WriteLine("");
+            var id = "";
+            
+            try
+            {
+                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            }
+            catch (NullReferenceException ex)
+            {
+                
+                Console.WriteLine(ex);
+            }
+
+            var CurrentBooking = HttpContext.Session.GetObject<BookingBuildModel>(id);
+
+            var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
+
+            ScheduleViewModel = result;
+           
+            return Page();
             
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             var id = "";
-
+            
             try
             {
                 id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-
             }
             catch (NullReferenceException ex)
             {
+                
                 Console.WriteLine(ex);
             }
 
-            var test = HttpContext.Session.GetObject<Object>(id);
+            var CurrentBooking = HttpContext.Session.GetObject<BookingBuildModel>(id);
 
+            var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
 
-            var model = JsonConvert.DeserializeObject<BookingViewModel>(test.ToString());
+            if (result != null)
+            {
+                ScheduleViewModel = result;
+            }
+           
+
             
-
-            var booking = new DataServices.Models.Booking
+            
+            var sortedList = ScheduleViewModel.Intervals.OrderBy(x => x.StartTime).ToList();
+            if (sortedList != null)
             {
-                totalPallets = model.TotalPallets,
-                ExternalId = model.ExternalId,
-                port = 0,
-                email = model.email,
-                transporterName = model.TransporterName,
-                bookingTime = model.BookingTime,
+                ScheduleViewModel.Intervals = sortedList;
+            }
+           
+           
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostSelectedTime(string interval , ScheduleViewModel schedule)
+        {
+            var id = "";
+            
+            try
+            {
+                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            }
+            catch (NullReferenceException ex)
+            {
                 
+                Console.WriteLine(ex);
+            }
 
-            };
+            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
 
-            booking.Orders = new List<Order>();
-            foreach (var order in model.OrderViewModels)
+            
+            
+ 
+            
+            List<CreateOrderCommand> orders = new List<CreateOrderCommand>();
+
+            foreach (var order in CurrentBooking.OrderViewModels)
             {
-                booking.Orders.Add(new Order
+                orders.Add(new CreateOrderCommand
                 {
-                    orderNumber = order.orderNumber,
-                    ExternalId = order.ExternalId,
+                    
+                    BottomPallets = order.BottomPallets,
+                    Comments = order.Comment,
+                     ExternalId = order.ExternalId,
+                     // TODO InOut = order.InOut,
+                    OrderNumber = order.orderNumber,
+                    SupplierId = order.SupplierId,
                     TotalPallets = order.totalPallets,
-                    BottomPallets = order.totalPallets,
-                    customerNumber = order.customerNumber,
-                    SupplierName = order.SupplierName,
-                    Comment = order.Comment,
-                    InOut = order.InOut,
-                   
+                    
                 });
             }
+
+            
+
+            
+            // Create a booking on the chosen interval
+            await _bookingDataService.CreateBooking(new CreateBookingCommand
+            {
+                DeliveryDate = CurrentBooking.BookingTime,
+                ExternalId = CurrentBooking.ExternalId,
+                IntervalId = Guid.Parse(interval),
+                TotalPallets = CurrentBooking.TotalPallets,
+                TransporterId = CurrentBooking.TransporterId,
+                CreateOrderCommand = orders
+                
+                
+            });
             
             
-           var result = await _bookingDataService.CreateBooking(booking);
-           
-           
-
-           if (!result.IsSuccesfull)
-           {
-               return new RedirectToPageResult("~/Error");
-           }
             
-           return  new RedirectToPageResult("confirm");
-
-
+            return RedirectToPage("confirm");
         }
     }
 }

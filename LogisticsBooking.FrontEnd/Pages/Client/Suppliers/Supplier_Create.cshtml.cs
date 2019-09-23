@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -20,13 +21,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
             _dataService = DS;
         }
 
-        public async Task<ActionResult> OnPost(string Name, string Email, int Telephone)
+        public async Task<ActionResult> OnPost(string Name, string Email, int Telephone, DateTime DeliveryStart , DateTime DeliveryEnd)
         {
-            var result = await _dataService.CreateSupplier(new DataServices.Models.Supplier
+            var result = await _dataService.CreateSupplier(new CreateSupplierViewModel
             {
                 Email = Email,
                 Telephone = Telephone,
-                Name = Name
+                Name = Name,
+                DeliveryStart = DeliveryStart,
+                DeliveryEnd = DeliveryEnd
             });
 
             if (!result.IsSuccesfull)

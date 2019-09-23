@@ -1,14 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
     public class OrderViewModel
     {
-        public Guid id { get; set; }
+        public Guid OrderId { get; set; }
         public Guid bookingId { get; set; }
         
-        [Required]
+
         public string Comment { get; set; }
         public string ExternalId { get; set; }
         
@@ -19,7 +20,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public string InOut { get; set; }
         public int totalPallets { get; set; }
         public int BottomPallets { get; set; }
+
+        public Guid SupplierId { get; set; }
         
         public string SupplierName { get; set; }
+        
+        public SupplierViewModel SupplierViewModel {get; set; }
     }
 }

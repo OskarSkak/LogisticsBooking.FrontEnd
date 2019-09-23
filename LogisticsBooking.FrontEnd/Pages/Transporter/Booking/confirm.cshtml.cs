@@ -19,9 +19,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             _bookingDataService = bookingDataService;
         }
-        public async Task<IActionResult> OnGet(BookingViewModel bookingOrderViewModel)
+        public async Task<IActionResult> OnGet(BookingBuildModel bookingOrderViewModel)
         {
-            Console.WriteLine(bookingOrderViewModel);
 
             return Page();
 

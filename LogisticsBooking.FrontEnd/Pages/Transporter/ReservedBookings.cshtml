@@ -10,14 +10,28 @@
             <div class="col-md-12">
                 <div class="list-group" style="">
                     @if(Model.Bookings != null){
-                        foreach (var booking in @Model.Bookings)
+                        @foreach (var interval in Model.IntervalViewModels)
                         {
-                            <a asp-page="./ReservedOrders" asp-route-id="@booking.internalId" class="list-group-item list-group-item-action display-spacebetween">
-                                <div>Tidspunkt: @booking.bookingTime</div>
-                                <div>Id: @booking.ExternalId</div>
-                                <div>Bundpaller: @booking.totalPallets</div>
-                            </a>
+                            <h2>@interval.StartTime</h2>
+                            foreach (var booking in @Model.Bookings)
+                            {
+                                if (booking.Interval.IntervalId.Equals(interval.IntervalId))
+                                {
+                                    <a asp-page="./ReservedOrders" asp-route-id="@booking.InternalId" class="list-group-item list-group-item-action">
+                                    
+                                        <div class="row">
+                                            <div class="col-md"> @booking.BookingTime.ToString("D")</div>
+                                            <div class="col-md">Id: @booking.ExternalId</div>
+                                            <div class="col-md-auto min-width-8">Bundpaller: @booking.TotalPallets</div>
+                                        </div>
+                                
+                                
+                                    </a>
+                                }
+                               
+                            } 
                         }
+                        
                     }
                 </div>
             </div>

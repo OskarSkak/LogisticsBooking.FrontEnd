@@ -370,49 +370,7 @@ Own CSS
  */
 
 
-
-.margin-1em-top {
-    margin-top: 1em;
-}
-
-.py-5-top {
-    padding-top: 5rem;
-    padding-bottom: 0.2rem;
-}
-
-.small-info-text {
-    font-size: 0.8rem;
-    color: #9c9c9c;
-}
-
-.max-width {
-    width: 100% !important;
-}
-
-.display-spacebetween {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.display-center {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-
-.display-right {
-    display: flex !important;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-
-.paddingleftbookingform {
-    padding-left: 0.2em !important;
-}
-
-
+hr-thick
 .fieldsetContainer {
     height: 0;
     overflow: hidden;
@@ -7867,6 +7825,9 @@ button.bg-dark:focus {
 .min-vw-100 {
     min-width: 100vw !important;
 }
+.min-width-8 {
+    min-width: 9rem;
+}
 
 .min-vh-100 {
     min-height: 100vh !important;
@@ -10179,7 +10140,7 @@ button.bg-dark:focus {
 }
 
 .text-primary {
-    color: #9E9D9E !important;
+    color: #212629 !important;
 }
 
 a.text-primary:hover, a.text-primary:focus {
@@ -10485,4 +10446,8 @@ END OF - popup css
         white-space: nowrap;
         overflow: hidden;
     }
+}
+
+.margin-right-1 {
+    margin-right: 1rem;
 }

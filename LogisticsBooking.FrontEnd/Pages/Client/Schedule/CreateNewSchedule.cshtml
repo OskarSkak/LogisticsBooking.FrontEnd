@@ -1,4 +1,4 @@
-@page
+@page "{id}"
 @using System.Collections.Specialized
 @using Microsoft.EntityFrameworkCore.Internal
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.CreateNewSchedule
@@ -88,8 +88,8 @@
                                     <th>Opret tidsplanen</th>
                                 </tr>
                                 <tr>
-                                    <td><div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">Bekræft</div>&nbsp;&nbsp;<input type="number" class="input-group-res" id="allPalletsNumber"/></td>
-                                    <td><input type="text" name="name"/></td>
+                                    <td class="d-flex justify-content-start"><div onclick="changeAllPallets(document.getElementById('allPalletsNumber').value)" class="btn btn-primary">Bekræft</div>&nbsp;&nbsp;<input type="number" class="input-group-res form-control" id="allPalletsNumber"/></td>
+                                    <td><input type="text" class="form-control" name="name"/></td>
                                     <td><input type="submit" class="btn btn-primary" value="Opret Tidsplan"></input></td>
                                 </tr>
                             </table>
@@ -120,9 +120,9 @@
                                 <div class="list-group-item list-group-item-action display-spacebetween" id="@Model.Intervals.IndexOf(interval)drag" draggable="true" ondragstart="drag(event)">
                                     <div class="btn input-group-res" onclick="toggle('@interval.InternalId')"><i class="fas fa-toggle-on"></i></div>
                                     <div class="@interval.InternalId parent">
-                                        <input type="number" class="input-group- kiddo" style="text-align: center;" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
-                                        <input type="time" class="kiddo" style="text-align: center;" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
-                                        <input type="time" class="kiddo" style="text-align: center;" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
+                                        <input type="number" class="input-group- kiddo form-control" style="text-align: center;" id="@interval.InternalId" asp-for="@interval.BottomPallets" name="Intervals[@Model.Intervals.IndexOf(interval)].BottomPallets"/>
+                                        <input type="time" pattern="[0-9]{2}:[0-9]{2}" class="kiddo form-control" style="text-align: center;" asp-for="@interval.StartTime" name="Intervals[@Model.Intervals.IndexOf(interval)].StartTime"/>
+                                        <input type="time" class="kiddo form-control" style="text-align: center;" asp-for="@interval.EndTime" name="Intervals[@Model.Intervals.IndexOf(interval)].EndTime"/>
                                     </div>
                                 </div>
                             </div>
