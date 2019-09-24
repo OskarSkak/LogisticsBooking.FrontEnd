@@ -2,7 +2,7 @@ using System;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models
 {
-    public class Order
+    public class OrderViewModel
     {
         
         public string Comment { get; set; }
