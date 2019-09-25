@@ -21,30 +21,30 @@ namespace LogisticsBooking.FrontEnd.DataServices.Utilities
             baseurl = _APIServerURL + "/api/orders/";
         }
 
-        public async Task<Response> CreateOrder(Order order)
+        public async Task<Response> CreateOrder(OrderViewModel order)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<Order>> GetOrders()
+        public async Task<List<OrderViewModel>> GetOrders()
         {
             var response = await GetAsync(baseurl);
-            var result = await TryReadAsync<List<Order>>(response);
+            var result = await TryReadAsync<List<OrderViewModel>>(response);
             return result;
         }
 
-        public async Task<Order> GetOrderById(Guid id)
+        public async Task<OrderViewModel> GetOrderById(Guid id)
         {
             var endpoint = baseurl + id;
             var result = await GetAsync(endpoint);
-            return await TryReadAsync<Order>(result);
+            return await TryReadAsync<OrderViewModel>(result);
         }
 
-        public async Task<Response> UpdateOrder(Order order)
+        public async Task<Response> UpdateOrder(OrderViewModel order)
         {
-            var endpoint = baseurl + order.id;   
+            var endpoint = baseurl + order.OrderId;   
         
-            var response = await PutAsync<Order>(endpoint, order);
+            var response = await PutAsync<OrderViewModel>(endpoint, order);
 
             if (!response.IsSuccessStatusCode)
             {

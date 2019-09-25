@@ -14,6 +14,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
+using OrderViewModel = LogisticsBooking.FrontEnd.DataServices.Models.OrderViewModel;
 
 namespace LogisticsBooking.FrontEnd.Acquaintance
 {
@@ -40,10 +41,10 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
     public interface IOrderDataService
     {
-        Task<Response> CreateOrder(Order order);
-        Task<List<Order>> GetOrders();
-        Task<Order> GetOrderById(Guid id);
-        Task<Response> UpdateOrder(Order order);
+        Task<Response> CreateOrder(OrderViewModel order);
+        Task<List<OrderViewModel>> GetOrders();
+        Task<OrderViewModel> GetOrderById(Guid id);
+        Task<Response> UpdateOrder(OrderViewModel order);
         Task<Response> DeleteOrder(Guid id);
     }
 

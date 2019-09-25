@@ -20,7 +20,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     public class BookingDeleteModel : PageModel
     {
         private IBookingDataService _bookingDataService;
-        [BindProperty] public BookingViewModel Booking { get; set; }
+        [BindProperty] 
+        public BookingViewModel Booking { get; set; }
         
         public BookingDeleteModel(IBookingDataService bookingDataService)
         {

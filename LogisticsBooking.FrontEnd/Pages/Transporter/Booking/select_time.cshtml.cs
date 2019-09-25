@@ -111,7 +111,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             List<CreateOrderCommand> orders = new List<CreateOrderCommand>();
 
-            foreach (var order in CurrentBooking.OrderViewModels)
+            foreach (var order in CurrentBooking.OrdersListViewModel.Orders)
             {
                 orders.Add(new CreateOrderCommand
                 {
@@ -120,9 +120,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                     Comments = order.Comment,
                      ExternalId = order.ExternalId,
                      // TODO InOut = order.InOut,
-                    OrderNumber = order.orderNumber,
-                    SupplierId = order.SupplierId,
-                    TotalPallets = order.totalPallets,
+                    OrderNumber = order.OrderNumber,
+                    SupplierId = order.SupplierViewModel.SupplierId,
+                    TotalPallets = order.TotalPallets,
                     
                 });
             }
