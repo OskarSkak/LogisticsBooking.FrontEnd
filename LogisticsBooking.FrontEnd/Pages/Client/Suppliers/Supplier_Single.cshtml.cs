@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
-using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,44 +10,45 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Suppliers
 {
     public class Supplier_SingleModel : PageModel
     {
-        private ISupplierDataService supplierDataService;
-        [BindProperty] public SupplierViewModel supplier { get; set;}
-        
-        public Supplier_SingleModel(ISupplierDataService _dataService){supplierDataService = _dataService;}
+        private readonly ISupplierDataService _supplierDataService;
+        private readonly IMapper _mapper;
 
-        public async Task<IActionResult> OnGetAsync(string id)
+        [BindProperty] 
+        public SupplierViewModel SupplierViewModel { get; set;}
+        
+        
+        public Supplier_SingleModel(ISupplierDataService supplierDataService , IMapper mapper )
         {
-            supplier = await supplierDataService.GetSupplierByName(id);
+            _supplierDataService = supplierDataService;
+            _mapper = mapper;
+        }
+
+        public async Task<IActionResult> OnGetAsync(Guid id)
+        {
+            SupplierViewModel = await _supplierDataService.GetSupplierById(id);
+            
+            
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdate(string id, int ViewTelephone, string ViewEmail, string ViewName , DateTime ViewDeliveryStart , DateTime ViewDeliveryEnd)
+        public async Task<IActionResult> OnPostUpdate(SupplierViewModel supplierViewModel)
         {
-            var supplier = await supplierDataService.GetSupplierByName(id);
-            var updatedSupplier = new SupplierViewModel
+            if (!ModelState.IsValid)
             {
-                Email = ViewEmail, 
-                Name = ViewName, 
-                Telephone = ViewTelephone,
-                DeliveryEnd = ViewDeliveryEnd,
-                DeliveryStart = ViewDeliveryStart,
-                SupplierId = supplier.SupplierId
-            };
-            updatedSupplier.DeliveryStart = ViewDeliveryStart;
-            updatedSupplier.DeliveryEnd = ViewDeliveryEnd;
-
-            var result = await supplierDataService.UpdateSupplier(supplier.SupplierId, updatedSupplier);
+                return Page();
+            }
+            var result = await _supplierDataService.UpdateSupplier(SupplierViewModel.SupplierId, supplierViewModel);
 
             if (result.IsSuccesfull) return new RedirectToPageResult("./Suppliers");
             
             return new RedirectToPageResult("Error");
         }
         
-        public async Task<IActionResult> OnPostDelete(string id)
+        public async Task<IActionResult> OnPostDelete(Guid id)
         {
-            var supplier = await supplierDataService.GetSupplierByName(id);
+            var supplier = await _supplierDataService.GetSupplierById(id);
 
-            var result = await supplierDataService.DeleteSupplier(supplier.SupplierId);
+            var result = await _supplierDataService.DeleteSupplier(supplier.SupplierId);
             
             return new RedirectToPageResult("./Suppliers");
         }

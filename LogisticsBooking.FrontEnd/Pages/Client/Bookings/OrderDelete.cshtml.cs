@@ -19,7 +19,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     public class OrderDeleteModel : PageModel
     {
         private IOrderDataService _orderDataService;
-        [BindProperty] public Order Order { get; set; }
+        [BindProperty] public OrderViewModel OrderViewModel { get; set; }
         
         public OrderDeleteModel(IOrderDataService orderDataService)
         {
@@ -28,7 +28,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         public async Task OnGetAsync(string id)
         {
-            Order = await _orderDataService.GetOrderById(Guid.Parse(id));
+            OrderViewModel = await _orderDataService.GetOrderById(Guid.Parse(id));
         }
 
         public async Task<IActionResult> OnPostDelete(string id)

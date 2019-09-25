@@ -40,7 +40,13 @@
 
 
   <ItemGroup>
-    <Folder Include="DataServices\Models\Interval\IntervalList" />
+    <Folder Include="DataServices\Models\Interval\CommandModels" />
+    <Folder Include="DataServices\Models\Interval\ViewModels\IntervalList" />
+    <Folder Include="DataServices\Models\Schedule\ViewModels" />
+    <Folder Include="DataServices\Models\Supplier\CommandModels" />
+    <Folder Include="DataServices\Models\Supplier\ViewModels" />
+    <Folder Include="DataServices\Models\Transporter\CommandModels" />
+    <Folder Include="DataServices\Models\Transporter\ViewModels" />
     <Folder Include="Styles" />
   </ItemGroup>
 

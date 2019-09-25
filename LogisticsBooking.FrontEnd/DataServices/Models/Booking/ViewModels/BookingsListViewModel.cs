@@ -4,6 +4,11 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
 {
     public class BookingsListViewModel
     {
-        public List<BookingViewModel> Bookings { get; set; } = new List<BookingViewModel>();
+        public BookingsListViewModel()
+        {
+            Bookings = new List<BookingViewModel>();
+        }
+        
+        public List<BookingViewModel> Bookings { get; set; }
     }
 }

@@ -10,51 +10,59 @@
                 <h1>Eksisterende kunde</h1>
                 <p class="mb-3">Opdater informationer ved at udskifte de genererede værdier i felterne under</p>
                 <form method="post" class="text-left">
-                    <div class="form-group"> <label for="form16">Kundenavn</label> <input asp-for="supplier.Name" type="text" class="form-control" id="form16" name="ViewName"> </div>
-                    <div class="form-group"> <label for="form17">Kunde Nr</label> <input asp-for="supplier.Telephone" type="number" class="form-control" id="form17" name="ViewTelephone"> </div>
-                    <div class="form-group"> <label for="form18">Kontakt</label> <input asp-for="supplier.Email" type="email" class="form-control" id="form18" name="ViewEmail"> </div>
-                 
-                        <div class="form-group"> <label for="form19">Leveringstidspunkt start</label> <input asp-for="supplier.DeliveryStart" type="time" class="form-control" id="form19" name="ViewDeliveryStart"> </div>
-                   
+                    <div class="form-group">
+                        <label for="form16">Kundenavn</label> <input asp-for="@Model.SupplierViewModel.Name" type="text" class="form-control"  >
+                    </div>
                     
+                    <div class="form-group">
+                        <label for="form18">Kontakt</label> <input asp-for="@Model.SupplierViewModel.Email" type="email" class="form-control"  >
+                    </div>
 
-                    <div class="form-group"> <label for="form20">Leveringstidspunkt Slut</label> <input asp-for="supplier.DeliveryEnd" type="time" class="form-control" id="form20" name="ViewDeliveryEnd"> </div>
+                    <div class="form-group">
+                        <label for="form19">Leveringstidspunkt start</label> <input asp-for="@Model.SupplierViewModel.DeliveryStart" type="time" class="form-control"  >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="form20">Leveringstidspunkt Slut</label> <input asp-for="@Model.SupplierViewModel.DeliveryEnd" type="time" class="form-control">
+                    </div>
+                        <input type="hidden" asp-for="@Model.SupplierViewModel.SupplierId"/>
+
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                     </form>
-                    <button data-toggle="modal" data-target="#popup"  class="btn btn-primary">Slet</button>           
+                </form>
+                <button data-toggle="modal" data-target="#popup" class="btn btn-primary">Slet</button>
             </div>
         </div>
     </div>
 </div>
 
 
-  <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                      <p class="spaced-typography">Du er ved at slette denne leverandør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
-                </div>
-                <div class="modal-footer">
-                    <form asp-page-handler="delete" method="post"> 
-                        <button type="submut" class="btn btn-primary">Bekræft</button>
-                    </form>
-                    
-                </div>
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Slet Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="spaced-typography">Du er ved at slette denne leverandør fra systemet. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-page-handler="delete" method="post">
+                    <button type="submit" class="btn btn-primary">Bekræft</button>
+                </form>
+
             </div>
         </div>
     </div>
+</div>
 
 
 @section Scripts{
-   
-    
+
 
     <script>
         $(function () {

@@ -1,6 +1,4 @@
 ﻿@page "{id}"
-@using LogisticsBooking.FrontEnd.DataServices.Models
-@using LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.OrderDeleteModel
 
 @{
@@ -11,18 +9,18 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto col-lg-6 col-10">
-                <h1>Ordre: @Model.Order.ExternalId</h1>
+                <h1>Ordre: @Model.OrderViewModel.ExternalId</h1>
                 <p class="mb-3">Du er ved at slette den følgende ordre. Dette er en permanent handling. Tryk 'Bekræft' for at gennemføre.</p>
                 <form method="post" class="text-left">
-                    <div class="form-group"> <label for="form18">Kommentar</label> <div class="list-group-item display-spacebetween">@Model.Order.Comment</div> </div>
-                    <div class="form-group"> <label for="form18">Kunde nr</label> <div class="list-group-item display-spacebetween">@Model.Order.customerNumber</div> </div>
-                    <div class="form-group"> <label for="form18">Ordre nr</label> <div class="list-group-item display-spacebetween">@Model.Order.orderNumber</div> </div>
-                    <div class="form-group"> <label for="form18">Vare nr</label> <div class="list-group-item display-spacebetween">@Model.Order.wareNumber</div></div>
-                    <div class="form-group"> <label for="form18">Antal bundpaller</label> <div class="list-group-item  display-spacebetween">@Model.Order.BottomPallets</div> </div>
-                    <div class="form-group"> <label for="form18">Ordre id</label> <div class="list-group-item display-spacebetween">@Model.Order.orderNumber</div> </div>
-                    <div class="form-group"> <label for="form18">Total antal paller</label> <div class="list-group-item display-spacebetween">@Model.Order.TotalPallets</div> </div>
-                    <div class="form-group"> <label for="form18">Total Ind/Ud</label> <div class="list-group-item display-spacebetween">@Model.Order.InOut</div></div>
-                    <input asp-for="Order.id" type="hidden"  class="form-control" id="form18" name="id" value="@Model.Order.id">
+                    <div class="form-group"> <label for="form18">Kommentar</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.Comment</div> </div>
+                    <div class="form-group"> <label for="form18">Kunde nr</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.CustomerNumber</div> </div>
+                    <div class="form-group"> <label for="form18">Ordre nr</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.OrderNumber</div> </div>
+                    <div class="form-group"> <label for="form18">Vare nr</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.WareNumber</div></div>
+                    <div class="form-group"> <label for="form18">Antal bundpaller</label> <div class="list-group-item  display-spacebetween">@Model.OrderViewModel.BottomPallets</div> </div>
+                    <div class="form-group"> <label for="form18">Ordre id</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.OrderNumber</div> </div>
+                    <div class="form-group"> <label for="form18">Total antal paller</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.TotalPallets</div> </div>
+                    <div class="form-group"> <label for="form18">Total Ind/Ud</label> <div class="list-group-item display-spacebetween">@Model.OrderViewModel.InOut</div></div>
+                    <input asp-for="OrderViewModel.OrderId" type="hidden"  class="form-control" id="form18" name="id" value="@Model.OrderViewModel.OrderId">
                     <input type="submit" asp-page-handler="Delete" class="btn btn-primary"  value="Bekræft"/>
                 </form>
             </div>

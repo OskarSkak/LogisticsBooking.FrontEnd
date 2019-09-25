@@ -22,11 +22,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         public TransportersModel(ITransporterDataService _transporterDataService)
         {
             transporterDataService = _transporterDataService;
-            Transporters = new List<TransporterViewModel>();
-            Transporters = PopulateList(transporterDataService, Transporters).Result;
+            
         }
         public async void OnGet()
         {
+            Transporters = new List<TransporterViewModel>();
+            Transporters = PopulateList(transporterDataService, Transporters).Result;
         }
 
         private static async Task<List<TransporterViewModel>> PopulateList(ITransporterDataService transporterDataService, List<TransporterViewModel> Transporters)
