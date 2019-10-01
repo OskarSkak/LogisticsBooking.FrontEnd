@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
+using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
-using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
-using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
 {
-    public class BookingViewModel
+    public class BookingViewModel : IHaveCustomMapping
     {
+
+        public BookingViewModel()
+        {
+            OrdersListViewModel = new OrdersListViewModel();
+            SuppliersListViewModel = new SuppliersListViewModel();
+        }
         public int ExternalId { get; set; }
+        
+      
+        [Range( 1 , 33,  ErrorMessage = "Angiv venligst et tal mellem 1 - 33") ]
         public int TotalPallets { get; set; }
         public DateTime BookingTime { get; set; }
         public string TransporterName { get; set; }
@@ -41,17 +48,30 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         
         public SuppliersListViewModel SuppliersListViewModel { get; set; }
         
-        public List<OrderViewModel> OrderViewModels { get; set; }
+        public OrdersListViewModel OrdersListViewModel { get; set; }
         
         public bool IsBookingAllowed { get; set; }
         
         public int PalletsCurrentlyOnBooking { get; set; }
         
         public IntervalViewModel Interval { get; set; }
-
-        public BookingViewModel()
+        
+        public void CreateMappings(Profile configuration)
         {
-            
+            configuration.CreateMap<BookingViewModel, CreateBookingCommand>()
+                .ForMember(  dest => dest.ExternalId,
+                    opt => opt.MapFrom(src => src.ExternalId))
+                .ForMember(  dest => dest.DeliveryDate,
+                    opt => opt.MapFrom(src => src.BookingTime))
+                .ForMember(dest => dest.IntervalId , 
+                    opt => opt.MapFrom(src => src.Interval.IntervalId))
+                .ForMember(  dest => dest.TotalPallets,
+                    opt => opt.MapFrom(src => src.TotalPallets))
+                .ForMember(  dest => dest.TransporterId,
+                    opt => opt.MapFrom(src => src.TransporterId))
+                .ForMember(  dest => dest.CreateOrderCommand,
+                    opt => opt.MapFrom(src => src.OrdersListViewModel.Orders))
+                ;
         }
     }
 }

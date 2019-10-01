@@ -16,5 +16,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         
         public string ExternalId { get; set; }
         
+        public string InOut { get; set; }
+        
     }
 }

@@ -13,9 +13,16 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
 {
     public class SuppliersModel : PageModel
     {
-        private ISupplierDataService _supplierDataService;
+        private readonly ISupplierDataService _supplierDataService;
+        
+        
         [BindProperty] 
         public SuppliersListViewModel SuppliersListView { get; set; }
+        
+        [TempData]
+        public string ResponseMessage { get; set; }
+        
+        public bool ShowResponseMessage  => !String.IsNullOrEmpty(ResponseMessage);
 
         public SuppliersModel(ISupplierDataService supplierDataService)
         {
