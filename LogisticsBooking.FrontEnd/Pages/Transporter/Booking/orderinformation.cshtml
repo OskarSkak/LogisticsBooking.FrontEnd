@@ -21,6 +21,12 @@ border-bottom: 1px solid #dee2e6;
         <strong>@Model.Message</strong>
     </div>
 }
+@if (Model.ShowOrderMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.OrderMessage</strong>
+    </div>
+}
 
 <div class="py-1" style="">
     <div class="container">
@@ -289,7 +295,7 @@ border-bottom: 1px solid #dee2e6;
                                 <label class="w-100">Leverandør</label>
                                 <select class="form-control" asp-for="OrderViewModel.SupplierViewModel.SupplierId" asp-items="@Model.Suppliers"></select>
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <span class="input-group-text" data-toggle="popover" title="Leverandør" data-content="Angiv leverandør">
                                         <i class="fas fa-question"></i>
                                     </span>
                                 </div>
@@ -300,7 +306,7 @@ border-bottom: 1px solid #dee2e6;
                                 <label class="w-100">Bundpaller</label>
                                 <input value="@order.BottomPallets" asp-for="OrderViewModel.BottomPallets" type="number" class="form-control" placeholder="Antal Paller">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på Ordren. Max antal paller er 33">
                                         <i class="fas fa-question"></i>
                                     </span>
                                 </div>
@@ -312,7 +318,7 @@ border-bottom: 1px solid #dee2e6;
                                 <label class="w-100">Pallern totalt</label>
                                 <input value="@order.TotalPallets" asp-for="OrderViewModel.TotalPallets" type="number" class="form-control" id="form29" placeholder="Antal Paller">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <span class="input-group-text" data-toggle="popover" title="Paller i Alt" data-content="Angiv hvor mange paller der er ialt på ordren. Én bundpalle plads kan godt indeholde flere paller">
                                         <i class="fas fa-question"></i>
                                     </span>
                                 </div>
@@ -324,7 +330,7 @@ border-bottom: 1px solid #dee2e6;
                                 <label class="w-100">Ordre referencenummer </label>
                                 <input value="@order.OrderNumber" asp-for="OrderViewModel.OrderNumber" type="number" class="form-control" id="form29" placeholder="Ordre refnr">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <span class="input-group-text" data-toggle="popover" title="Ordrereference" data-content="Angiv venligst ordrereferencenummer til ordren">
                                         <i class="fas fa-question"></i>
                                     </span>
 
@@ -337,7 +343,7 @@ border-bottom: 1px solid #dee2e6;
                                 <label class="w-100">Kommentar</label>
                                 <textarea  name="comment" id="comment"  class="form-control">@order.Comment </textarea>
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <span class="input-group-text" data-toggle="popover" title="Kommentar" data-content="Angiv en kommentar til ordren. Dette er valgfrit">
                                         <i class="fas fa-question"></i>
                                     </span>
                                 </div>
@@ -352,7 +358,7 @@ border-bottom: 1px solid #dee2e6;
                                 </select>
 
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" data-toggle="popover" title="Bundpaller" data-content="Angiv hvor mange bundpaller der er på bookingen. Max antal paller er 33">
+                                    <span class="input-group-text" data-toggle="popover" title="Ind eller ud" data-content="Angiv om dette er en ordre der skal leveres (ind) eller afhentes (ud)">
                                         <i class="fas fa-question"></i>
                                     </span>
                                 </div>

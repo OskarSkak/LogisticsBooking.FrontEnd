@@ -33,7 +33,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             {
                 return new Response(true );
             }
-            return new Response(false);
+            return Response.Unsuccesfull();
         }
 
         public async Task<BookingsListViewModel> GetBookings()

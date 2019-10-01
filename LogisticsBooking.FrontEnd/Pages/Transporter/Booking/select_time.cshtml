@@ -7,6 +7,13 @@
 }
 
 
+@if (Model.ShowErrorMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.ErrorMessage</strong>
+    </div>
+}
+
 <div class="py-1" style="">
     <div class="container">
   <div class="md-stepper-horizontal blue">
