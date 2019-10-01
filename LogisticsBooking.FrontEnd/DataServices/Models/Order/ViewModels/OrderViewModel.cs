@@ -33,6 +33,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
         [Required(ErrorMessage = "Bundpaller skal angives")]
         [Range(1 , 200 , ErrorMessage = "Bundpaller skal være imellem 1 og 33") ]
         public int BottomPallets { get; set; }
+        
+        
 
         public SupplierViewModel SupplierViewModel {get; set; }
         public void CreateMappings(Profile configuration)
@@ -49,7 +51,11 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models
                 .ForMember(dest => dest.SupplierId,
                     opt => opt.MapFrom(src => src.SupplierViewModel.SupplierId))
                 .ForMember(dest => dest.TotalPallets,
-                    opt => opt.MapFrom(src => src.TotalPallets));
+                    opt => opt.MapFrom(src => src.TotalPallets))
+                .ForMember(dest => dest.TotalPallets,
+                    opt => opt.MapFrom(src => src.TotalPallets))
+                .ForMember(dest => dest.InOut,
+                    opt => opt.MapFrom(src => src.InOut));
         }
     }
 }

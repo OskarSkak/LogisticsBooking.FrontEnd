@@ -70,7 +70,8 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
                 .ForMember(  dest => dest.TransporterId,
                     opt => opt.MapFrom(src => src.TransporterId))
                 .ForMember(  dest => dest.CreateOrderCommand,
-                    opt => opt.MapFrom(src => src.OrdersListViewModel.Orders));
+                    opt => opt.MapFrom(src => src.OrdersListViewModel.Orders))
+                ;
         }
     }
 }

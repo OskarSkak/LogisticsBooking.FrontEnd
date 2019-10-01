@@ -35,8 +35,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         [TempData]
         public string Message { get; set; }
         
+        [TempData]
+        public string OrderMessage { get; set; }
+        
         public bool ShowMessage => !String.IsNullOrEmpty(Message);
 
+        public bool ShowOrderMessage { get; set; }
         
         public bool IsFirstOrder => !BookingViewModel.OrdersListViewModel.Orders.Any();
         
@@ -58,16 +62,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         public async Task<IActionResult> OnPostCreateOrderAsync(OrderViewModel orderViewModel )
         {
 
+            // We have to remove totalpallets form the modelstate in order to check if the state is valid, because totalpallets is being carried over from last page
             ModelState.Remove("TotalPallets");
             if (!ModelState.IsValid)
 
             {
                 await GenerateBookingViewModel();
+                ShowOrderMessage = true;
+                OrderMessage = "Der var en fejl på ordren, klik på opret ordre for at se hvilke.";
                 return Page();
             }
        
+            // Gets currenr BookingModel from session
             BookingViewModel = GetBookingViewModelFromSession();
 
+            // If it is first order, the supplier overlap check isnt neccesary'
             if (IsFirstOrder)
             {
                 AddOrderToBookingViewModel(orderViewModel, BookingViewModel);
@@ -83,6 +92,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
                 }
                 else
                 {
+                    // If the suppliers doesnt overlap, they cant be on the same booking, therefore set bookingAllowed to false and show error message
                     IsBookingAllowed = false;
                     SetBookingViewModelToSession(BookingViewModel);
                     Message = "Det er ikke muligt at booke de kundder på samme ordre";
@@ -244,7 +254,34 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private bool Overlap(SupplierViewModel supplierViewModelTryingToBook,
             SupplierViewModel supplierViewModel)
         {
-            return  supplierViewModel.DeliveryStart.Hour < supplierViewModelTryingToBook.DeliveryEnd.Hour && supplierViewModelTryingToBook.DeliveryStart.Hour < supplierViewModel.DeliveryEnd.Hour;
+            
+            
+            TimeSpan start = supplierViewModel.DeliveryStart.TimeOfDay; // 10 PM
+            TimeSpan end = supplierViewModel.DeliveryEnd.TimeOfDay;   // 2 AM
+            TimeSpan start1 = supplierViewModelTryingToBook.DeliveryStart.TimeOfDay;
+            TimeSpan end1 = supplierViewModelTryingToBook.DeliveryEnd.TimeOfDay;
+
+            if (start <= end)
+            {
+                // start and stop times are in the same day
+                if (end1 >= start && start1 <= end)
+                {
+                   
+                    return true;
+                }
+            }
+            else
+            {
+                // start and stop times are in different days
+                if (end1 >= start || start1 <= end)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            
+
             
         }
 
