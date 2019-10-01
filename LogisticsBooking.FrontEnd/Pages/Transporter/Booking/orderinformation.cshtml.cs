@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 {
-    public class orderinformation : PageModel
+    public class orderinformation : PageModel 
     {
         private readonly ISupplierDataService _supplierDataService;
         private readonly IUtilBookingDataService _utilBookingDataService;
