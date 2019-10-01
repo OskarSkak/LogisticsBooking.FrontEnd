@@ -170,6 +170,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IOrderDataService, OrderDataService>();
             services.AddTransient<IScheduleDataService, ScheduleDataService>();
             services.AddTransient<IIntervalDataService , IntervalDataService>();
+            services.AddTransient<IUserUtility, UserUtility>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);;
