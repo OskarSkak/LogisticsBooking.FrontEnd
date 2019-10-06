@@ -1,0 +1,276 @@
+@page
+@model LogisticsBooking.FrontEnd.Pages.Client.Schedule.CalendarOverview
+@addTagHelper *, WebOptimizer.Core
+
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">
+        <strong>@Model.Message</strong> 
+    </div>
+}
+
+<main class="py-5">
+
+        
+    <div class="container-fluid">
+              
+        <div class="row justify-content-center ">
+            <div class="col-2 align-self-center ">
+                <form class="text-center" method="post" asp-page-handler="Back">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas  fa-2x fa-angle-left"></i> 
+                    </button>
+                               
+                </form>
+            </div>
+            <div class="col-auto align-self-center text-center">
+                <p class="">@Model.CalenderViewModel.CurrentDate.ToString("MMMM")</p>
+            </div>
+            <div class="col-2 align-self-center ">
+                <form class="text-center" method="post" asp-page-handler="Forward">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas  fa-2x fa-angle-right"></i> 
+                    </button>
+                </form>
+            </div>
+                  
+                  
+                  
+        </div>
+           
+            
+
+    </div>
+          
+    <div class="container-fluid">
+              
+         
+        <div class="row justify-content-center">
+            <div class="col-2 text-center">
+                <button class="btn btn-primary" onclick="test()" >Bekræft</button> 
+            </div>
+
+        </div>
+    </div>
+          
+
+
+    <div class="container ">
+        <div class="row no-gutters sticky-top sticky-top-5">
+            <div class="col calendar-header center">
+                <p class="margin-top-right-1 text-dark">Mon</p>
+            </div>
+            <div class="col calendar-header">
+                <p class="margin-top-right-1 text-dark">TUE</p>
+            </div>
+            <div class="col calendar-header">
+                <p class="margin-top-right-1 text-dark">WED</p>
+            </div>
+            <div class="col calendar-header">
+                <p class="margin-top-right-1 text-dark">THU</p>
+            </div>
+            <div class="col calendar-header">
+                <p class="margin-top-right-1 text-dark">FRI</p>
+            </div>
+            <div class="col calendar-header">
+                <p class="margin-top-right-1 text-dark">SAT</p>
+            </div>
+            <div class="col calendar-header">
+                <p class="margin-top-right-1 text-dark">SUN</p>
+            </div>
+        </div>
+
+
+        <div class="row no-gutters">
+            @for (int i = 0; i < 42; i++)
+            {
+                DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
+                      
+                @if (i % 7 == 0 && i > 0) 
+                {
+                    @:</div> <div class="row no-gutters">
+                }
+                      
+                      
+                @if ( date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month  )
+                {
+                          
+                    var schedule = Model.SchedulesListViewModel.Schedules.Find(x => x.ScheduleDay.Equals(date));
+                          
+                          
+                          
+
+                          
+                    if (schedule != null) 
+                    {
+                                  
+                        <div class="col day">
+                            <div class="right-position">
+                                <p class="margin-top-right-1">@date.Day</p>
+                            </div>
+                            <div id="test" data-toggle="modal" data-target="#_@schedule.ScheduleId" class="schedule">
+                                <p class="margin-top-right-1">
+                                    Nuværende <plan></plan>
+                                </p>@schedule.Name
+                            </div>
+                        </div> 
+                    }
+                    else
+                    {
+                        <div id="test" class="col day adDay">
+                            <div class="right-position">
+                                <input class="date" type="hidden" value="@date.ToString("d")"/>
+                                <p class="margin-top-right-1">@date.Day</p>
+                            </div>
+                              
+                        </div> 
+                    }
+                          
+           
+                          
+                }
+                else
+                {
+                    <div class="col day">
+                        <div class="right-position before-date">
+                            <p class="margin-top-right-1 font-weight-bold">@date.Day</p>
+                        </div>
+                    </div>
+                          
+                }
+            }
+           
+
+            
+        </div>
+
+    </div>
+
+          
+            
+          
+          
+   
+</main>
+
+@foreach (var schedule in Model.SchedulesListViewModel.Schedules)
+{
+    
+    <div class="modal  " id="_@schedule.ScheduleId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@schedule.Name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <ul class="list-group list-group-flush">
+                        
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <p class="font-weight-bold">Tidspunkt</p>
+                            </div>
+                            <div>
+                                <p class="font-weight-bold">Booking</p>
+                            </div>
+                            <div>
+                                <p class="font-weight-bold">Ledige Paller</p>
+                            </div>
+                            
+                            
+
+                        </li>
+                        @foreach (var interval in @schedule.Intervals)
+                        {
+                            if (interval.IsBooked)
+                            {
+                                
+                            
+                            <li class="list-group-item d-flex justify-content-between list-group-item-dark">
+                                <div>
+                                    @interval.StartTime.Value.ToString("M") : @interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t")
+                                </div>
+
+                                @if (interval.Bookings.Any())
+                                {
+                                    foreach (var booking in interval.Bookings)
+                                    {
+                                        <div>
+                                            @booking.ExternalId
+                                        </div>
+                                        <div>
+
+                                        </div>
+                                    }
+                                }
+                                <div>
+                                    @interval.RemainingPallets
+                                </div>
+
+
+                            </li>
+
+                            }
+                            else
+                            {
+                                <li class="list-group-item d-flex justify-content-between list-group-item-action">
+                                    <div>
+                                        @interval.StartTime.Value.ToString("M") : @interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t")
+                                    </div>
+
+                                    @if (interval.Bookings.Any())
+                                    {
+                                        foreach (var booking in interval.Bookings)
+                                        {
+                                            <div>
+                                                @booking.ExternalId
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                        }
+                                    }
+                                    <div>
+                                        @interval.RemainingPallets
+                                    </div>
+
+
+                                </li>
+
+                            }
+                            
+                        }
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" >Opdater Planen</button>
+                    
+                    <form method="post">
+                        
+  
+                    <button type="submit" asp-page-handler="DeleteSchedule" asp-route-id="@schedule.ScheduleId" class="btn btn-danger" >Slet Planen</button>
+                    </form>
+                        
+                   
+                    <button type="button"  class="btn btn-primary" data-dismiss="modal">Luk Vindue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+
+@section Scripts {
+    <link rel="stylesheet" type="text/css" href="~/a.css"/>
+}
+ 

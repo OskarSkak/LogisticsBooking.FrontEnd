@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
-using LogisticsBooking.FrontEnd.DataServices.Models;
-using Microsoft.AspNetCore.Http;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,47 +11,85 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     public class BookOrder : PageModel
     {
         private readonly IUtilBookingDataService _utilBookingDataService;
+        private readonly IScheduleDataService _scheduleDataService;
 
-        [BindProperty]  
-        public BookingViewModel BookingOrderViewModel { get; set; }
+        [BindProperty]
+        public BookingViewModel BookingViewModel { get; set; }
 
+        [TempData]
+        public String ScheduleAvailableMessage { get; set; }
 
-        public BookOrder(IUtilBookingDataService utilBookingDataService)
+        [TempData]
+        public string ModelStateMessage { get; set; }
+        public bool ShowMessage => !String.IsNullOrEmpty(ScheduleAvailableMessage) || !String.IsNullOrEmpty(ModelStateMessage) ;
+        
+        public BookOrder(IUtilBookingDataService utilBookingDataService , IScheduleDataService scheduleDataService)
         {
             _utilBookingDataService = utilBookingDataService;
+            _scheduleDataService = scheduleDataService;
         }
         
         public void OnGet()
         {
             
-            Console.WriteLine();
+            
         }
 
-        public async Task<IActionResult> OnPostAsync(BookingViewModel bookingOrderViewModel)
+        public async Task<IActionResult> OnPostAsync(BookingViewModel bookingViewModel)
         {
-            // Get the logged in transporter       
-            var id = "";
-            
-            try
+            if (!ModelState.IsValid)
             {
-                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine(ex);
                 return Page();
             }
+            
+            await UpdateBookingInformation(bookingViewModel);
+            
+            AddBookingViewModelToSession();
+            
 
+            if (!await ScheduleExist())
+            {
+                ScheduleAvailableMessage = "Det er ikke muligt at booke på denne dag, vælg en ny";
+                return Page();
+            }
             
-            var bookingid = new UtilBooking();
-             bookingid  = await _utilBookingDataService.GetBookingNumber();
-
-            bookingOrderViewModel.PalletsRemaining = BookingOrderViewModel.TotalPallets;
-            
-            HttpContext.Session.SetObject(id ,bookingOrderViewModel);
-            HttpContext.Session.SetObject(bookingid.bookingid.ToString() , 1);
-            
+            // If all is success - navigate to order information page
             return new RedirectToPageResult("orderinformation");
         }
+
+
+        private async Task UpdateBookingInformation(BookingViewModel bookingViewModel)
+        {
+            //Getting the next Booking number
+            var externalBookingId  = await _utilBookingDataService.GetBookingNumber();
+            
+            // Adds remaining pallets to the BookingViewModel 
+            BookingViewModel.PalletsRemaining = bookingViewModel.TotalPallets;
+            
+            // Set the External Booking ID
+            BookingViewModel.ExternalId = externalBookingId.bookingid;
+        }
+
+        private void AddBookingViewModelToSession()
+        {
+            // Set the updated BookingViewModel to the session. The key is the current logged in user. 
+            HttpContext.Session.SetObject(GetUserId() ,BookingViewModel);
+        }
+        
+        private string GetUserId()
+        {
+            return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+        }
+
+        private async Task<bool> ScheduleExist()
+        {
+            // Getting the schedule from the selected day
+            var schedule = await _scheduleDataService.GetScheduleBydate(BookingViewModel.BookingTime);
+
+            // If the schedule exists return true
+            return schedule != null;
+        }
     }
+    
+   
 }

@@ -6,57 +6,45 @@
     Layout = "_Layout_Transporter";
 }
 
+
+@if (Model.ShowErrorMessage)
+{
+    <div class="alert alert-danger">
+        <strong>@Model.ErrorMessage</strong>
+    </div>
+}
+
 <div class="py-1" style="">
     <div class="container">
-
-            <!-- Horizontal Steppers -->
-            <div class="row">
-                <div class="col-md-12">
-
-                    <!-- Stepers Wrapper -->
-                    <ul class="stepper stepper-horizontal">
-
-                        <!-- First Step -->
-                        <li class="completed">
-                            <a href="#!">
-                                <span class="circle"><i class="fas fa-check"></i></span>
-                                <span class="label">Opret Ordre</span>
-                            </a>
-                        </li>
-
-                        <!-- Second Step -->
-                        <li class="completed">
-                            <a href="#!">
-                                <span class="circle">2</span>
-                                <span class="label">Oplysninger</span>
-                            </a>
-                        </li>
-
-                        <!-- Third Step -->
-                        <li class="active">
-                            <a href="#!">
-                                <span class="circle">3</span>
-                                <span class="label">Tidspunkt</span>
-                            </a>
-                        </li>
-                        
-                        <!-- Third Step -->
-                        <li class="">
-                            <a href="#!">
-                                <span class="circle">3</span>
-                                <span class="label">Gennemført</span>
-                            </a>
-                        </li>
-
-                    </ul>
-                    <!-- /.Stepers Wrapper -->
-
-                </div>
-            </div>
-
-
+  <div class="md-stepper-horizontal blue">
+      <div class="md-step active ">
+        <div class="md-step-circle"><span></span><i class="fas fa-check"></i></div>
+        <div class="md-step-title">Leveringsdag</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step active ">
+          <div class="md-step-circle"><i class="fas fa-check"></i></div>
+          <div class="md-step-title">Opret Ordrer</div>
+          <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step active ">
+        <div class="md-step-circle"><i style="transform: scaleX(-1);" class="fas fa-pencil-alt"></i></div>
+        <div class="md-step-title">Leveringstidspunkt</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+      <div class="md-step">
+        <div class="md-step-circle"><span>4</span></div>
+        <div class="md-step-title">Gennemført</div>
+        <div class="md-step-bar-left"></div>
+        <div class="md-step-bar-right"></div>
+      </div>
+    </div>
     </div>
 </div>  
+
 <div class="py-5" style="">
     <div class="container">
         <div class="row">
@@ -65,33 +53,55 @@
         <div class="row">
             <div class="mx-auto p-4 col-lg-8">
                
-                @foreach (Interval interval in Model.Schedule.Intervals)
+                @if (Model.ScheduleViewModel.Intervals == null)
                 {
-                    if (!interval.IsBooked)
-                     {
-                         <div class="col-md">
-                             <div class="list-group" style="">
-                                 <form method="post">
-                                     <button class="list-group-item list-group-item-action" type="submit" asp-page-handler="SelectedTime">
-                                         <div class="display-spacebetween">
-                                             <input type="hidden" asp-for="Interval.IntervalId" value="@interval.IntervalId"/>
-                                             <input type="hidden" asp-for="Schedule.ScheduleId"/>
-
-                                             <div class="">@interval.StartTime.ToString("t") - @interval.EndTime.ToString("t") </div>
-                                             <div class=""> Ledige paller : @interval.RemainingPallets</div>
-
-
-                                         </div>
-                                     </button>
-                                 </form>
-
-
-
-                             </div>
-                         </div>
-                     }
-
+                    <span> Der kan ikke bookes på denne dag endnu. </span>
                 }
+                
+                @if (!Model.ScheduleViewModel.Intervals.Any())
+                {
+                    @:ingen
+                }
+
+                @foreach (var interval in Model.ScheduleViewModel.Intervals)
+                     {
+                         if (!interval.IsBooked)
+                         {
+
+                             <div class="col-md">
+                                 <div class="list-group" style="">
+                                     <form method="post">
+                                         <button class="list-group-item list-group-item-action" type="submit" asp-page-handler="SelectedTime">
+                                             <div class="row">
+                                                 <div class="col">
+                                                     <input type="hidden" value="@interval.EndTime.Value.DayOfWeek.ToString("G") - @interval.EndTime.Value.ToString("M")"/>
+                                                     <input type="hidden" asp-for="ScheduleViewModel.ScheduleId"/>
+                                                     <input type="hidden" name="interval" value="@interval.IntervalId">
+
+                                                     <div class="">@interval.EndTime.Value.DayOfWeek.ToString("G") - @interval.EndTime.Value.ToString("MM/dd") </div>
+                                                 </div>
+                                                 <div class="col">
+                                                                                                      <div class="">@interval.StartTime.Value.ToString("t") - @interval.EndTime.Value.ToString("t") </div>
+
+                                                 </div>
+                                                 <div class="col">
+                                                                                                    <div class=""> Ledige paller : @interval.RemainingPallets</div>
+  
+                                                 </div>
+                                                 
+
+
+                                             </div>
+                                         </button>
+                                     </form>
+
+
+
+                                 </div>
+                             </div>
+                         }
+
+                     }
                 
               
             </div>

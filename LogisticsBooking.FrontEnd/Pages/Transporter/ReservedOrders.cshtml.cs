@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Utilities;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
     public class ReservedOrdersIndexModel : PageModel
     {
         private IBookingDataService BookingDataService { get; set; }
-        [BindProperty] public DataServices.Models.Booking Booking { get; set; }
+        [BindProperty] public BookingViewModel Booking { get; set; }
         [BindProperty] public int ArrivalHour { get; set; }
         [BindProperty] public int ArrivalMinute { get; set; }
         [BindProperty] public int startHour { get; set; }
@@ -31,14 +32,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
         {
             var guid = Guid.Parse(id);
             Booking = await BookingDataService.GetBookingById(guid);
-            ArrivalHour = Booking.actualArrival.Hour;
-            ArrivalMinute = Booking.actualArrival.Minute;
+            ArrivalHour = Booking.ActualArrival.Hour;
+            ArrivalMinute = Booking.ActualArrival.Minute;
 
-            startHour = Booking.startLoading.Hour;
-            startMinute = Booking.startLoading.Minute;
+            startHour = Booking.StartLoading.Hour;
+            startMinute = Booking.StartLoading.Minute;
 
-            endHour = Booking.endLoading.Hour;
-            endMinute = Booking.endLoading.Minute;
+            endHour = Booking.EndLoading.Hour;
+            endMinute = Booking.EndLoading.Minute;
             
             return Page();
         }
@@ -58,22 +59,40 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
             int endHour, int endMinute, Guid ViewBookingId)
         {
             
-            var booking = new DataServices.Models.Booking
+            var booking = new BookingViewModel
             {
-                bookingTime = ViewBookTime, 
-                totalPallets = ViewPallets, 
-                port = ViewPort, 
-                actualArrival = GeneralUtil.TimeFromHourAndMinute(ActualArrivalHour, ActualArrivalMinute), 
-                startLoading = GeneralUtil.TimeFromHourAndMinute(startHour, startMinute), 
-                endLoading = GeneralUtil.TimeFromHourAndMinute(endHour, endMinute), 
-                internalId = ViewBookingId
+                BookingTime = ViewBookTime, 
+                TotalPallets = ViewPallets, 
+                Port = ViewPort, 
+                ActualArrival = GeneralUtil.TimeFromHourAndMinute(ActualArrivalHour, ActualArrivalMinute), 
+                StartLoading = GeneralUtil.TimeFromHourAndMinute(startHour, startMinute), 
+                EndLoading = GeneralUtil.TimeFromHourAndMinute(endHour, endMinute), 
+                InternalId = ViewBookingId
             };
 
-            var result = await BookingDataService.UpdateBooking(booking);
+            var result = await BookingDataService.UpdateBooking(CreateUpdateBookingCommand(booking));
             
             if(result.IsSuccesfull) return new RedirectToPageResult("ReservedBookings");
 
             return new RedirectToPageResult("Error");
+        }
+        
+        private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
+        {
+            return new UpdateBookingCommand
+            {
+                Email = bookingToUpdate.Email,
+                Port = bookingToUpdate.Port,
+                ActualArrival = bookingToUpdate.ActualArrival,
+                BookingTime = bookingToUpdate.ActualArrival,
+                EndLoading = bookingToUpdate.ActualArrival,
+                ExternalId = bookingToUpdate.ExternalId,
+                InternalId = bookingToUpdate.InternalId,
+                StartLoading = bookingToUpdate.StartLoading,
+                TotalPallets = bookingToUpdate.TotalPallets,
+                TransporterId = bookingToUpdate.TransporterId,
+                TransporterName = bookingToUpdate.TransporterName
+            };
         }
     }
 }

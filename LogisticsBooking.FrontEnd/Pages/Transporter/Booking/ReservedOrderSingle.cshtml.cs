@@ -19,7 +19,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     public class ReservedOrderSingleModel : PageModel
     {
         private IOrderDataService _orderDataService;
-        [BindProperty] public Order Order { get; set; }
+        [BindProperty] public OrderViewModel OrderViewModel { get; set; }
         
         public ReservedOrderSingleModel(IOrderDataService orderDataService)
         {
@@ -28,23 +28,23 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public async Task OnGetAsync(string id)
         {
-            Order = await _orderDataService.GetOrderById(Guid.Parse(id));
+            OrderViewModel = await _orderDataService.GetOrderById(Guid.Parse(id));
             var la = "";
         }
 
         public async Task<IActionResult> OnPostUpdate(string ViewComment, string ViewCustomerNumber, string ViewOrderNumber, 
             int ViewWareNumber, int ViewBottomPallets, string ViewExternalId, string ViewInOut, string id, int ViewTotalPallets)
         {
-            var order = new Order
+            var order = new OrderViewModel
             {
                 Comment = ViewComment, 
-                customerNumber = ViewCustomerNumber, 
-                orderNumber = ViewOrderNumber, 
-                wareNumber = ViewWareNumber, 
+                CustomerNumber = ViewCustomerNumber, 
+                OrderNumber = ViewOrderNumber, 
+                WareNumber = ViewWareNumber, 
                 BottomPallets = ViewBottomPallets, 
                 ExternalId = ViewExternalId, 
                 InOut = ViewInOut,
-                id = Guid.Parse(id),
+                OrderId= Guid.Parse(id),
                 TotalPallets = ViewTotalPallets
             };
 

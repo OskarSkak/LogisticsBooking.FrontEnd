@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.Documents;
 using LogisticsBooking.FrontEnd.Utilities;
 using Microsoft.AspNetCore.Authentication;
@@ -19,7 +20,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
     public class BookingDeleteModel : PageModel
     {
         private IBookingDataService _bookingDataService;
-        [BindProperty] public Booking Booking { get; set; }
+        [BindProperty] 
+        public BookingViewModel Booking { get; set; }
         
         public BookingDeleteModel(IBookingDataService bookingDataService)
         {

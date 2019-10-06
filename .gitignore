@@ -48,3 +48,6 @@ LogisticsBooking.FrontEnd/obj
 LogisticsBooking.FrontEnd.sln.DotSettings.user
 LogisticsBooking.FrontEnd/obj
 .DS_Store
+LogisticsBooking.FrontEnd/node_modules
+LogisticsBooking.FrontEnd/node_modules
+LogisticsBooking.FrontEnd/node_modules/jquery

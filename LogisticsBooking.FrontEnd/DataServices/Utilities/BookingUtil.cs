@@ -1,15 +1,15 @@
 using System;
-using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Utilities
 {
     public class BookingUtil
     {
-        public static Booking RemoveDates(Booking booking)
+        public static BookingViewModel RemoveDates(BookingViewModel booking)
         {
-            booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-            booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
-            booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
+            booking.ActualArrival = default(DateTime).Add(booking.ActualArrival.TimeOfDay);
+            booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
+            booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
 
             return booking;
         }

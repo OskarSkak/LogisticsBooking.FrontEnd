@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,63 +13,53 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 {
     public class Transporter_SingleModel : PageModel
     {
-        private ITransporterDataService dataService;
-        [BindProperty]
-        public DataServices.Models.Transporter transporter { get; set; }
+        private readonly ITransporterDataService _transporterDataService;
+        private readonly IMapper _mapper;
 
-        [TempData]
-        public Guid guid { get; set; }
 
-        public Transporter_SingleModel(ITransporterDataService _dataService)
+        [BindProperty] 
+        public TransporterViewModel TransporterViewModel { get; set; }
+
+
+        [TempData] public String ResponseMessage { get; set; }
+
+        public Transporter_SingleModel(ITransporterDataService transporterDataService, IMapper mapper)
         {
-            dataService = _dataService;
+            _transporterDataService = transporterDataService;
+            _mapper = mapper;
         }
 
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync(Guid id)
         {
-            var TransporterName = id;
-            var Transporters = await dataService.ListTransporters(0, 0);
-            List<DataServices.Models.Transporter> TransporterList = (List<DataServices.Models.Transporter>)Transporters; 
-            foreach(var item in TransporterList)
-            {
-                if (item.Name == TransporterName)
-                {
-                    transporter = item;
-                    guid = item.ID;
-                }    
-            }
+            var TransporterViewModel = await _transporterDataService.GetTransporterById(id);
+            
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdate(string id, string ViewName, string ViewEmail, int ViewTelephone, string ViewAddress)
+        public async Task<IActionResult> OnPostUpdate(TransporterViewModel transporterViewModel)
         {
-            var Transporters = await dataService.ListTransporters(0, 0);
-            Transporters = (List<DataServices.Models.Transporter>)Transporters;
-            foreach (var item in Transporters)
-                if (item.Name == id)
-                    transporter = item;
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-            transporter.Name = ViewName;
-            transporter.Email = ViewEmail;
-            transporter.Telephone = ViewTelephone;
-            transporter.Address = ViewAddress;
-
-            var result = await dataService.UpdateTransporter(transporter.ID, transporter);
+            var result = await _transporterDataService.UpdateTransporter(transporterViewModel.TransporterId, transporterViewModel );
 
             if (!result.IsSuccesfull)
+            {
                 return new RedirectToPageResult("Error");
+            }
 
+            ResponseMessage = "Opdatering af transportør var vellykket";
             return new RedirectToPageResult("./Transporters");
         }
-        
-        public async Task<IActionResult> OnPostDelete(string id)
+
+        public async Task<IActionResult> OnPostDelete(TransporterViewModel transporterViewModel)
         {
-            var transporter = await dataService.GetTransporterByName(id);
-            
-            var result = await dataService.DeleteTransporter(transporter.ID);
-            
+            var result = await _transporterDataService.DeleteTransporter(TransporterViewModel.TransporterId);
+            ResponseMessage = "Transportøren er slettet korrekt";
             return new RedirectToPageResult("./Transporters");
         }
-
     }
 }

@@ -2,6 +2,13 @@
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.ScheduleOverviewIndexModel
 @{
 }
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">
+        <strong>@Model.Message</strong> 
+    </div>
+}
 <div class="py-5">
     <div class="container">
         <div class="row">
@@ -13,8 +20,8 @@
                         <hr>
                         <ul class="list-unstyled my-3">
                             <h3>Vælg en afdeling</h3>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Hvidovre</a></li>
-                            <li class="mb-1"><a asp-page="Booking">Kolding</a></li>
+                            <li class="mb-1"><a asp-page="CalendarOverview">Hvidovre</a></li>
+                            
 
                         </ul>
                     </div>
@@ -91,3 +98,5 @@
         </div>
     </div>
 </div>
+
+

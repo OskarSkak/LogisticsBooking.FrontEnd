@@ -1,9 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
+using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,135 +19,125 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
     {
         private readonly IBookingDataService _bookingDataService;
         private readonly IScheduleDataService _scheduleDataService;
-        
-        [BindProperty]
-        public Schedule Schedule { get; set; }
-        
-        [BindProperty]
-        public Interval Interval { get; set; }
+        private readonly IMapper _mapper;
 
-        public select_time(IBookingDataService bookingDataService , IScheduleDataService scheduleDataService)
+        [BindProperty]
+        public ScheduleViewModel ScheduleViewModel { get; set; }
+        
+        [BindProperty]
+        public IntervalViewModel IntervalViewModel { get; set; }
+        
+        [TempData]
+        public string ErrorMessage { get; set; }
+
+        public bool ShowErrorMessage => !String.IsNullOrEmpty(ErrorMessage);
+
+        public select_time(IBookingDataService bookingDataService , IScheduleDataService scheduleDataService , IMapper mapper)
         {
             _bookingDataService = bookingDataService;
             _scheduleDataService = scheduleDataService;
+            _mapper = mapper;
         }
         
         public async Task<IActionResult> OnGet()
         {
-            var id = "";
+            var currentLoggedInUserId = GetLoggedInUserId();
+
+            // Get the current booking View Model from the session created at previous page
+            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
+
+            // Get the schedule that match the booking. (Chech has already been made at the first page)
+            var result = await _scheduleDataService.GetScheduleBydate(currentBooking.BookingTime);
             
-            try
-            {
-                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                
-                Console.WriteLine(ex);
-            }
-
-            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
-
-            var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
-
-            Schedule = result;
-           
+            // remove the intervals that does not overlap with the suppliers time range. 
+            // It is only possible to book a time with that match the selected suppliers on the orders. 
+            RemoveIntervalsNotOverlap(currentBooking , result);
+            
+            
+            // Set the Schedule to be shown in the view and sort it. 
+            ScheduleViewModel = result;
+            ScheduleViewModel.Intervals = result.Intervals.OrderBy(e => e.StartTime.Value).ToList();
             return Page();
             
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        
+
+        public async Task<IActionResult> OnPostSelectedTime(string interval , ScheduleViewModel schedule)
         {
-            var id = "";
-            
-            try
+            var currentLoggedInUserId = GetLoggedInUserId();
+
+            // Get the current booking View Model from the session created at previous page
+            var currentBooking = HttpContext.Session.GetObject<BookingViewModel>(currentLoggedInUserId);
+
+
+
+            var createBookingcommand = _mapper.Map<CreateBookingCommand>(currentBooking);
+            createBookingcommand.IntervalId = Guid.Parse(interval);
+
+            var result = await _bookingDataService.CreateBooking(createBookingcommand);
+
+            if (result.IsSuccesfull)
             {
-                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                
-                Console.WriteLine(ex);
+                return RedirectToPage("confirm"); 
             }
 
-            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
-
-            var result = await _scheduleDataService.GetScheduleBydate(CurrentBooking.BookingTime);
-
-            Schedule = result;
-
-            var sortedList = Schedule.Intervals.OrderBy(x => x.StartTime).ToList();
-            Schedule.Intervals = sortedList;
-           
-            return Page();
+            ErrorMessage = "Der skete en fejl, prøv igen";
+            return new RedirectToPageResult("");
         }
-
-        public async Task<IActionResult> OnPostSelectedTime(Interval interval , Schedule schedule)
+        
+        /**
+         * gets the current logged in user
+         */
+        private string GetLoggedInUserId()
         {
-            var id = "";
+            return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             
-            try
-            {
-                id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                
-                Console.WriteLine(ex);
-            }
-
-            var CurrentBooking = HttpContext.Session.GetObject<BookingViewModel>(id);
-
+        }
+        
+        private bool Overlap(IntervalViewModel intervalViewModel,
+            OrderViewModel orderViewModel)
+        {
             
-
-            // Map from BookingViewModel to Booking
-            var booking = new DataServices.Models.Booking
-            {
-
-                actualArrival = new DateTime(),
-                bookingTime = CurrentBooking.BookingTime,
-                email = CurrentBooking.email,
-                endLoading = new DateTime(),
-                ExternalId = CurrentBooking.ExternalId,
-                startLoading = new DateTime(),
-                totalPallets = CurrentBooking.TotalPallets,
-                transporterName = CurrentBooking.TransporterName
-
-            };
             
-            List<Order> orders = new List<Order>();
+            TimeSpan start = orderViewModel.SupplierViewModel.DeliveryStart.TimeOfDay; // 10 PM
+            TimeSpan end = orderViewModel.SupplierViewModel.DeliveryEnd.TimeOfDay;   // 2 AM
+            TimeSpan start1 = intervalViewModel.StartTime.Value.TimeOfDay;
+            TimeSpan end1 = intervalViewModel.EndTime.Value.TimeOfDay;
 
-            foreach (var order in CurrentBooking.OrderViewModels)
+            if (start <= end)
             {
-                orders.Add(new Order
+                // start and stop times are in the same day
+                if (end1 > start && start1 < end)
                 {
-                    bookingId = order.bookingId,
-                    BottomPallets = order.BottomPallets,
-                    Comment = order.Comment,
-                    customerNumber = order.customerNumber,
-                    ExternalId = order.ExternalId,
-                    id = order.id,
-                    InOut = order.InOut,
-                    orderNumber = order.orderNumber,
-                    SupplierName = order.SupplierName,
-                    TotalPallets = order.totalPallets,
-                    wareNumber = order.wareNumber
-                });
+                   
+                    return false;
+                }
+            }
+            else
+            {
+                // start and stop times are in different days
+                if (end1 > start || start1 < end)
+                {
+                    return false;
+                }
             }
 
-            booking.Orders = orders;
-
-            // Create a booking on the chosen interval
-            await _bookingDataService.CreateBooking(new CreateBooking
-            {
-                Booking = booking,
-                IntervalId = interval.IntervalId,
-                Schedule = schedule
-            });
+            return true;
             
             
             
-            return RedirectToPage("confirm");
         }
+
+        private void RemoveIntervalsNotOverlap(BookingViewModel bookingViewModel, ScheduleViewModel scheduleViewModel)
+        {
+            foreach (var order in bookingViewModel.OrdersListViewModel.Orders)
+            {
+                scheduleViewModel.Intervals.RemoveAll(item => scheduleViewModel.Intervals.Any( iss => Overlap(item ,order )));
+            }
+        }
+
+       
+
     }
 }

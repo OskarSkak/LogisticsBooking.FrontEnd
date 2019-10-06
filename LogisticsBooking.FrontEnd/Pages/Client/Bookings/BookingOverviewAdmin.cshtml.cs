@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.Documents;
 using LogisticsBooking.FrontEnd.Utilities;
 using Microsoft.AspNetCore.Authentication;
@@ -18,30 +19,42 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
     public class BookingOvervieAdminwModel : PageModel
     {
-        private IBookingDataService bookingDataService;
-        [BindProperty] public List<Booking> Bookings { get; set; }
-        
-        public BookingOvervieAdminwModel(IBookingDataService _bookingDataService)
+        private readonly IBookingDataService _bookingDataService;
+
+
+        [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } 
+
+
+        public BookingOvervieAdminwModel(IBookingDataService bookingDataService)
         {
-            bookingDataService = _bookingDataService;
-            Bookings = new List<Booking>(); 
-            Bookings = bookingDataService.GetBookings().Result;
-            foreach (var booking in Bookings)
+            _bookingDataService = bookingDataService;
+            
+        }
+
+        public async Task<IActionResult> OnGetAsync(Guid id)
+        {
+
+            BookingsListViewModel = await _bookingDataService.GetBookings();
+            
+            
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
-                if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
-                if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
-                
-                booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-                booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
-                booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
-                
-                foreach (var order in booking.Orders)
+                if (String.IsNullOrWhiteSpace(booking.TransporterName)) booking.TransporterName = "N/A";
+                if (String.IsNullOrWhiteSpace(booking.Email)) booking.Email = "N/A";
+
+                booking.ActualArrival = default(DateTime).Add(booking.ActualArrival.TimeOfDay);
+                booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
+                booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
+
+                foreach (var order in booking.OrdersListViewModel.Orders)
                 {
-                    if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
-                    if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
+                    if (String.IsNullOrWhiteSpace(order.CustomerNumber)) order.CustomerNumber = "N/A";
+                    if (String.IsNullOrWhiteSpace(order.OrderNumber)) order.OrderNumber = "N/A";
                     if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
                 }
             }
+
+            return Page();
         }
     }
 }

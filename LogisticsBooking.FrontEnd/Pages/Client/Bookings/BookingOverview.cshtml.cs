@@ -1,112 +1,131 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using LogisticsBooking.FrontEnd.Acquaintance;
-using LogisticsBooking.FrontEnd.DataServices;
-using LogisticsBooking.FrontEnd.DataServices.Models;
-using LogisticsBooking.FrontEnd.Documents;
-using LogisticsBooking.FrontEnd.Utilities;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
+
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
     public class BookingOverviewModel : PageModel
     {
-        [BindProperty] public int WEEK { get; } = 7;
-        [BindProperty] public int MONTH { get; } = 31;
-        [BindProperty] public string NameOfFile { get; set; }
-        
+        [BindProperty] 
+        public int WEEK { get; } = 7;
+        [BindProperty] 
+        public int MONTH { get; } = 31;
+        [BindProperty] 
+        public string NameOfFile { get; set; }
+
         private IBookingDataService bookingDataService;
-        [BindProperty] public List<Booking> Bookings { get; set; }
+        [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } = new BookingsListViewModel();
         public bool InBetweenDates { get; set; }
         public int NumberOfDays { get; set; }
-        
+
         public BookingOverviewModel(IBookingDataService _bookingDataService)
         {
             bookingDataService = _bookingDataService;
         }
 
-        public async void OnGet(string id)
+        public async void OnGet()
         {
+            var id = "7";
             var numberOfDays = 0;
-            if(id != null) {
-                numberOfDays = Int32.Parse(id);
-            }
+            if (id != null) numberOfDays = int.Parse(id);
+
             NumberOfDays = numberOfDays;
-            Bookings = new List<Booking>();
+            BookingsListViewModel.Bookings = new List<BookingViewModel>();
 
             if (numberOfDays != 0)
-            { 
-                Bookings = bookingDataService.GetBookingsInbetweenDates(DateTime.Now.AddDays(- NumberOfDays),
-                    DateTime.Now).Result;
+            {
+                BookingsListViewModel = bookingDataService.GetBookingsInbetweenDates(DateTime.Now,
+                        DateTime.Now.AddDays(numberOfDays))
+                    .Result;
             }
-            else{Bookings = bookingDataService.GetBookings().Result;}
-    
-            foreach (var booking in Bookings)
+            else
             {
-                if (String.IsNullOrWhiteSpace(booking.transporterName)) booking.transporterName = "N/A";
-                    if (String.IsNullOrWhiteSpace(booking.email)) booking.email = "N/A";
+                BookingsListViewModel = await bookingDataService.GetBookings();
 
-                    booking.actualArrival = default(DateTime).Add(booking.actualArrival.TimeOfDay);
-                    booking.endLoading = default(DateTime).Add(booking.endLoading.TimeOfDay);
-                    booking.startLoading = default(DateTime).Add(booking.startLoading.TimeOfDay);
-
-                    foreach (var order in booking.Orders)
-                    {
-                        if (String.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
-                        if (String.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
-                        if (String.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
-                    }
-             }
-
-            for (int i = Bookings.Count - 1; i >= 0; i--)
-            {
-                if (Bookings[i].endLoading != default(DateTime))
+                if (BookingsListViewModel != null)
                 {
-                    Bookings.Remove(Bookings[i]);
+                    foreach (var booking in BookingsListViewModel.Bookings)
+                    {
+                        if (string.IsNullOrWhiteSpace(booking.TransporterName)) booking.TransporterName = "N/A";
+                        if (string.IsNullOrWhiteSpace(booking.Email)) booking.Email = "N/A";
+
+                        booking.ActualArrival = default(DateTime).Add(booking.ActualArrival.TimeOfDay);
+                        booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
+                        booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
+
+                        foreach (var order in booking.OrdersListViewModel.Orders)
+                        {
+                            if (string.IsNullOrWhiteSpace(order.CustomerNumber)) order.CustomerNumber = "N/A";
+                            if (string.IsNullOrWhiteSpace(order.OrderNumber)) order.OrderNumber = "N/A";
+                            if (string.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
+                        }
+                    }
+
+                    for (var i = BookingsListViewModel.Bookings.Count - 1; i >= 0; i--)
+                        if (BookingsListViewModel.Bookings[i].EndLoading.Date != default)
+                            BookingsListViewModel.Bookings.Remove(BookingsListViewModel.Bookings[i]);
                 }
             }
-            
         }
 
-        public async Task<IActionResult> OnPostUpdate(DateTime actualArrival, DateTime startLoading, DateTime endLoading, string id)
+        public async Task<IActionResult> OnPostUpdate(DateTime dateTo, string actualArrival, string startLoading,
+            string endLoading, Guid id)
         {
-            var idConverted = Guid.Parse(id);
-            var bookingToUpdate =  await bookingDataService.GetBookingById(idConverted);
-            
-            bookingToUpdate.actualArrival = actualArrival;
-            bookingToUpdate.startLoading = startLoading;
-            bookingToUpdate.endLoading = endLoading;
+            var idConverted = id;
+            var bookingToUpdate = await bookingDataService.GetBookingById(idConverted);
 
-            var response = await bookingDataService.UpdateBooking(bookingToUpdate);
+            bookingToUpdate.ActualArrival = new DateTime(dateTo.Year, dateTo.Month, dateTo.Day,
+                TimeSpan.Parse(actualArrival).Hours, TimeSpan.Parse(actualArrival).Minutes, 0);
+            bookingToUpdate.StartLoading = new DateTime(dateTo.Year, dateTo.Month, dateTo.Day,
+                TimeSpan.Parse(startLoading).Hours, TimeSpan.Parse(startLoading).Minutes, 0);
+            bookingToUpdate.EndLoading = new DateTime(dateTo.Year, dateTo.Month, dateTo.Day,
+                TimeSpan.Parse(endLoading).Hours, TimeSpan.Parse(endLoading).Minutes, 0);
+
+            var response = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(bookingToUpdate));
             if (!response.IsSuccesfull) return new RedirectToPageResult("~Error");
-            
-            return new RedirectToPageResult("./BookingOverview");
+
+            return new RedirectToPageResult("BookingOverview");
         }
 
-        public ActionResult OnPostExportExcel()
+        private UpdateBookingCommand CreateUpdateBookingCommand(BookingViewModel bookingToUpdate)
         {
-            Bookings = new List<Booking>(); 
-            Bookings = bookingDataService.GetBookings().Result;
+            return new UpdateBookingCommand
+            {
+                Email = bookingToUpdate.Email,
+                Port = bookingToUpdate.Port,
+                ActualArrival = bookingToUpdate.ActualArrival,
+                BookingTime = bookingToUpdate.ActualArrival,
+                EndLoading = bookingToUpdate.EndLoading,
+                ExternalId = bookingToUpdate.ExternalId,
+                InternalId = bookingToUpdate.InternalId,
+                StartLoading = bookingToUpdate.StartLoading,
+                TotalPallets = bookingToUpdate.TotalPallets,
+                TransporterId = bookingToUpdate.TransporterId,
+                TransporterName = bookingToUpdate.TransporterName
+            };
+        }
+
+        public async Task<ActionResult> OnPostExportExcel()
+        {
+            BookingsListViewModel.Bookings = new List<BookingViewModel>();
+            BookingsListViewModel = await bookingDataService.GetBookings();
 
             var from = DateTime.Now;
             var endDate = DateTime.Now.Date.ToShortDateString();
-            
-            foreach (var booking in Bookings)
+
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
-                if (booking.bookingTime < from) from = booking.bookingTime;
+                if (booking.BookingTime < from) from = booking.BookingTime;
             }
 
             var fromDateString = from.ToShortDateString();
-            
+
             System.IO.Stream spreadsheetStream = new System.IO.MemoryStream();
             XLWorkbook workbook = new XLWorkbook();
             IXLWorksheet worksheet = workbook.Worksheets.Add("Orders");
@@ -126,34 +145,54 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             var cellX = 1;
             var cellY = 2;
-            
-            foreach (var booking in Bookings)
+
+            foreach (var booking in BookingsListViewModel.Bookings)
             {
-                foreach (var order in booking.Orders)
+                foreach (var order in booking.OrdersListViewModel.Orders)
                 {
-                    worksheet.Cell(cellY, cellX++).SetValue(order.customerNumber);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.bookingTime.ToShortDateString());
-                    worksheet.Cell(cellY, cellX++).SetValue(order.orderNumber);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.CustomerNumber);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortDateString());
+                    worksheet.Cell(cellY, cellX++).SetValue(order.OrderNumber);
                     worksheet.Cell(cellY, cellX++).SetValue(order.TotalPallets);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.transporterName);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.email);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.bookingTime.ToShortTimeString());
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.port);
-                    worksheet.Cell(cellY, cellX++).SetValue(order.SupplierName);
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.actualArrival.ToShortTimeString());
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.startLoading.ToShortTimeString());
-                    worksheet.Cell(cellY, cellX++).SetValue(booking.endLoading.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.TransporterName);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.Email);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.Port);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.SupplierViewModel.Name);
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.ActualArrival.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.StartLoading.ToShortTimeString());
+                    worksheet.Cell(cellY, cellX++).SetValue(booking.EndLoading.ToShortTimeString());
                     cellY++;
                     cellX = 1;
                 }
             }
+
             //Fixed column width - comes out messy if not fixed
             worksheet.ColumnWidth = 20;
             workbook.SaveAs(spreadsheetStream);
             spreadsheetStream.Position = 0;
             var fileName = "Ordre_FRA_" + fromDateString + "_TIL_" + endDate;
-            
-            return new FileStreamResult(spreadsheetStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") { FileDownloadName = fileName + ".xlsx" };
+
+            return new FileStreamResult(spreadsheetStream,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = fileName + ".xlsx"
+            };
+        }
+
+        public async Task<IActionResult> OnGetTest()
+        {
+            var bookings = await bookingDataService.GetBookings();
+
+            var json = new JsonResult(bookings);
+
+            return json;
+        }
+
+        public async Task<IActionResult> OnPostTest(string end)
+        {
+            Console.WriteLine();
+            return Page();
         }
     }
 }
