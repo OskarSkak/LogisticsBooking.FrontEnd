@@ -5,11 +5,9 @@
 <head>
 
 
-<<<<<<< HEAD
-        <style>
-=======
+
     <style>
->>>>>>> Schedule-improvements
+
                 td.details-control {
                     text-align:center;
                     color:forestgreen;
@@ -36,30 +34,7 @@
 </head>
 
 
-<<<<<<< HEAD
-        <table style="background-color: white;" id="example" class="table" width="100%" >
-            <thead>
-            <tr>
-             <th class="hover" scope="col"></th>
-                <th scope="col">Navn</th>
-                <th scope="col">Dag</th>
-            </tr>
-            </thead>
-        </table>
 
-
-
-
-@section Scripts{
-
-
-    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
-
- <script>
-=======
 <div class="container">
 
 
@@ -120,9 +95,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
-     @foreach (var schedule in @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
-     {
-         <script>
+    @foreach (var schedule in @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+    {
+        <script>
           $('#_@schedule.MasterScheduleStandardId').on('change', 'input', function() {
                  $('#spin').removeClass("d-none");
                $('#spin').addClass("d-flex");
@@ -131,16 +106,16 @@
                 });
           
          </script>
-     }
-    
-    
-    
-   
-      
+    }
+
+
+
     <script>
+      
+    
     
     /*
->>>>>>> Schedule-improvements
+
     $(document).ready(function() {
        var table = $('#example').DataTable( {
            "processing": true,
@@ -151,11 +126,11 @@
                                "url": "AllSchedules?handler=test",
                                "type": "GET",
                                "datatype": "application/json",
-<<<<<<< HEAD
+
                                "dataSrc": "schedules",
-=======
+
                                "dataSrc": "masterScheduleStandardViewModels",
->>>>>>> Schedule-improvements
+
                                
                            },
                            
@@ -166,7 +141,7 @@
                                         "data": null,
                                         "defaultContent": '',
                                         "render": function () {
-<<<<<<< HEAD
+
                                             return '<i class="fa fa-plus-square" aria-hidden="true"></i>';
                                         },
                                         width:"15px"
@@ -178,7 +153,7 @@
                    },
                    { "data": "name" },
                    { "data": "scheduleId" , "visible": false}
-=======
+
                                             return '<i class="fas fa-caret-down" aria-hidden="true"></i>';
                                         },
                                         width:"15px"
@@ -202,10 +177,9 @@
                    }
                         
                    
-                  
->>>>>>> Schedule-improvements
+
                ]
-           } );
+            );
        
       
             
@@ -220,22 +194,21 @@
                  row.child.hide();
                  tr.removeClass('shown');
                  tdi.first().removeClass('fa-minus-square');
-<<<<<<< HEAD
+
                  tdi.first().addClass('fa-plus-square');
-=======
+
                  tdi.first().addClass('fas fa-caret-down');
->>>>>>> Schedule-improvements
+
              }
              else {
                  // Open this row
                  row.child(format(row.data())).show();
                  $(row.child()).addClass('smalltable');
-                 tr.addClass('shown');
-<<<<<<< HEAD
+
                  tdi.first().removeClass('fa-plus-square');
-=======
+
                  tdi.first().removeClass('fas fa-caret-down');
->>>>>>> Schedule-improvements
+
                  tdi.first().addClass('fa-minus-square');
              }
          });
@@ -246,7 +219,7 @@
              }
          });
          
-    } );
+     );
     
 
     
@@ -269,12 +242,8 @@
              return el;
         }
     
- 
-<<<<<<< HEAD
 
-=======
-*/
->>>>>>> Schedule-improvements
     </script>
-
 }
+
+
