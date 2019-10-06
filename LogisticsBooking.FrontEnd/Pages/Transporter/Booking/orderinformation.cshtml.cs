@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.InkML;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
@@ -260,31 +262,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             TimeSpan end = supplierViewModel.DeliveryEnd.TimeOfDay;   // 2 AM
             TimeSpan start1 = supplierViewModelTryingToBook.DeliveryStart.TimeOfDay;
             TimeSpan end1 = supplierViewModelTryingToBook.DeliveryEnd.TimeOfDay;
+ 
 
-            if (start <= end)
-            {
-                // start and stop times are in the same day
-                if (end1 >= start && start1 <= end)
-                {
-                   
-                    return true;
-                }
-            }
-            else
-            {
-                // start and stop times are in different days
-                if (end1 >= start || start1 <= end)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-            
-
-            
+            return TimeUtility.IsOverlapping(start, end, start1, end1);
         }
-
+        
         /**
          * Gets the current order id from the session
          */

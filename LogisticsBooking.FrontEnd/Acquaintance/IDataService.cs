@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
@@ -30,7 +32,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
     public interface IScheduleDataService
     {
-        Task<Response> CreateSchedule(ScheduleViewModel schedule);
+        Task<Response> CreateSchedule(CreateScheduleCommand schedule);
         Task<SchedulesListViewModel> GetSchedules();
         Task<ScheduleViewModel> GetScheduleById(Guid id);
         Task<Response> UpdateSchedule(ScheduleViewModel schedule);
@@ -76,5 +78,16 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IIntervalDataService
     {
         Task<IntervalViewModel> GetIntetvalById(Guid id);
+    }
+
+    public interface IMasterScheduleDataService
+    {
+        Task<Response> CreateNewMasterSchedule(CreateNewMasterScheduleStandardCommand createMasterScheduleCommand);
+
+        Task<MasterSchedulesStandardViewModel> GetAllSchedules();
+
+        Task<Response> SetMasterScheduleActive(SetMasterScheduleStandardActiveCommand masterScheduleStandardActive);
+
+        Task<MasterScheduleStandardViewModel> GetActiveMasterSchedule();
     }
 }

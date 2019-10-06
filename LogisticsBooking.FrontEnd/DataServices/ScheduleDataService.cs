@@ -24,9 +24,9 @@ namespace LogisticsBooking.FrontEnd.DataServices
         }
 
 
-        public async Task<Response> CreateSchedule(ScheduleViewModel schedule)
+        public async Task<Response> CreateSchedule(CreateScheduleCommand schedule)
         {
-            var response = await PostAsync<ScheduleViewModel>(baseurl, schedule);
+            var response = await PostAsync<CreateScheduleCommand>(baseurl, schedule);
             
             if (response.IsSuccessStatusCode)
             {
@@ -100,8 +100,8 @@ namespace LogisticsBooking.FrontEnd.DataServices
 
         public async Task<ScheduleViewModel> GetScheduleBydate(DateTime date)
         {
-            baseurl = baseurl + "date/" + date.ToString("yyyy-MM-dd");
-            var response = await GetAsync(baseurl);
+            var endpoint = baseurl + "date/" + date.ToString("yyyy-MM-dd");
+            var response = await GetAsync(endpoint);
 
             return await TryReadAsync<ScheduleViewModel>(response);
         }
