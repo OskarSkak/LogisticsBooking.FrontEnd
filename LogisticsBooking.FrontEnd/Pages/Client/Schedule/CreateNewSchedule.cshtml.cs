@@ -2,10 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
 using LogisticsBooking.FrontEnd.DataServices.Models;
+using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModels;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,7 +23,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
     [BindProperties]
     public class CreateNewSchedule : PageModel
     {
+        private readonly IMasterScheduleDataService _masterScheduleDataService;
+        private readonly IMapper _mapper;
+
         
+        [TempData]
+        public string CompleteMessage { get; set; }
+        
+        [TempData]
+        public string Message { get; set; }
         public List<InternalInterval> Intervals { get; set; }
         
         private IScheduleDataService ScheduleDataService { get;}
@@ -36,12 +52,60 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         {
         }
         
-        public CreateNewSchedule(IScheduleDataService scheduleDataService)
+        public CreateNewSchedule(IScheduleDataService scheduleDataService , IMasterScheduleDataService masterScheduleDataService , IMapper mapper)
         {
+            _masterScheduleDataService = masterScheduleDataService;
+            _mapper = mapper;
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostSubmit(List<InternalInterval> intervals, string name)
+        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, string name)
+        {
+            var schedule = CreateScheduleFromInternalIntervals(intervals);
+            schedule.Name = name;
+            //var result = await ScheduleDataService.CreateSchedule(schedule);
+
+            var masterScheduleViewModel = new MasterScheduleStandardViewModel
+            {
+                Name = name,
+                Shifts = Shift.Night,
+                CreatedBy = GetLoggedInUserId(),
+                IsActive = false,
+                MischellaneousPallets = schedule.MischellaneousPallets,
+                MasterScheduleStandardId = Guid.NewGuid(),
+                MasterIntervalStandardViewModels = _mapper.Map<List<MasterIntervalStandardViewModel>>(schedule.Intervals)
+                
+            };
+            
+            
+            var result = await _masterScheduleDataService.CreateNewMasterSchedule(_mapper.Map<CreateNewMasterScheduleStandardCommand>(masterScheduleViewModel));
+
+            if (result.IsSuccesfull)
+            {
+                CompleteMessage = "Planen er oprettet korrekt";
+                return new RedirectToPageResult("ScheduleOverview");
+            }
+
+
+            Message = "Planen blev ikke oprettet korrekt, prøv igen";
+            return new RedirectToPageResult("ScheduleOverview");
+
+        }
+        
+        private bool CorrectDay(DateTime? dateTime, IntervalViewModel interval)
+        {
+            
+            if (1 <= interval.EndTime.Value.Hour && interval.EndTime.Value.Hour < 22)
+            {
+                return true;
+            } 
+            
+            
+
+            return false;
+        }
+
+        public IActionResult OnPostSpecific(List<InternalInterval> intervals, string name)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
@@ -75,14 +139,13 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 }
             }
             var id = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            Schedule.ScheduleId = Guid.NewGuid();
-            
+
             Schedule.CreatedBy = Guid.Parse(id);
 
             return Schedule;
         }
 
-        public List<InternalInterval> PopulateList(List<InternalInterval> Intervals)
+        private List<InternalInterval> PopulateList(List<InternalInterval> Intervals)
         {
             Intervals = new List<InternalInterval>();
             DateTime Time = new DateTime();
@@ -115,17 +178,34 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             return Intervals;
         }
+        
+        private Guid GetLoggedInUserId()
+        {
+            var id =  User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            return Guid.Parse(id);
+        }
 
         //DAY: 8 timer per default 7-15
         //Night: 8 timer 22-06
     }
 
-    public class InternalInterval
+    public class InternalInterval : IHaveCustomMapping
     {
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int InternalId { get; set; }
         public int BottomPallets { get; set; }
         public bool IsShown { get; set; }
+        public void CreateMappings(Profile configuration)
+        {
+            configuration.CreateMap<InternalInterval, MasterIntervalStandardViewModel>()
+                .ForMember(dest => dest.BottomPallets,
+                    opt => opt.MapFrom(src => src.BottomPallets))
+                .ForMember(dest => dest.EndTime,
+                    opt => opt.MapFrom(src => src.EndTime))
+                .ForMember(dest => dest.StartTime,
+                    opt => opt.MapFrom(src => src.StartTime))
+                ;
+        }
     }
 }

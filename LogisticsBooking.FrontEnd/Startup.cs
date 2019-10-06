@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
 
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
@@ -171,9 +172,13 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IScheduleDataService, ScheduleDataService>();
             services.AddTransient<IIntervalDataService , IntervalDataService>();
             services.AddTransient<IUserUtility, UserUtility>();
+            services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);;
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

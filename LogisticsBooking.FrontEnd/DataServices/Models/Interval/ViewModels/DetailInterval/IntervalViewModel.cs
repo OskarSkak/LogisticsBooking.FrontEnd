@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
+using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModels;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval
 {
-    public class IntervalViewModel
+    public class IntervalViewModel : IHaveCustomMapping
     {
         public Guid IntervalId { get; set;  }
         public DateTime? StartTime { get; set; }
@@ -23,5 +26,9 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval
         public List<BookingViewModel> Bookings { get; set; }
 
 
+        public void CreateMappings(Profile configuration)
+        {
+            configuration.CreateMap<IntervalViewModel, MasterIntervalStandardViewModel>();
+        }
     }
 }

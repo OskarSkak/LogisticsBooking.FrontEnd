@@ -46,12 +46,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
             AddBookingViewModelToSession();
             
-
-            if (!await ScheduleExist())
-            {
-                ScheduleAvailableMessage = "Det er ikke muligt at booke på denne dag, vælg en ny";
-                return Page();
-            }
             
             // If all is success - navigate to order information page
             return new RedirectToPageResult("orderinformation");
@@ -81,14 +75,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
         }
 
-        private async Task<bool> ScheduleExist()
-        {
-            // Getting the schedule from the selected day
-            var schedule = await _scheduleDataService.GetScheduleBydate(BookingViewModel.BookingTime);
-
-            // If the schedule exists return true
-            return schedule != null;
-        }
+        
     }
     
    
