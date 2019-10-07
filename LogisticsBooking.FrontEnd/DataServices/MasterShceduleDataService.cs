@@ -54,14 +54,30 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return Response.Unsuccesfull();
         }
 
-        public async Task<MasterScheduleStandardViewModel> GetActiveMasterSchedule()
+        public async Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule()
         {
             var endpoint = baseurl + "active";
                 
             var response = await GetAsync(endpoint);
-            var result = await TryReadAsync<MasterScheduleStandardViewModel>(response);
+            var result = await TryReadAsync<MasterSchedulesStandardViewModel>(response);
 
             return result;
+        }
+
+        public async Task<Response> DeleteMasterScheduleStandard(Guid masterScheduleStandardId)
+        {
+            var endpoint = baseurl + masterScheduleStandardId;
+            var response = await DeleteAsync(endpoint);
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.Content != null)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    return Response.Unsuccesfull(response ,errorMessage);
+                }
+                return Response.Unsuccesfull(response ,response.ReasonPhrase);
+            }
+            return Response.Succes();
         }
     }
 }

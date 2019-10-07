@@ -29,7 +29,11 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModel
                 .ForMember(dest => dest.EndTime,
                     opt => opt.MapFrom(src => src.EndTime))
                 .ForMember(dest => dest.StartTime,
-                    opt => opt.MapFrom(src => src.StartTime));
+                    opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.IntervalId,
+                    opt => opt.MapFrom(src => src.MasterIntervalStandardId))
+                .ForMember(dest => dest.ScheduleId,
+                    opt => opt.MapFrom(src => src.MasterScheduleStandardId));
         }
     }
 }
