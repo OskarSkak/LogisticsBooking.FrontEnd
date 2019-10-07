@@ -101,7 +101,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
         
         }
 
-        public async Task<ScheduleViewModel> GetScheduleBydate(DateTime date)
+        public async Task<SchedulesListViewModel> GetScheduleBydate(DateTime date)
         {
             
 
@@ -109,7 +109,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             var response = await GetAsync(endpoint);
 
 
-            return await TryReadAsync<ScheduleViewModel>(response);
+            return await TryReadAsync<SchedulesListViewModel>(response);
         }
     }
 }

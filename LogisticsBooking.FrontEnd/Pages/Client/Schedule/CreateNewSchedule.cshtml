@@ -153,10 +153,11 @@
       <div class="modal-body">
       Vælg om denne plan skal være en standard eller om det skal være en enkelt plan
       </div>
-      <div class="modal-footer">
-        <button asp-page-handler="Specific" type="button" class="btn btn-secondary" data-dismiss="modal">Enkelt</button>
-          <button asp-page-handler="Standard" type="submit" class="btn btn-primary">Standard</button>
-      </div>
+        <div class="modal-footer">
+            <input type="hidden" value="@Model.Shifts" name="shift"/>
+            <button asp-page-handler="Specific" type="button" class="btn btn-secondary" data-dismiss="modal">Enkelt</button>
+            <button asp-page-handler="Standard" type="submit" class="btn btn-primary">Standard</button>
+        </div>
     </div>
   </div>
 </div>

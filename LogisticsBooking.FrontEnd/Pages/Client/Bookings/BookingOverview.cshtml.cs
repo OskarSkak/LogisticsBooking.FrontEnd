@@ -59,7 +59,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                         booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
                         booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
 
-                        foreach (var order in booking.OrdersListViewModel.Orders)
+                        foreach (var order in booking.OrdersListViewModel)
                         {
                             if (string.IsNullOrWhiteSpace(order.CustomerNumber)) order.CustomerNumber = "N/A";
                             if (string.IsNullOrWhiteSpace(order.OrderNumber)) order.OrderNumber = "N/A";
@@ -148,7 +148,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             foreach (var booking in BookingsListViewModel.Bookings)
             {
-                foreach (var order in booking.OrdersListViewModel.Orders)
+                foreach (var order in booking.OrdersListViewModel)
                 {
                     worksheet.Cell(cellY, cellX++).SetValue(order.CustomerNumber);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortDateString());

@@ -44,7 +44,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
         public bool ShowOrderMessage { get; set; }
         
-        public bool IsFirstOrder => !BookingViewModel.OrdersListViewModel.Orders.Any();
+        public bool IsFirstOrder => !BookingViewModel.OrdersListViewModel.Any();
         
 
        
@@ -161,7 +161,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
 
 
 
-            bookingViewModel.OrdersListViewModel.Orders.Add(new OrderViewModel
+            bookingViewModel.OrdersListViewModel.Add(new OrderViewModel
             {
                 OrderNumber = orderViewModel.OrderNumber,
                 BottomPallets = orderViewModel.BottomPallets,
@@ -190,7 +190,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             var orderViewModelsInCurrentBooking = new List<SupplierViewModel>();
             
-            foreach (var order in bookingViewModel.OrdersListViewModel.Orders)
+            foreach (var order in bookingViewModel.OrdersListViewModel)
             {
                 orderViewModelsInCurrentBooking.Add(await _supplierDataService.GetSupplierById(order.SupplierViewModel.SupplierId));
             }
@@ -292,7 +292,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private void EditOrderViewModel(BookingViewModel bookingViewModel, OrderViewModel orderViewModel)
         {
             
-            var order = bookingViewModel.OrdersListViewModel.Orders.Find(x => x.ExternalId.Equals(orderViewModel.ExternalId));
+            var order = bookingViewModel.OrdersListViewModel.Find(x => x.ExternalId.Equals(orderViewModel.ExternalId));
             
 
             order.Comment = orderViewModel.Comment;
@@ -311,9 +311,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private void RemoveOrderViewModelFromBookingViewModel(BookingViewModel bookingViewModel, string orderId)
         {
 
-            var orderViewModel = bookingViewModel.OrdersListViewModel.Orders.FirstOrDefault(x => x.ExternalId.Equals(orderId));
+            var orderViewModel = bookingViewModel.OrdersListViewModel.FirstOrDefault(x => x.ExternalId.Equals(orderId));
 
-            bookingViewModel.OrdersListViewModel.Orders.Remove(orderViewModel);
+            bookingViewModel.OrdersListViewModel.Remove(orderViewModel);
 
         }
 
@@ -325,7 +325,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             
             int totalBottomPallets = 0;
-            foreach (var order in bookingViewModel.OrdersListViewModel.Orders)
+            foreach (var order in bookingViewModel.OrdersListViewModel)
             {
                 totalBottomPallets += order.BottomPallets;
             }

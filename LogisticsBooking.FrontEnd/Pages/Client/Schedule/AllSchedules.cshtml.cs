@@ -8,10 +8,12 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
+using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MoreLinq;
 using Newtonsoft.Json;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
@@ -41,7 +43,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
         public async Task OnGet()
         {
-            MasterSchedulesStandardViewModel = await _masterScheduleDataService.GetAllSchedules();
+            var result = await _masterScheduleDataService.GetAllSchedules();
+            MasterSchedulesStandardViewModel = result;
+            MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels =
+                result.MasterScheduleStandardViewModels.OrderBy(e => e.Shifts).ToList();
+            
             RadioList = new List<SelectListItem>();
 
             foreach (var schedule in MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
@@ -53,6 +59,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 });
             }
             
+  
+            
         }
 
         public async void OnPost()
@@ -60,10 +68,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             Console.WriteLine();
         }
 
-        public async Task<IActionResult> OnPostChangeActiveAsync(string isActive ,  Guid id)
+        public async Task<IActionResult> OnPostChangeActiveAsync(string isActive ,  Guid id , Shift shift)
         {
             var result = await _masterScheduleDataService.SetMasterScheduleActive(new SetMasterScheduleStandardActiveCommand
-                {MasterScheduleStandardToActive = id});
+                {MasterScheduleStandardToActive = id , Shift = shift});
 
             if (result.IsSuccesfull)
             {
@@ -88,6 +96,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
            
             return json;
 
+        }
+
+        public async Task<IActionResult> OnPostDeleteMasterScheduleAsync(Guid id)
+        {
+            var result = await _masterScheduleDataService.DeleteMasterScheduleStandard(id);
+            return new RedirectToPageResult("");
         }
         
         

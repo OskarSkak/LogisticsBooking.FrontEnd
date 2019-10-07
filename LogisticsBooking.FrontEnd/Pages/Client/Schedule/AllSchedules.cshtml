@@ -1,9 +1,9 @@
 @page "{id}"
 @using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
 @model LogisticsBooking.FrontEnd.Pages.Client.Schedule.AllSchedules
 
 <head>
-
 
 
     <style>
@@ -34,58 +34,135 @@
 </head>
 
 
-
 <div class="container">
+    <div class="row">
+        <div class="col">
 
-
-    <table style="background-color: white;" class="table table-hover" width="60%">
-        <thead>
-        <tr>
-            <th scope="col">Navn</th>
-            <th scope="col">Aktiv</th>
-        </tr>
-        </thead>
-        <tbody>
-        
-            @foreach (var schedule in @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
-            {
-                
+            <h2 class="text-center">Nat planer</h2>
+            <table style="background-color: white;" class="table table-hover" width="60%">
+                <thead>
                 <tr>
-                    <td>@schedule.Name</td>
+                      <th>Navn</th>
+                    <th>Aktiv</th>
                     
-                    <td>
-                       
-                             <form id="_@schedule.MasterScheduleStandardId" method="post" asp-page-handler="ChangeActive">
-                            <input type="hidden" asp-for="@schedule.MasterScheduleStandardId" name="id"/>
-                            @if (schedule.IsActive)
-                            {
-                                <input checked="checked"  type="radio" name="isActive"/>
-                            }
-                            else
-                            {
-                                <input type="Radio"  name="isActive"/>
-                            }
-                           </form>
-                       
-                        
-
-
-                    </td>
+                    <th>Delete</th>
+                    <th>Gør Aktiv</th>
+                    
+                    
                 </tr>
-            
-            }
-      
+                </thead>
+                <tbody>
+
+                @foreach (var schedule in @Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+                {
+                    if (schedule.Shifts == Shift.Night)
+                    {
+                        <tr>
+                            <form id="_@schedule.MasterScheduleStandardId" method="post" >
+                                <td>@schedule.Name</td>
+                                <td>
+
+                                   
+                                    <input type="hidden" asp-for="@schedule.MasterScheduleStandardId" name="id"/>
+                                    <input type="hidden" asp-for="@schedule.Shifts" name="shift"/>
+
+
+                                    @if (schedule.IsActive)
+                                    {
+                                        <input checked="checked" type="radio" name="isActive"/>
+                                    }
+                                    else
+                                    {
+                                        <input type="Radio" name="isActive"/>
+                                    }
+
+                                
+                                </td>
+                                <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn btn-primary">Delete</button></td>
+ <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-primary">Gør Aktiv</button></td>
+
+                            </form>
+                            
+                        </tr>
+                        
+                          
+                    }
+                }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
         
+        <div class="col">
+            <h2 class="text-center">Dag Planer</h2>
+                <table style="background-color: white;" class="table table-hover" width="60%">
+                    <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Aktiv</th>
+                        <th>Delete</th>
+                        <th>Gør Aktiv</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            
+                    @foreach (var schedule in Model.MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
+                    {
+                        if (schedule.Shifts == Shift.Day)
+                        {
+                            <tr>
+                                <form id="_@schedule.MasterScheduleStandardId" method="post">
+                                    <td>@schedule.Name</td>
+                                    <td>
+
+                                   
+                                        <input type="hidden" asp-for="@schedule.MasterScheduleStandardId" name="id"/>
+                                        <input type="hidden" asp-for="@schedule.Shifts" name="shift"/>
 
 
-        </tbody>
-    </table>
+                                        @if (schedule.IsActive)
+                                        {
+                                            <input checked="checked" type="radio" name="isActive"/>
+                                        }
+                                        else
+                                        {
+                                            <input type="Radio" name="isActive"/>
+                                        }
+
+                                
+                                    </td>
+                                    <td><button asp-page-handler="DeleteMasterSchedule" type="submit" class="btn btn-primary">Delete</button></td>
+                                    <td><button asp-page-handler="ChangeActive" type="submit" class="btn btn-primary">Gør Aktiv</button></td>
+
+                                </form>
+                            
+                            </tr>
+                            
+                        }
+                    }
+            
+            
+            
+            
+                    </tbody>
+                </table>
+        </div>
+    </div>
+    
+    
+</div>
+
+
 <div id="spin" class="d-none justify-content-center ">
-  <div class="spinner-border " role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-</div>
+                <div class="spinner-border " role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
 
 
 @section Scripts{
@@ -109,141 +186,4 @@
     }
 
 
-
-    <script>
-      
-    
-    
-    /*
-
-    $(document).ready(function() {
-       var table = $('#example').DataTable( {
-           "processing": true,
-           
-           
-           "serverSide": false,
-               "ajax": {
-                               "url": "AllSchedules?handler=test",
-                               "type": "GET",
-                               "datatype": "application/json",
-
-                               "dataSrc": "schedules",
-
-                               "dataSrc": "masterScheduleStandardViewModels",
-
-                               
-                           },
-                           
-               "columns": [
-                   {
-                                        "className": 'details-control',
-                                        "orderable": false,
-                                        "data": null,
-                                        "defaultContent": '',
-                                        "render": function () {
-
-                                            return '<i class="fa fa-plus-square" aria-hidden="true"></i>';
-                                        },
-                                        width:"15px"
-                                    },
-                   { 
-                       "data": "scheduleDay" , render: function(data ) {
-                           return moment(data).format("dddd DD MM");
-                       }
-                   },
-                   { "data": "name" },
-                   { "data": "scheduleId" , "visible": false}
-
-                                            return '<i class="fas fa-caret-down" aria-hidden="true"></i>';
-                                        },
-                                        width:"15px"
-                                    },
-                   
-                   { "data": "name" },
-                   {
-                           "data": "isActive",
-                           render: function(data) {
-                               console.log(data);
-                             if (data === true) {
-                                 console.log(data);
-                               return '<input type="checkbox" class="form-control" checked>';
-                             } else {
-                                 console.log(data);
-                               return '<input type="checkbox" class="form-control" ">';
-                             }
-                             console.log(data)
-                      }
-                      
-                   }
-                        
-                   
-
-               ]
-            );
-       
-      
-            
-    // Add event listener for opening and closing details
-         $('#example tbody').on('click', 'td.details-control', function () {
-             var tr = $(this).closest('tr');
-             var tdi = tr.find("i.fa");
-             var row = table.row(tr);
-
-             if (row.child.isShown()) {
-                 // This row is already open - close it
-                 row.child.hide();
-                 tr.removeClass('shown');
-                 tdi.first().removeClass('fa-minus-square');
-
-                 tdi.first().addClass('fa-plus-square');
-
-                 tdi.first().addClass('fas fa-caret-down');
-
-             }
-             else {
-                 // Open this row
-                 row.child(format(row.data())).show();
-                 $(row.child()).addClass('smalltable');
-
-                 tdi.first().removeClass('fa-plus-square');
-
-                 tdi.first().removeClass('fas fa-caret-down');
-
-                 tdi.first().addClass('fa-minus-square');
-             }
-         });
-
-         table.on("user-select", function (e, dt, type, cell, originalEvent) {
-             if ($(cell.node()).hasClass("details-control")) {
-                 e.preventDefault();
-             }
-         });
-         
-     );
-    
-
-    
-    function format(d){
-        
-        var el = "";
-        var i = 1;
-        console.log(i++);
-            for (var i = 0; i < d.intervals.length;i++) {
-                
-              el += '<table cellpadding="5" class="table table-hover table-sm table-borderless" cellspacing="0" border="0" style=" width: 100%; padding-left:50px;">' +
-                                     '<tr>' + 
-                                         '<td>Full name:</td>' +  
-                                         '<td>'  +  moment(d.intervals[i].startTime).format("HH:mm") + ' - ' + moment(d.intervals[i].endTime).format("HH:mm")  +  '</td>' +
-                                     '</tr>' +
-                                    
-                                 '</table>';  
-            }
-             // `d` is the original data object for the row
-             return el;
-        }
-    
-
-    </script>
 }
-
-

@@ -124,7 +124,7 @@ border-bottom: 1px solid #dee2e6;
                 <tbody>
 
 
-                @foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrdersListViewModel.Orders)
+                @foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrdersListViewModel)
                 {
                     <tr>
                         <th scope="row">@orderViewModel.ExternalId</th>
@@ -273,9 +273,9 @@ border-bottom: 1px solid #dee2e6;
 </div>
 
 
-@if (Model.BookingViewModel.OrdersListViewModel.Orders != null)
+@if (Model.BookingViewModel.OrdersListViewModel != null)
 {
-@foreach (var order in Model.BookingViewModel.OrdersListViewModel.Orders)
+@foreach (var order in Model.BookingViewModel.OrdersListViewModel)
 {
     <div class="modal bd-example-modal-lg" id="_@order.ExternalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">

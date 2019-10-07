@@ -13,7 +13,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
 
         public BookingViewModel()
         {
-            OrdersListViewModel = new OrdersListViewModel();
             SuppliersListViewModel = new SuppliersListViewModel();
         }
         public int ExternalId { get; set; }
@@ -41,14 +40,13 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public Guid InternalId { get; set; }
         public string Email { get; set; }
         
-        
         public Guid TransporterId { get; set; }
         
         public int PalletsRemaining { get; set; }
         
         public SuppliersListViewModel SuppliersListViewModel { get; set; }
         
-        public OrdersListViewModel OrdersListViewModel { get; set; }
+        public List<OrderViewModel> OrdersListViewModel { get; set; }
         
         public bool IsBookingAllowed { get; set; }
         
@@ -70,7 +68,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
                 .ForMember(  dest => dest.TransporterId,
                     opt => opt.MapFrom(src => src.TransporterId))
                 .ForMember(  dest => dest.CreateOrderCommand,
-                    opt => opt.MapFrom(src => src.OrdersListViewModel.Orders))
+                    opt => opt.MapFrom(src => src.OrdersListViewModel))
                 ;
         }
     }

@@ -38,7 +38,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> UpdateSchedule(ScheduleViewModel schedule);
         Task<Response> DeleteSchedule(Guid id);
         Task<Response> CreateManySchedule(CreateManyScheduleCommand schedule);
-        Task<ScheduleViewModel> GetScheduleBydate(DateTime date);
+        Task<SchedulesListViewModel> GetScheduleBydate(DateTime date);
     }
 
     public interface IOrderDataService
@@ -88,6 +88,8 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
         Task<Response> SetMasterScheduleActive(SetMasterScheduleStandardActiveCommand masterScheduleStandardActive);
 
-        Task<MasterScheduleStandardViewModel> GetActiveMasterSchedule();
+        Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule();
+
+        Task<Response> DeleteMasterScheduleStandard(Guid masterScheduleStandardId);
     }
 }

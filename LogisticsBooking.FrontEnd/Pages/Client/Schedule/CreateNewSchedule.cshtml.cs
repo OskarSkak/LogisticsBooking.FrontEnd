@@ -38,14 +38,21 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         private readonly string DAY = "DAY";
         private readonly string NIGHT = "NIGHT";
         
+        [BindProperty]
+        public Shift Shifts { get; set; }
+        
         [BindProperty] public bool IsDay { get; set; }
 
 
         public void OnGet(string id)
         {
-            Intervals = PopulateList(Intervals);
+            
             if (id.Equals(DAY)) IsDay = true;
             if (id.Equals(NIGHT)) IsDay = false;
+            
+            Shifts = IsDay ? Shift.Day : Shift.Night;
+
+            Intervals = PopulateList(Intervals);
         }
 
         public void OnPost()
@@ -59,16 +66,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             ScheduleDataService = scheduleDataService;
         }
 
-        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, string name)
+        public async Task<IActionResult> OnPostStandard(List<InternalInterval> intervals, string name , Shift shift)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
             //var result = await ScheduleDataService.CreateSchedule(schedule);
 
+            
             var masterScheduleViewModel = new MasterScheduleStandardViewModel
             {
                 Name = name,
-                Shifts = Shift.Night,
+                Shifts = shift,
                 CreatedBy = GetLoggedInUserId(),
                 IsActive = false,
                 MischellaneousPallets = schedule.MischellaneousPallets,
@@ -105,10 +113,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             return false;
         }
 
-        public IActionResult OnPostSpecific(List<InternalInterval> intervals, string name)
+        public IActionResult OnPostSpecific(List<InternalInterval> intervals, string name , Shift shift)
         {
             var schedule = CreateScheduleFromInternalIntervals(intervals);
             schedule.Name = name;
+            schedule.Shifts = shift;
             //var result = await ScheduleDataService.CreateSchedule(schedule);
 
             HttpContext.Session.SetObject("scheduleId", schedule);

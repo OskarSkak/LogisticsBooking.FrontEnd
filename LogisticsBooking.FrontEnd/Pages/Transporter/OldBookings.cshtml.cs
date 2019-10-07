@@ -33,13 +33,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
         }
         public async Task<IActionResult> OnGet()
         {
-            BookingsListViewModel = await _bookingDataService.GetBookings();
+            
             
 
             var loggedIn = await _transporterDataService.GetTransporterById(_userUtility.GetCurrentUserId());
             
             var allBookings = await _bookingDataService.GetBookings();
             var intervalViewModels = new List<IntervalViewModel>();
+            BookingsListViewModel = new BookingsListViewModel();
             foreach (var booking in allBookings.Bookings)
             {
                 if (booking.TransporterId == loggedIn.TransporterId)
