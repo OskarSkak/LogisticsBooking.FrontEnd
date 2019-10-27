@@ -22,6 +22,10 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             {
                 return RedirectToPage("/Transporter/Booking/BookOrder");
             } 
+            if (User.IsInRole("admin"))
+            {
+                return RedirectToPage("/Client/Bookings/BookingOverview");
+            } 
             
             return new RedirectToPageResult("Error");
         }
