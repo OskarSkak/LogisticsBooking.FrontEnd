@@ -14,6 +14,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Booking
         public BookingViewModel()
         {
             SuppliersListViewModel = new SuppliersListViewModel();
+            OrdersListViewModel = new List<OrderViewModel>();
         }
         public int ExternalId { get; set; }
         
