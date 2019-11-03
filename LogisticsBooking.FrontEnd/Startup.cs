@@ -82,7 +82,7 @@ namespace LogisticsBooking.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             
-            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+            
            
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -90,12 +90,8 @@ namespace LogisticsBooking.FrontEnd
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
             
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(@"\\server\share\directory\"))
-                .ProtectKeysWithCertificate("thumbprint");
-
-
 
             // Show logs error Identity
             IdentityModelEventSource.ShowPII = true;
