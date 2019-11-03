@@ -164,6 +164,10 @@ namespace LogisticsBooking.FrontEnd
             services.AddSession();
             services.AddMemoryCache();
             
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
 
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
