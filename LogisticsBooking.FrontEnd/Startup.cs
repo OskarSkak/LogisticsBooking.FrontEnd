@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -24,6 +25,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Exceptionless;
 using LogisticsBooking.FrontEnd.AutoMapper;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -80,7 +82,7 @@ namespace LogisticsBooking.FrontEnd
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             
-            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+            
            
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -90,8 +92,7 @@ namespace LogisticsBooking.FrontEnd
             }));
 
             
-            
-            
+
             // Show logs error Identity
             IdentityModelEventSource.ShowPII = true;
             
@@ -163,6 +164,10 @@ namespace LogisticsBooking.FrontEnd
             services.AddSession();
             services.AddMemoryCache();
             
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
 
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
