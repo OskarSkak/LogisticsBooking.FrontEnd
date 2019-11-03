@@ -13,21 +13,26 @@ namespace LogisticsBooking.FrontEnd.Pages.User
         [Authorize]
         public async Task<IActionResult> OnGet()
         {
-            if (User.IsInRole("client"))
+            foreach (var VARIABLE in HttpContext.User.Claims)
+            {
+                Console.WriteLine(VARIABLE.Type);
+                Console.WriteLine(VARIABLE.Value);
+            }
+            
+            if (User.HasClaim("role", "client"))
             {
                 return RedirectToPage("/Client/Bookings/BookingOverview");
             }  
             
-            if (User.IsInRole("transporter"))
+            if (User.HasClaim("role" , "transporter"))
             {
                 return RedirectToPage("/Transporter/Booking/BookOrder");
             } 
-            if (User.IsInRole("admin"))
+            if (User.HasClaim("role" , "admin"))
             {
                 return RedirectToPage("/Client/Bookings/BookingOverview");
             } 
-            
-             return RedirectToPage("/Client/Bookings/BookingOverview");
+            return new RedirectToPageResult("Error");
         }
 
         public async Task OnGetLogoutAsync()
