@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
@@ -18,28 +19,28 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
     public class ReservedBookingsIndexModel : PageModel
     {
         private readonly IIntervalDataService _intervalDataService;
+        private readonly IUserUtility _userUtility;
         private IBookingDataService BookingDataService { get; set; }
         private ITransporterDataService TransporterDataService { get; set; }
-        [BindProperty] public List<BookingViewModel> Bookings { get; set; }
+        [BindProperty] 
+        public BookingsListViewModel BookingsListViewModel{ get; set; }
         
         public List<IntervalViewModel> IntervalViewModels { get; set; }
 
-        public ReservedBookingsIndexModel(IBookingDataService _bookingDataService, ITransporterDataService _transporterDataService , IIntervalDataService intervalDataService)
+        public ReservedBookingsIndexModel(IBookingDataService _bookingDataService, ITransporterDataService _transporterDataService , IIntervalDataService intervalDataService , IUserUtility userUtility)
         {
             _intervalDataService = intervalDataService;
+            _userUtility = userUtility;
             BookingDataService = _bookingDataService;
             TransporterDataService = _transporterDataService;
         }
         
         public async Task<IActionResult> OnGetAsync()
         {
-            Bookings = new List<BookingViewModel>();
+            BookingsListViewModel = await BookingDataService.GetBookings();
             
-            var stringId = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
 
-            var guid = Guid.Parse(stringId);
-
-            var loggedIn = await TransporterDataService.GetTransporterById(guid);
+            var loggedIn = await TransporterDataService.GetTransporterById(_userUtility.GetCurrentUserId());
             
             var allBookings = await BookingDataService.GetBookings();
             var intervalViewModels = new List<IntervalViewModel>();
@@ -47,7 +48,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter
             {
                 if (booking.TransporterId == loggedIn.TransporterId)
                 {
-                    Bookings.Add(booking);
+                    BookingsListViewModel.Bookings.Add(booking);
                     intervalViewModels.Add(booking.Interval);
                 }
             }

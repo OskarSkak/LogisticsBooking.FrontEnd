@@ -4,46 +4,55 @@
 }
 
 @if (Model.Message != null)
+ {
+     <div class="alert alert-success">
+         <strong>@Model.Message</strong>
+     </div>
+ }
+
+@if (Model.CompleteMessage != null)
 {
     <div class="alert alert-success">
-        <strong>@Model.Message</strong> 
+        <strong>@Model.CompleteMessage</strong>
     </div>
 }
 <div class="py-5">
     <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <div class="card bg-light text-center">
-                    <div class="card-body p-4">
-                        <h3>DAG</h3>
-                        <h2> <b>plan_navn_placeholder</b></h2> <a class="btn btn-link" href="http://agri-norcold.dk/DK.aspx" target="_blank">agri-norcold.dk</a>
-                        <hr>
-                        <ul class="list-unstyled my-3">
-                            <h3>Vælg en afdeling</h3>
-                            <li class="mb-1"><a asp-page="CalendarOverview">Hvidovre</a></li>
-                            
+        <div class="row d-flex justify-content-center">
+            <div class="col-5 mr-5 card-body  card bg-light text-center  flex-fill">
 
-                        </ul>
-                    </div>
+                <div class="card-body p-4">
+                    <h2>Kalender</h2>
+                    <p>Her kan der ses en kalenderoversigt over planer</p>
+                    <a asp-page="CalendarOverview">Se Kalender</a>
+
+
                 </div>
+
             </div>
-            <div class="col-6">
-                <div class="card bg-light text-center">
-                    <div class="card-body p-4">
-                        <h3>NAT</h3>
-                        <h2> <b>plan_navn_placeholder</b></h2> <a class="btn btn-link" href="http://agri-norcold.dk/DK.aspx" target="_blank">agri-norcold.dk</a>
-                        <hr>
-                        <ul class="list-unstyled my-3">
-                            <h3>Vælg en afdeling</h3>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Hvidovre</a></li>
-                            <li class="mb-1"><a asp-page="Booking">Kolding</a></li>
 
-                        </ul>
+            <div class="col-5 ml-5 card-body card text-center flex-fill ">
+
+                <h2 class="m-3">Aktive planer</h2>
+                <div class="row">
+                    <div class="col-6 ">
+                        <h3>Nat</h3>
+                        <a asp-page="MasterSchedules">
+                            <p>Nat Plan</p>
+                        </a>
+                        
+                    </div>
+                    <div class="col-6">
+                        <h3>Dag</h3>
+                        <p>Dag Plan</p>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -53,14 +62,24 @@
             <div class="col-4">
                 <div class="card bg-light text-center">
                     <div class="card-body p-1">
-                        <h2> <b>Opret Plan</b></h2>
+                        <h2>
+                            <b>Opret Plan</b>
+                        </h2>
                         <hr>
                         <ul class="list-unstyled my-3">
                             <p>Her kan nye planer oprettes. Planer kan oprettes ud fra eksisterende, eller som helt nye. Det skal specificeres om det er en dags vagt eller natte vagt</p>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende [DAG: 07-15]</a></li>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Opret fra eksisterende [NAT: 22-06]</a></li>
-                            <li class="mb-1"><a asp-page="./CreateNewSchedule" asp-route-id="DAY">Opret ny [DAG: 07-15]</a></li>
-                            <li class="mb-1"><a asp-page="./CreateNewSchedule" asp-route-id="NIGHT">Opret fra ny [NAT: 22-06]</a></li>
+                            <li class="mb-1">
+                                <a asp-page="Booking/BookOrder">Opret fra eksisterende [DAG: 07-15]</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="Booking/BookOrder">Opret fra eksisterende [NAT: 22-06]</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="./CreateNewSchedule" asp-route-id="DAY">Opret ny [DAG: 07-15]</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="./CreateNewSchedule" asp-route-id="NIGHT">Opret fra ny [NAT: 22-06]</a>
+                            </li>
                         </ul>
                         <p>Bemærk - Tider i en plan behøves ikke begrænses til ovenstående tider, de kan konfigureres under skabelsen af en plan</p>
                     </div>
@@ -69,13 +88,21 @@
             <div class="col-4">
                 <div class="card bg-light text-center">
                     <div class="card-body p-4">
-                        <h2> <b>Eksisterende Planer</b></h2>
+                        <h2>
+                            <b>Eksisterende Planer</b>
+                        </h2>
                         <hr>
                         <ul class="list-unstyled my-3">
                             <p>Her kan gemte tidsplaner gennemses og det kan vælges hvilke dage de skal gælde for</p>
-                            <li class="mb-1"><a asp-page="./AllSchedules" asp-route-id="All">Gemte planer [ALLE]</a></li>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder" asp-route-id="Day">Gemte dags-planer [DAG: 07-15]</a></li>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder" asp-route-id="Night">Gemte natte-planer [NAT: 22-06]</a></li>
+                            <li class="mb-1">
+                                <a asp-page="./AllSchedules" asp-route-id="All">Gemte planer [ALLE]</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="Booking/BookOrder" asp-route-id="Day">Gemte dags-planer [DAG: 07-15]</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="Booking/BookOrder" asp-route-id="Night">Gemte natte-planer [NAT: 22-06]</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -84,19 +111,26 @@
                 <div class="card bg-light text-center">
                     <div class="card-body p-4">
                         <h3>AN</h3>
-                        <h2> <b>Agri-norcold</b></h2> <a class="btn btn-link" href="http://agri-norcold.dk/DK.aspx" target="_blank">agri-norcold.dk</a>
+                        <h2>
+                            <b>Agri-norcold</b>
+                        </h2> <a class="btn btn-link" href="http://agri-norcold.dk/DK.aspx" target="_blank">agri-norcold.dk</a>
                         <hr>
                         <ul class="list-unstyled my-3">
                             <h3>Vælg en afdeling</h3>
-                            <li class="mb-1"><a asp-page="Booking/BookOrder">Hvidovre</a></li>
-                            <li class="mb-1"><a asp-page="Booking">Kolding</a></li>
+                            <li class="mb-1">
+                                <a asp-page="Booking/BookOrder">Hvidovre</a>
+                            </li>
+                            <li class="mb-1">
+                                <a asp-page="Booking">Kolding</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
+
 
 

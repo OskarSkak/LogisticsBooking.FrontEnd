@@ -40,6 +40,11 @@
                     
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" asp-page="">Indstillinger</a>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <a class="dropdown-item" asp-page="/Client/admin/AdminOverview">Admin</a>
+                        }
+                    
                         <a class="dropdown-item" href="#">Another action</a>
                         <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 ">Log Ud</a>
                     </div>

@@ -72,14 +72,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group" style="">
-                    @if(Model.Booking.OrderViewModels != null){
-                        foreach (var order in @Model.Booking.OrderViewModels)
+                    @if(!Model.Booking.OrdersListViewModel.Any()){
+                        foreach (var order in @Model.Booking.OrdersListViewModel)
                         {
                             <a asp-page="./Booking/ReservedOrderSingle" asp-route-id="@order.OrderId" class="list-group-item list-group-item-action display-spacebetween">
                                 <div>Bundpaller: @order.BottomPallets</div>
                                 <div>Id: @order.ExternalId</div>
-                                <div>Leverandør: @order.SupplierName</div>
-                                <div>Samlet antal paller: @order.totalPallets</div>
+                                <div>Leverandør: @order.SupplierViewModel.Name</div>
+                                <div>Samlet antal paller: @order.TotalPallets</div>
                             </a>
                         }
                     }

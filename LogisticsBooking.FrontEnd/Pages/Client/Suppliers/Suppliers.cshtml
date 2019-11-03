@@ -3,6 +3,13 @@
 @{
 }
 
+@if (Model.ShowResponseMessage)
+{
+    <div class="alert alert-success">
+        <strong>@Model.ResponseMessage</strong> 
+    </div>
+}
+
 
 <div class="py-5 text-center">
     <div class="container">
@@ -14,7 +21,9 @@
         </div>
         <div class="row">
             <div class="mx-auto col-lg-5 col-md-7 col-10">
-                <a asp-page="/Client/Suppliers/Supplier_Create"><button class="btn btn-primary">Opret ny kunde</button></a>
+                <a asp-page="/Client/Suppliers/Supplier_Create">
+                    <button class="btn btn-primary">Opret ny kunde</button>
+                </a>
             </div>
         </div>
     </div>
@@ -22,8 +31,6 @@
 
 @if (Model.SuppliersListView.Suppliers.Any())
 {
-    
-
     <div class="py-5" style="">
         <div class="container">
             <div class="row">
@@ -32,7 +39,7 @@
                         @foreach (var item in Model.SuppliersListView.Suppliers)
                         {
                             <text>
-                                <a asp-page="./Supplier_Single" asp-route-id="@item.Name" class="list-group-item list-group-item-action display-spacebetween">@item.Name</a>
+                                <a asp-page="./Supplier_Single" asp-route-id="@item.SupplierId" class="list-group-item list-group-item-action display-spacebetween">@item.Name</a>
                             </text>
                         }
                     </div>

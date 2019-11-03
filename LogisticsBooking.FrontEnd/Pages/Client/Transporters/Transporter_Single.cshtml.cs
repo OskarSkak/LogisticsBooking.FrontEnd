@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
-using LogisticsBooking.FrontEnd.PagesEntity.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,7 +17,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         private readonly IMapper _mapper;
 
 
-        [BindProperty] public TransporterUpdateBuildModel TransporterUpdateBuildModel { get; set; }
+        [BindProperty] 
+        public TransporterViewModel TransporterViewModel { get; set; }
 
 
         [TempData] public String ResponseMessage { get; set; }
@@ -31,23 +31,20 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
-            var transporterViewModel = await _transporterDataService.GetTransporterById(id);
+            var TransporterViewModel = await _transporterDataService.GetTransporterById(id);
             
-            TransporterUpdateBuildModel = _mapper.Map<TransporterUpdateBuildModel>(transporterViewModel);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdate(TransporterUpdateBuildModel transporterUpdateBuildModel)
+        public async Task<IActionResult> OnPostUpdate(TransporterViewModel transporterViewModel)
         {
-            var transporter = _mapper.Map<TransporterViewModel>(TransporterUpdateBuildModel);
-
-            if (transporter == null)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var result = await _transporterDataService.UpdateTransporter(transporter.TransporterId, transporter);
+            var result = await _transporterDataService.UpdateTransporter(transporterViewModel.TransporterId, transporterViewModel );
 
             if (!result.IsSuccesfull)
             {
@@ -58,9 +55,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             return new RedirectToPageResult("./Transporters");
         }
 
-        public async Task<IActionResult> OnPostDelete(TransporterUpdateBuildModel transporterUpdateBuildModel)
+        public async Task<IActionResult> OnPostDelete(TransporterViewModel transporterViewModel)
         {
-            var result = await _transporterDataService.DeleteTransporter(transporterUpdateBuildModel.TransporterId);
+            var result = await _transporterDataService.DeleteTransporter(TransporterViewModel.TransporterId);
             ResponseMessage = "Transportøren er slettet korrekt";
             return new RedirectToPageResult("./Transporters");
         }

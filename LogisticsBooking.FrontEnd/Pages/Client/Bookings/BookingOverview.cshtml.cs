@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using LogisticsBooking.FrontEnd.Acquaintance;
-using LogisticsBooking.FrontEnd.DataServices;
-using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
-using LogisticsBooking.FrontEnd.Documents;
-using LogisticsBooking.FrontEnd.Utilities;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
+
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 {
     public class BookingOverviewModel : PageModel
     {
-        [BindProperty] public int WEEK { get; } = 7;
-        [BindProperty] public int MONTH { get; } = 31;
-        [BindProperty] public string NameOfFile { get; set; }
+        [BindProperty] 
+        public int WEEK { get; } = 7;
+        [BindProperty] 
+        public int MONTH { get; } = 31;
+        [BindProperty] 
+        public string NameOfFile { get; set; }
 
         private IBookingDataService bookingDataService;
         [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } = new BookingsListViewModel();
@@ -39,6 +32,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         public async void OnGet()
         {
+            var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            Console.WriteLine(Subjectid);
+            
             var id = "7";
             var numberOfDays = 0;
             if (id != null) numberOfDays = int.Parse(id);
@@ -67,10 +63,10 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
                         booking.EndLoading = default(DateTime).Add(booking.EndLoading.TimeOfDay);
                         booking.StartLoading = default(DateTime).Add(booking.StartLoading.TimeOfDay);
 
-                        foreach (var order in booking.OrderViewModels)
+                        foreach (var order in booking.OrdersListViewModel)
                         {
-                            if (string.IsNullOrWhiteSpace(order.customerNumber)) order.customerNumber = "N/A";
-                            if (string.IsNullOrWhiteSpace(order.orderNumber)) order.orderNumber = "N/A";
+                            if (string.IsNullOrWhiteSpace(order.CustomerNumber)) order.CustomerNumber = "N/A";
+                            if (string.IsNullOrWhiteSpace(order.OrderNumber)) order.OrderNumber = "N/A";
                             if (string.IsNullOrWhiteSpace(order.InOut)) order.InOut = "N/A";
                         }
                     }
@@ -156,17 +152,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
             foreach (var booking in BookingsListViewModel.Bookings)
             {
-                foreach (var order in booking.OrderViewModels)
+                foreach (var order in booking.OrdersListViewModel)
                 {
-                    worksheet.Cell(cellY, cellX++).SetValue(order.customerNumber);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.CustomerNumber);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortDateString());
-                    worksheet.Cell(cellY, cellX++).SetValue(order.orderNumber);
-                    worksheet.Cell(cellY, cellX++).SetValue(order.totalPallets);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.OrderNumber);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.TotalPallets);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.TransporterName);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.Email);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.BookingTime.ToShortTimeString());
                     worksheet.Cell(cellY, cellX++).SetValue(booking.Port);
-                    worksheet.Cell(cellY, cellX++).SetValue(order.SupplierName);
+                    worksheet.Cell(cellY, cellX++).SetValue(order.SupplierViewModel.Name);
                     worksheet.Cell(cellY, cellX++).SetValue(booking.ActualArrival.ToShortTimeString());
                     worksheet.Cell(cellY, cellX++).SetValue(booking.StartLoading.ToShortTimeString());
                     worksheet.Cell(cellY, cellX++).SetValue(booking.EndLoading.ToShortTimeString());

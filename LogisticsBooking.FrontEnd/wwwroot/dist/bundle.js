@@ -1630,15 +1630,15 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 
 /***/ }),
 
-/***/ "./src/js/app.js":
-/*!***********************!*\
-  !*** ./src/js/app.js ***!
-  \***********************/
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var popper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n/* harmony import */ var tooltip_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tooltip.js */ \"./node_modules/tooltip.js/dist/esm/tooltip.js\");\n/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var moment_es6__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment-es6 */ \"./node_modules/moment-es6/index.js\");\n/* harmony import */ var moment_es6__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment_es6__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ \"./node_modules/moment/moment.js\");\n/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var datatables_net__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! datatables.net */ \"./node_modules/datatables.net/js/jquery.dataTables.js\");\n/* harmony import */ var datatables_net__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(datatables_net__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var datatables_net_dt__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! datatables.net-dt */ \"./node_modules/datatables.net-dt/js/dataTables.dataTables.js\");\n/* harmony import */ var datatables_net_dt__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(datatables_net_dt__WEBPACK_IMPORTED_MODULE_7__);\n/* JAVASCRIPT PLUGINS GOES HERE */\n\n// jquery\n\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n__webpack_require__(/*! tooltip.js */ \"./node_modules/tooltip.js/dist/esm/tooltip.js\");\n\n\n\n\n// Bootstrap\n\n\n\n\n\n\n\n\n\n$(function () {\n    $('[data-toggle=\"tooltip\"]').tooltip()\n});\n\n$(function () {\n    $('[data-toggle=\"popover\"]').popover()\n})\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var popper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n/* harmony import */ var tooltip_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tooltip.js */ \"./node_modules/tooltip.js/dist/esm/tooltip.js\");\n/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\n/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var moment_es6__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment-es6 */ \"./node_modules/moment-es6/index.js\");\n/* harmony import */ var moment_es6__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment_es6__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ \"./node_modules/moment/moment.js\");\n/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var datatables_net__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! datatables.net */ \"./node_modules/datatables.net/js/jquery.dataTables.js\");\n/* harmony import */ var datatables_net__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(datatables_net__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var datatables_net_dt__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! datatables.net-dt */ \"./node_modules/datatables.net-dt/js/dataTables.dataTables.js\");\n/* harmony import */ var datatables_net_dt__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(datatables_net_dt__WEBPACK_IMPORTED_MODULE_7__);\n/* JAVASCRIPT PLUGINS GOES HERE */\n\n// jquery\n\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;\n\n__webpack_require__(/*! popper.js */ \"./node_modules/popper.js/dist/esm/popper.js\");\n__webpack_require__(/*! tooltip.js */ \"./node_modules/tooltip.js/dist/esm/tooltip.js\");\n\n\n\n\n// Bootstrap\n\n\n\n\n\n\n\n\n\n$(function () {\n    $('[data-toggle=\"tooltip\"]').tooltip()\n});\n\n$(function () {\n    $('[data-toggle=\"popover\"]').popover()\n})\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -1654,13 +1654,13 @@ eval("var content = __webpack_require__(/*! !../../node_modules/mini-css-extract
 /***/ }),
 
 /***/ 0:
-/*!*************************************************!*\
-  !*** multi ./src/js/app.js ./src/sass/app.scss ***!
-  \*************************************************/
+/*!************************************************!*\
+  !*** multi ./src/index.js ./src/sass/app.scss ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! ./src/js/app.js */\"./src/js/app.js\");\nmodule.exports = __webpack_require__(/*! ./src/sass/app.scss */\"./src/sass/app.scss\");\n\n\n//# sourceURL=webpack:///multi_./src/js/app.js_./src/sass/app.scss?");
+eval("__webpack_require__(/*! ./src/index.js */\"./src/index.js\");\nmodule.exports = __webpack_require__(/*! ./src/sass/app.scss */\"./src/sass/app.scss\");\n\n\n//# sourceURL=webpack:///multi_./src/index.js_./src/sass/app.scss?");
 
 /***/ })
 

@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
 
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
@@ -120,6 +121,7 @@ namespace LogisticsBooking.FrontEnd
                 {
                     options.DefaultScheme = "Cookies";
                     options.DefaultChallengeScheme = "oidc";
+                    
 
                 })
                 .AddCookie("Cookies")
@@ -140,12 +142,13 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("logisticbookingapi");
                     options.SignInScheme = "Cookies";
                     options.GetClaimsFromUserInfoEndpoint = true;
+                    /*
                     options.ClaimActions.MapCustomJson("role", jobj => jobj["role"].ToString());
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         RoleClaimType = "role"
                     };
-
+*/
 
                 });
 
@@ -170,9 +173,14 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IOrderDataService, OrderDataService>();
             services.AddTransient<IScheduleDataService, ScheduleDataService>();
             services.AddTransient<IIntervalDataService , IntervalDataService>();
+            services.AddTransient<IUserUtility, UserUtility>();
+            services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);;
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,10 +1,8 @@
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
-using LogisticsBooking.FrontEnd.PagesEntity.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -17,7 +15,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
 
         [BindProperty]
-        public TransporterCreateBuildModel TransporterCreateBuildModel { get; set; }
+        public TransporterViewModel TransporterViewModel { get; set; }
         
         [TempData]
         public String ResponseMessage { get; set; }
@@ -32,9 +30,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         {
         }
 
-        public async Task<ActionResult> OnPost(TransporterCreateBuildModel transporterCreateBuildModel)
+        public async Task<ActionResult> OnPost(TransporterViewModel transporterViewModel)
         {
-            var transporterViewModel = _mapper.Map<TransporterViewModel>(transporterCreateBuildModel);
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             var result = await _transporterDataService.CreateTransporter(transporterViewModel);
 

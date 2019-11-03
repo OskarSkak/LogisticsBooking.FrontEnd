@@ -205,13 +205,9 @@
 
       
     function format(d){
-            
-            for(var i=0; i<d.orderViewModels.length;i++) {
-     
-             }
-            
+            console.log(d.ordersListViewModel.length);
             var table = "";
-            for(var i=0; i<d.orderViewModels.length;i++) {
+            for(var i=0; i<d.ordersListViewModel.length;i++) {
                 table += '<table cellpadding="5" class="table table-hover table-sm " cellspacing="0" border="0" style="background-color: #f8f9fa; width: 100%; padding-left:50px;">' +
                                                               
                                                               '<thead class="thead-dark">' + 
@@ -226,12 +222,12 @@
                                                                 '</thead>' + 
                                                                 '<tbody>' + 
                                                               '<tr>' + 
-                                                                '<td>'+ d.orderViewModels[i].externalId +'</td>' +  
-                                                                 '<td>'+ d.orderViewModels[i].supplierViewModel.name +'</td>' +  
-                                                                 '<td>'+ d.orderViewModels[i].supplierViewModel.telephone +'</td>' +  
-                                                                  '<td>'+ d.orderViewModels[i].totalPallets +'</td>' +  
-                                                                  '<td>'+ d.orderViewModels[i].bottomPallets+' </td>' +    
-                                                                     '<td>'+ d.orderViewModels[i].comment+' </td>' +    
+                                                                '<td>'+ d.ordersListViewModel[i].externalId +'</td>' +  
+                                                                 '<td>'+ d.ordersListViewModel[i].supplierViewModel.name +'</td>' +  
+                                                                 '<td>'+ d.ordersListViewModel[i].supplierViewModel.telephone +'</td>' +  
+                                                                  '<td>'+ d.ordersListViewModel[i].totalPallets +'</td>' +  
+                                                                  '<td>'+ d.ordersListViewModel[i].bottomPallets+' </td>' +    
+                                                                     '<td>'+ d.ordersListViewModel[i].comment+' </td>' +    
                                                               '</tr>' +
                                                               '</tbody>' + 
                                                              

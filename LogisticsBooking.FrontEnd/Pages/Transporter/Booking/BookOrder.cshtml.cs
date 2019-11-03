@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
-using LogisticsBooking.FrontEnd.DataServices.Models;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,13 +13,15 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         private readonly IUtilBookingDataService _utilBookingDataService;
         private readonly IScheduleDataService _scheduleDataService;
 
-        [BindProperty]  
+        [BindProperty]
         public BookingViewModel BookingViewModel { get; set; }
 
         [TempData]
         public String ScheduleAvailableMessage { get; set; }
 
-        public bool ShowMessage => !String.IsNullOrEmpty(ScheduleAvailableMessage);
+        [TempData]
+        public string ModelStateMessage { get; set; }
+        public bool ShowMessage => !String.IsNullOrEmpty(ScheduleAvailableMessage) || !String.IsNullOrEmpty(ModelStateMessage) ;
         
         public BookOrder(IUtilBookingDataService utilBookingDataService , IScheduleDataService scheduleDataService)
         {
@@ -36,43 +35,47 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(BookingViewModel bookingViewModel)
         {
-            var id = GetUserId();
-            
-            var externalBookingId  = await _utilBookingDataService.GetBookingNumber();
-            
-            //TODO check if schedule exists
-
-            BookingViewModel.PalletsRemaining = BookingViewModel.TotalPallets;
-            BookingViewModel.ExternalId = externalBookingId.bookingid;
-            
-            HttpContext.Session.SetObject(id ,BookingViewModel);
-
-            var schedule = await _scheduleDataService.GetScheduleBydate(BookingViewModel.BookingTime);
-
-            if (schedule == null)
+            if (!ModelState.IsValid)
             {
-                ScheduleAvailableMessage = "Det er ikke muligt at booke på denne dag, vælg en ny";
                 return Page();
             }
+            
+            await UpdateBookingInformation(bookingViewModel);
+            
+            AddBookingViewModelToSession();
+            
+            
+            // If all is success - navigate to order information page
             return new RedirectToPageResult("orderinformation");
         }
-        
-        public string GetUserId() {
+
+
+        private async Task UpdateBookingInformation(BookingViewModel bookingViewModel)
+        {
+            //Getting the next Booking number
+            var externalBookingId  = await _utilBookingDataService.GetBookingNumber();
             
-            var id = "";
+            // Adds remaining pallets to the BookingViewModel 
+            BookingViewModel.PalletsRemaining = bookingViewModel.TotalPallets;
             
-            try
-            {
-                return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine(ex);
-                return null;
-            }
+            // Set the External Booking ID
+            BookingViewModel.ExternalId = externalBookingId.bookingid;
         }
+
+        private void AddBookingViewModelToSession()
+        {
+            // Set the updated BookingViewModel to the session. The key is the current logged in user. 
+            HttpContext.Session.SetObject(GetUserId() ,BookingViewModel);
+        }
+        
+        private string GetUserId()
+        {
+            return User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+        }
+
+        
     }
     
    

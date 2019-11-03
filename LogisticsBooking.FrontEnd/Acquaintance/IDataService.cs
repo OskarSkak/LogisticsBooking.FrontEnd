@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier;
@@ -14,6 +16,7 @@ using LogisticsBooking.FrontEnd.DataServices.Models.Supplier.SuppliersList;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.TransportersList;
 using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
+using OrderViewModel = LogisticsBooking.FrontEnd.DataServices.Models.OrderViewModel;
 
 namespace LogisticsBooking.FrontEnd.Acquaintance
 {
@@ -29,21 +32,21 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
     public interface IScheduleDataService
     {
-        Task<Response> CreateSchedule(ScheduleViewModel schedule);
+        Task<Response> CreateSchedule(CreateScheduleCommand schedule);
         Task<SchedulesListViewModel> GetSchedules();
         Task<ScheduleViewModel> GetScheduleById(Guid id);
         Task<Response> UpdateSchedule(ScheduleViewModel schedule);
         Task<Response> DeleteSchedule(Guid id);
         Task<Response> CreateManySchedule(CreateManyScheduleCommand schedule);
-        Task<ScheduleViewModel> GetScheduleBydate(DateTime date);
+        Task<SchedulesListViewModel> GetScheduleBydate(DateTime date);
     }
 
     public interface IOrderDataService
     {
-        Task<Response> CreateOrder(Order order);
-        Task<List<Order>> GetOrders();
-        Task<Order> GetOrderById(Guid id);
-        Task<Response> UpdateOrder(Order order);
+        Task<Response> CreateOrder(OrderViewModel order);
+        Task<List<OrderViewModel>> GetOrders();
+        Task<OrderViewModel> GetOrderById(Guid id);
+        Task<Response> UpdateOrder(OrderViewModel order);
         Task<Response> DeleteOrder(Guid id);
     }
 
@@ -75,5 +78,18 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     public interface IIntervalDataService
     {
         Task<IntervalViewModel> GetIntetvalById(Guid id);
+    }
+
+    public interface IMasterScheduleDataService
+    {
+        Task<Response> CreateNewMasterSchedule(CreateNewMasterScheduleStandardCommand createMasterScheduleCommand);
+
+        Task<MasterSchedulesStandardViewModel> GetAllSchedules();
+
+        Task<Response> SetMasterScheduleActive(SetMasterScheduleStandardActiveCommand masterScheduleStandardActive);
+
+        Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule();
+
+        Task<Response> DeleteMasterScheduleStandard(Guid masterScheduleStandardId);
     }
 }
