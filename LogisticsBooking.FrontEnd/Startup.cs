@@ -121,6 +121,7 @@ namespace LogisticsBooking.FrontEnd
                 {
                     options.DefaultScheme = "Cookies";
                     options.DefaultChallengeScheme = "oidc";
+                    
 
                 })
                 .AddCookie("Cookies")
@@ -141,12 +142,13 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("logisticbookingapi");
                     options.SignInScheme = "Cookies";
                     options.GetClaimsFromUserInfoEndpoint = true;
+                    /*
                     options.ClaimActions.MapCustomJson("role", jobj => jobj["role"].ToString());
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         RoleClaimType = "role"
                     };
-
+*/
 
                 });
 
