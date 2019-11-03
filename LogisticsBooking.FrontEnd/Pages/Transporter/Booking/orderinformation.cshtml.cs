@@ -325,10 +325,14 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
         {
             
             int totalBottomPallets = 0;
-            foreach (var order in bookingViewModel.OrdersListViewModel)
+            if (bookingViewModel.OrdersListViewModel != null)
             {
-                totalBottomPallets += order.BottomPallets;
+                foreach (var order in bookingViewModel.OrdersListViewModel)
+                {
+                    totalBottomPallets += order.BottomPallets;
+                }
             }
+            
 
             bookingViewModel.PalletsCurrentlyOnBooking = totalBottomPallets;
 

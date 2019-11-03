@@ -123,28 +123,32 @@ border-bottom: 1px solid #dee2e6;
                 </thead>
                 <tbody>
 
-
-                @foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrdersListViewModel)
+                
+                @if (Model.BookingViewModel.OrdersListViewModel != null)
                 {
-                    <tr>
-                        <th scope="row">@orderViewModel.ExternalId</th>
-                        <td >@orderViewModel.OrderNumber</td>
-                        <td>@orderViewModel.SupplierViewModel.Name</td>
-                        <td>@orderViewModel.BottomPallets</td>
-                        <td>@orderViewModel.TotalPallets</td>
-                        <td class="d-flex">
-                            <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-primary">Edit</button>
+                    @foreach (OrderViewModel orderViewModel in Model.BookingViewModel.OrdersListViewModel)
+                    {
+                        <tr>
+                            <th scope="row">@orderViewModel.ExternalId</th>
+                            <td >@orderViewModel.OrderNumber</td>
+                            <td>@orderViewModel.SupplierViewModel.Name</td>
+                            <td>@orderViewModel.BottomPallets</td>
+                            <td>@orderViewModel.TotalPallets</td>
+                            <td class="d-flex">
+                                <button data-toggle="modal" data-target="#_@orderViewModel.ExternalId" class="btn btn-primary">Edit</button>
                             
-                            <form method="post">
-                                <input type="hidden" asp-for="@orderViewModel.ExternalId"/>
+                                <form method="post">
+                                    <input type="hidden" asp-for="@orderViewModel.ExternalId"/>
                                     <button asp-page-handler="Delete" class="btn btn-danger">Delete</button>
                               
-                            </form>
+                                </form>
                             
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    } 
                 }
+               
 
 
 
