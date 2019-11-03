@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using LogisticsBooking.FrontEnd.Acquaintance;
@@ -31,6 +32,9 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
 
         public async void OnGet()
         {
+            var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
+            Console.WriteLine(Subjectid);
+            
             var id = "7";
             var numberOfDays = 0;
             if (id != null) numberOfDays = int.Parse(id);

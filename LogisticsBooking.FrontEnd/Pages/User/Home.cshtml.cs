@@ -27,7 +27,7 @@ namespace LogisticsBooking.FrontEnd.Pages.User
                 return RedirectToPage("/Client/Bookings/BookingOverview");
             } 
             
-            return new RedirectToPageResult("Error");
+             return RedirectToPage("/Client/Bookings/BookingOverview");
         }
 
         public async Task OnGetLogoutAsync()
