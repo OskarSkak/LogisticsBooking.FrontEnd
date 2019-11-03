@@ -1,5 +1,4 @@
-﻿using LogisticsBooking.FrontEnd.Utilities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +62,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             catch (WebException ex)
             {
                 //Logs the exception (Hopefully) in the txt doc in app data
-                ExceptionUtility.LogException(ex, "Base DataServices, PostAsync<T>");
+              
             }
 
             return HttpResponse;
@@ -110,7 +109,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             catch (WebException ex)
             {
                 //Logs the exception (Hopefully) in the txt doc in app data
-                ExceptionUtility.LogException(ex, "Base DataServices, PostAsync<T>");
+             
             }
             return httpResponse;
         }
@@ -157,7 +156,7 @@ namespace LogisticsBooking.FrontEnd.DataServices
             {
                 Console.WriteLine(ex);
                 //Logs the exception (Hopefully) in the txt doc in app data
-                ExceptionUtility.LogException(ex, "Base DataServices, PostAsync<T>");
+                
                 
             }
 
