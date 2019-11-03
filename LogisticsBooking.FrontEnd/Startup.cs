@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -24,6 +25,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Exceptionless;
 using LogisticsBooking.FrontEnd.AutoMapper;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -88,10 +90,13 @@ namespace LogisticsBooking.FrontEnd
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+            
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(@"\\server\share\directory\"))
+                .ProtectKeysWithCertificate("thumbprint");
 
-            
-            
-            
+
+
             // Show logs error Identity
             IdentityModelEventSource.ShowPII = true;
             
