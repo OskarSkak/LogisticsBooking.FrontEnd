@@ -78,21 +78,33 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             }
         }
 
-        public async Task<IActionResult> OnPostUpdate(DateTime dateTo, string actualArrival, string startLoading,
-            string endLoading, Guid id)
+        public async Task<IActionResult> OnPostUpdate(List<DateTime> dateTo, List<TimeSpan> actualArrival, List<TimeSpan> startLoading,
+            List<TimeSpan> endLoading, List<string> id)
         {
-            var idConverted = id;
-            var bookingToUpdate = await bookingDataService.GetBookingById(idConverted);
 
-            bookingToUpdate.ActualArrival = new DateTime(dateTo.Year, dateTo.Month, dateTo.Day,
-                TimeSpan.Parse(actualArrival).Hours, TimeSpan.Parse(actualArrival).Minutes, 0);
-            bookingToUpdate.StartLoading = new DateTime(dateTo.Year, dateTo.Month, dateTo.Day,
-                TimeSpan.Parse(startLoading).Hours, TimeSpan.Parse(startLoading).Minutes, 0);
-            bookingToUpdate.EndLoading = new DateTime(dateTo.Year, dateTo.Month, dateTo.Day,
-                TimeSpan.Parse(endLoading).Hours, TimeSpan.Parse(endLoading).Minutes, 0);
+            var counter = 0;
 
-            var response = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(bookingToUpdate));
-            if (!response.IsSuccesfull) return new RedirectToPageResult("~Error");
+            foreach (var GuidID in id)
+            {
+                
+                var bookingToUpdate = await bookingDataService.GetBookingById(Guid.Parse(GuidID));
+
+                bookingToUpdate.ActualArrival = new DateTime(dateTo[counter].Year, dateTo[counter].Month, dateTo[counter].Day,
+                    actualArrival[counter].Hours, actualArrival[counter].Minutes, 0);
+                bookingToUpdate.StartLoading = new DateTime(dateTo[counter].Year, dateTo[counter].Month, dateTo[counter].Day,
+                    startLoading[counter].Hours, startLoading[counter].Minutes, 0);
+                bookingToUpdate.EndLoading = new DateTime(dateTo[counter].Year, dateTo[counter].Month, dateTo[counter].Day,
+                    endLoading[counter].Hours, endLoading[counter].Minutes, 0);
+                
+                var response = await bookingDataService.UpdateBooking(CreateUpdateBookingCommand(bookingToUpdate));
+                counter++;
+            }
+            
+
+            
+
+           
+            
 
             return new RedirectToPageResult("BookingOverview");
         }
