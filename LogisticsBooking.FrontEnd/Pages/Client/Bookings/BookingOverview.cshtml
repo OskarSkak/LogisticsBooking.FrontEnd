@@ -30,26 +30,16 @@
 
 <body>
 <div class="container">
-    <div class="row bg-light dis">
-        <div class="col">
-              <button onclick="toggle('orderItem')" class="btn fas fa-toggle-on">Gem/Vis Alle</button>
-        </div>
+    <div class="row dis">
+      
         <div class="col">
             <form asp-page-handler="ExportExcel" method="post">
-                        <button class="btn fas fa-file-download"> Export</button>
+                <button class="btn btn-primary">    
+                <span>Export to excel</span>
+                </button>   
                     </form>
-        </div>
-        <div class="col">
-            <a asp-page="/Client/Bookings/BookingOverview" asp-route-id="7" class="btn fas fa-calendar-alt"><span>Ugen</span></a>
-        </div>
-        <div class="col">
-                   <a asp-page="/Client/Bookings/BookingOverview" asp-route-id="31" class="btn fas fa-calendar-alt">Måneden</a>  
-        </div>
-        <div class="col">
-           <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="btn fas fa-edit">Rediger</a>         
-        </div>
-        
       
+      </div>
         
         
     </div>
@@ -118,7 +108,7 @@
                                         "data": "internalId",
                                         "defaultContent": '',
                                         "render": function (data) {
-                                            return '<i class="fa fa-plus-square" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
+                                            return '<i class="fas fa-caret-down" aria-hidden="true"></i> <input type="hidden" name="id" value="' + data + '">';
                                         },
                                         width:"15px"
                                     },
@@ -165,20 +155,19 @@
              var tr = $(this).closest('tr');
              var tdi = tr.find("i.fa");
              var row = table.row(tr);
-
              if (row.child.isShown()) {
                  // This row is already open - close it
                  row.child.hide();
                  tr.removeClass('shown');
-                 tdi.first().removeClass('fa-minus-square');
-                 tdi.first().addClass('fas fa-angle-down');
+                 tdi.first().removeClass('fas fa-caret-up');
+                 tdi.first().addClass('fas fa-caret-down');
              }
              else {
                  // Open this row
                  row.child(format(row.data())).show();
                  tr.addClass('shown');
-                 tdi.first().removeClass('fas fa-angle-down');
-                 tdi.first().addClass('fa-minus-square');
+                 tdi.first().removeClass('fas fa-caret-down');
+                 tdi.first().addClass('fas fa-caret-up');
              }
          });
 
@@ -236,7 +225,7 @@
                                                                  '<td>'+ d.ordersListViewModel[i].supplierViewModel.telephone +'</td>' +  
                                                                   '<td>'+ d.ordersListViewModel[i].totalPallets +'</td>' +  
                                                                   '<td>'+ d.ordersListViewModel[i].bottomPallets+' </td>' +    
-                                                                     '<td>'+ d.ordersListViewModel[i].comment+' </td>' +    
+                                                                     '<td style="max-width: 80px" ">'+ d.ordersListViewModel[i].comment+' </td>' +    
                                                               '</tr>' +
                                                               '</tbody>' + 
                                                              
