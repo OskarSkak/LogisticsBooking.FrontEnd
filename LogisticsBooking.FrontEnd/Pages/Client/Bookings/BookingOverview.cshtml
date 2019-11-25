@@ -55,38 +55,37 @@
     </div>
 </div>
 
+
 <form method="post" asp-page-handler="Update">
 
-<table style="background-color: white;" id="example" class="table" width="100%" >
-    <thead>
-    <tr>
-        <th> </th>
-        <th class="bootbox-alert">Dato</th>
-        <th>ID</th>
-        <th>Paller</th>
-        <th>Navn</th>
-        <th>Kontakt</th>
-        <th>Port</th>
-        <th>Faktisk<br/>Ankomst</th>
-        <th>Start<br/>Læsning</th>
-        <th>Slut<br/>Læsning</th>
+    <table style="background-color: white;" id="example" class="table" width="100%" >
+        <thead>
+        <tr>
+            <th> </th>
+            <th class="bootbox-alert">Dato</th>
+            <th>ID</th>
+            <th>Paller</th>
+            <th>Navn</th>
+            <th>Kontakt</th>
+            <th>Port</th>
+            <th>Faktisk<br/>Ankomst</th>
+            <th>Start<br/>Læsning</th>
+            <th>Slut<br/>Læsning</th>
+            <th>Update</th>
         
-    </tr>
-    </thead>
-
-    <tbody>
-    @foreach (var schedule in @Model.BookingsListViewModel.Bookings)
-    {
-        <tr hidden="hidden">
-            <input type="hidden" name="id" value="@schedule.InternalId"/>
         </tr>
-    }
-    </tbody>
+        </thead>
+
+        <tbody>
+        
+
+        </tbody>
    
 
-</table>
-    <input type="submit" hidden="hidden"/>
+    </table>
 </form>
+
+
 </body>
 
 
@@ -144,12 +143,22 @@
                    {"data" : "endLoading" , render: function(data){
                                                                   return  ' <input  class="form-control" name="endLoading" value="'+  moment(data).format("HH:mm")   +'" type="time"/>  '
                                                              }},
+                    {"data" : null , render: function(data){
+                                                                  return  '<Button  class=" SubmitButton btn btn-primary"  type="submit" >Updater</button> </form> '
+                                                              }},
                    
                    
                ]
            } );
        
-      
+      $('#SubmitButton').on('click', function() {
+              var data = table.$('input, select').serialize();
+              alert(
+                  "The following data would have been submitted to the server: \n\n"+
+                  data.substr( 0, 120 )+'...'
+              );
+              return false;
+          } );
             
     // Add event listener for opening and closing details
          $('#example tbody').on('click', 'td.details-control', function () {
@@ -242,7 +251,24 @@
     
  
         
-
+        $('#SubmitButton').on('click', function () {
+            console.log( "kdnofkn" );
+        });
+        
+$('.SubmitButton').on('click',function(e) {
+    console.log("Test");
+    var table = $('#example').DataTable();
+    e.preventDefault();
+    var data = table.$('input').serialize();
+    $.ajax({
+    url : "BookingOverview?handler=Update",
+    data : {model : data},
+    success : function(data) {
+        console.log("server resp" + data)
+    }
+    });
+});
+        
     
     </script>
 }
