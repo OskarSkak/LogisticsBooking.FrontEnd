@@ -88,6 +88,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             {
                 
                 
+                
+                
                 var bookingToUpdate = await bookingDataService.GetBookingById(Guid.Parse(GuidID));
 
                 bookingToUpdate.ActualArrival = new DateTime(dateTo[counter].Year, dateTo[counter].Month, dateTo[counter].Day,
