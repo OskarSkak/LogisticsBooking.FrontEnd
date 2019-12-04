@@ -79,5 +79,12 @@ namespace LogisticsBooking.FrontEnd.DataServices
             }
             return Response.Succes();
         }
+
+        public async Task<MasterScheduleStandardViewModel> GetMasterScheduleById(Guid masterScheduleStandardId)
+        {
+            var endpoint = baseurl + masterScheduleStandardId;
+            var result = await GetAsync(endpoint);
+            return await TryReadAsync<MasterScheduleStandardViewModel>(result);
+        }
     }
 }

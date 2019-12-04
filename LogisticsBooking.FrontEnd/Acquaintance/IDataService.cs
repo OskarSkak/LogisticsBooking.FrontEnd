@@ -91,5 +91,7 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<MasterSchedulesStandardViewModel> GetActiveMasterSchedule();
 
         Task<Response> DeleteMasterScheduleStandard(Guid masterScheduleStandardId);
+        
+        Task<MasterScheduleStandardViewModel> GetMasterScheduleById(Guid masterScheduleStandardId);
     }
 }

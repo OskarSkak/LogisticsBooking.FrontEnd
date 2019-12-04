@@ -31,7 +31,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
-            var TransporterViewModel = await _transporterDataService.GetTransporterById(id);
+            TransporterViewModel = await _transporterDataService.GetTransporterById(id);
             
 
             return Page();
