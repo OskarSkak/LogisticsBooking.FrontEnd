@@ -8,6 +8,8 @@
     <link rel="stylesheet" asp-append-version="true" href="~/dist/bundle.css" />
     <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
     <environment include="Development"></environment>
+    
+
 </head>
 <body>
 
@@ -20,21 +22,29 @@
             
         </ul>
     </div>
-    <div class="mx-auto order-0">
-       <a class="p-2 text-dark " asp-page="/Client/Schedule/ScheduleOverview">Slottider</a> 
-       <a asp-page="/Client/Bookings/BookingOverview" class="p-2 text-dark">Ordre Oversigt</a> 
-       <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">Administrer Ordre</a> 
-       <a asp-page="/Client/Transporters/Transporters" class="p-2 text-dark ">Transportører</a>
-       <a class="p-2 text-dark " asp-page="/Client/Suppliers/Suppliers">Kunder</a>
+    
+        <div class="dropdown">
+            <div class="p-2 text-dark dropdown-toggle" data-toggle="dropdown"  aria-labelledby="dropdownMenuButton" >Slottider</div>
+            <div class="dropdown-menu test" id="drop" aria-labelledby="dropdownMenuButton">
+                <a asp-page="/Client/Schedule/ScheduleOverview" class="p-2 text-dark">Slottider</a>
+                 <a asp-page="/Client/Schedule/ScheduleOverview" class="p-2 text-dark">Kalender</a>
+            </div>
+        </div>
+        
+        
+        <a asp-page="/Client/Bookings/BookingOverview" class="p-2 text-dark">Ordre Oversigt</a>
+        <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">Administrer Ordre</a>
+        <a asp-page="/Client/Transporters/Transporters" class="p-2 text-dark ">Transportører</a>
+        <a class="p-2 text-dark " asp-page="/Client/Suppliers/Suppliers">Kunder</a>
 
-    </div>
+    
     <div class="navbar-collapse collapse w-25 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             
             <li class="nav-item">
                 <div class="dropdown">
                    <button class="btn btn-primary dropdown-toggle margin-right-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          An@@agri-norcold.dk
+                          test@www.com
                        </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" asp-page="">Indstillinger</a>

@@ -8219,7 +8219,7 @@ a.text-succes:hover, a.text-succes:focus {
   border-style: solid;
   border-color: #00000017;
   border-width: 1px;
-  height: 10em;
+  height: 7em;
   background-color: #daeafb; }
 
 .sticky-top-5 {
@@ -8454,4 +8454,7 @@ a:not([href]):not([tabindex]):focus {
 
 .navbar {
   height: 5rem; }
+
+nav .dropdown div:hover {
+  display: block; }
 
