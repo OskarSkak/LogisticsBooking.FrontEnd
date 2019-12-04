@@ -22,7 +22,7 @@
                     <div class="form-group"> <label for="form18">Total Ind/Ud</label> <input asp-for="OrderViewModel.InOut"  class="form-control" id="form18" name="ViewInOut"> </div>
                     <div class="form-group"> <label for="form18">Total antal paller</label> <input asp-for="OrderViewModel.OrderId" type="hidden"  class="form-control" id="form18" name="id" value="@Model.OrderViewModel.OrderId"> </div>
                     <input type="submit" asp-page-handler="Update" class="btn btn-primary" Opdater value="Opdater"/>
-                    <a class="trigger_popup_fricc btn btn-primary">Slet</a>
+                    <a class="btn btn-danger"  data-toggle="modal" data-target="#opret">Slet</a>
                 </form>
             </div>
         </div>
@@ -30,18 +30,30 @@
 </div>
 
 
-
-<div class="hover_bkgr_fricc centered">
-    <span class="helper"></span>
-
-    <div>
-        <div class="popupCloseButton">X</div>
-        <form asp-page-handler="delete" method="post">
-            <p class="spaced-typography">Du er ved at slette denne ordre. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
-            <button class="btn btn-primary">Bekræft</button>
-        </form>
+<div class="modal fade" id="opret" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Opret plan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                  <p class="spaced-typography">Du er ved at slette denne ordre. Dette er en permanent handling. Tryk 'bekræft' for at fortsætte. Tryk på krydset for at annullere.</p>
+      </div>
+        <div class="modal-footer">
+             <form asp-page-handler="delete" method="post">
+                       <button class="btn btn-danger">Bekræft</button>
+<button class="btn btn-outline-primary"data-dismiss="modal" >Go Back</button>
+                   </form>
+        </div>
     </div>
+  </div>
 </div>
+
+
+
 
 @section Scripts{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

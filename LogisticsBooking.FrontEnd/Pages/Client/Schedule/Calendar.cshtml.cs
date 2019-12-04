@@ -23,7 +23,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 {
 
 
-
+    [ValidateAntiForgeryToken]
     public class Calendar : PageModel
     {
         private readonly IScheduleDataService _scheduleDataService;
@@ -341,7 +341,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
             
         }
 
-        [ValidateAntiForgeryToken]
+        
         [EnableCors("MyPolicy")]
         public IActionResult OnPostBack([FromBody]string[] value)
         {

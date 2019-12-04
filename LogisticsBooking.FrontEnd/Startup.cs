@@ -67,11 +67,11 @@ namespace LogisticsBooking.FrontEnd
             
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200/"))
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
                     AutoRegisterTemplate = true
                 })
-                .Filter.ByExcluding((le) => le.Level ==LogEventLevel.Information)
+                
                 .CreateLogger();
             
             services.Configure<CookiePolicyOptions>(options =>
@@ -249,7 +249,7 @@ namespace LogisticsBooking.FrontEnd
             app.UseMvc();
             
             //Logging of exception
-            app.UseExceptionless("2jiqmnyqSQvOgjxTyi2bXN6G8xSPm24hwByMK3Vy");
+            //app.UseExceptionless("2jiqmnyqSQvOgjxTyi2bXN6G8xSPm24hwByMK3Vy");
             
             /*
              * Above only logs unhandled exceptions. Exceptions handled must be logged manually in the following way:

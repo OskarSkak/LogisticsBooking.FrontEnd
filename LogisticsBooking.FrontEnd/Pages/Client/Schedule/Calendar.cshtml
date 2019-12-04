@@ -277,15 +277,16 @@ $(".adDay").click(function() {
 
 
 
-$(".sendBackAsync").click(function() {
+$(".sendBackAsync").on('click',function() {
     listOfDates = [];
+    var currentLocation = window.location;
+    console.log(currentLocation.href + '?handler=back');
     test1();
     $.ajax({
         type: "POST",
-
-        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Back",
+        url: currentLocation.href+"?handler=back",
         beforeSend: function(xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
+            xhr.setRequestHeader("RequestVerificationToken",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
         headers: headers,
@@ -310,15 +311,13 @@ $(".sendBackAsync").click(function() {
 $(".sendForwardAsync").click(function() {
     listOfDates = [];
     test1();
-    for (i = 0; i < listOfDates.length; i++) {
-        console.log(listOfDates[i])
-    }
+    var currentLocation = window.location;
     $.ajax({
         type: "POST",
 
-        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Forward",
+        url: currentLocation.href+"?handler=Forward",
         beforeSend: function(xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
+            xhr.setRequestHeader("RequestVerificationToken",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
         headers: headers,
@@ -342,12 +341,13 @@ $(".sendForwardAsync").click(function() {
 
 
 function feed() {
+    var currentLocation = window.location;
     $.ajax({
         type: "POST",
 
-        url: "https://localhost:4434/Client/Schedule/Calendar?handler=Confirm",
+        url: currentLocation.href+"?handler=Confirm     ",
         beforeSend: function(xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN",
+            xhr.setRequestHeader("RequestVerificationToken",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
         headers: headers,

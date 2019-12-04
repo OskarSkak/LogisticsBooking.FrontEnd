@@ -1,23 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MoreLinq.Extensions;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 {
     public class MasterScheduleSingle : PageModel
     {
-        private readonly IScheduleDataService _scheduleDataService;
-        
+        private readonly IMasterScheduleDataService _masterScheduleDataService;
 
-        public MasterScheduleSingle(IScheduleDataService scheduleDataService)
+        [BindProperty]
+        public MasterScheduleStandardViewModel MasterScheduleStandardViewModel { get; set; }
+
+        public MasterScheduleSingle(IMasterScheduleDataService masterScheduleDataService)
         {
-            _scheduleDataService = scheduleDataService;
+            _masterScheduleDataService = masterScheduleDataService;
         }
-        public void OnGet()
+        public async Task OnGet(Guid id)
         {
-            
+          MasterScheduleStandardViewModel  =  await _masterScheduleDataService.GetMasterScheduleById(id);
+        
+          var result =  MasterScheduleStandardViewModel.MasterIntervalStandardViewModels.OrderBy(e => e.StartTime).ToList();
+          MasterScheduleStandardViewModel.MasterIntervalStandardViewModels = result;
         }
 
         
