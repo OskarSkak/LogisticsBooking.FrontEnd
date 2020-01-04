@@ -45,13 +45,14 @@ namespace LogisticsBooking.FrontEnd
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _config;
+        private readonly ILogger<Startup> _logger;
 
 
-        public Startup(IHostingEnvironment env, IConfiguration config)
+        public Startup(IHostingEnvironment env, IConfiguration config , ILogger<Startup> logger)
         {
             _env = env;
             _config = config;
-
+            _logger = logger;
         }
 
         
@@ -189,13 +190,21 @@ namespace LogisticsBooking.FrontEnd
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory )
         {
+            
+            var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
+                .Get<IdentityServerConfiguration>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 // Usefull for enter a site that does not exists. 
                 app.UseStatusCodePagesWithRedirects("/Error");
+                _logger.LogInformation("in Prod :)");
+                var value = _config["Envi:envi"];
+                _logger.LogInformation(value);
+                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
                 
             }
             else
@@ -204,6 +213,10 @@ namespace LogisticsBooking.FrontEnd
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                _logger.LogInformation("in live :)");
+                var value = _config["Envi:envi"];
+                _logger.LogInformation(value);
+                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
             }
             
             /*var defaultDateCulture = "-FR";
