@@ -125,6 +125,8 @@ namespace LogisticsBooking.FrontEnd
                     options.DefaultChallengeScheme = "oidc";
                     
 
+
+
                 })
                 .AddCookie("Cookies")
 
@@ -141,19 +143,24 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("roles");
+                    
                     options.Scope.Add("logisticbookingapi");
+                    options.Scope.Add("IdentityServerApi");
                     options.SignInScheme = "Cookies";
                     options.GetClaimsFromUserInfoEndpoint = true;
-                    /*
-                    options.ClaimActions.MapCustomJson("role", jobj => jobj["role"].ToString());
+                    
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         RoleClaimType = "role"
                     };
-*/
 
                 });
 
+            services.AddAuthorization(options =>
+                options.AddPolicy("admin",
+                    policy => policy.RequireClaim("admin")));
+            
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -170,6 +177,7 @@ namespace LogisticsBooking.FrontEnd
                 options.Cookie.SameSite = SameSiteMode.None;
             });
 
+            
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
             services.AddTransient<ITransporterDataService, TransporterDataService>();
@@ -181,6 +189,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IIntervalDataService , IntervalDataService>();
             services.AddTransient<IUserUtility, UserUtility>();
             services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
+            services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
@@ -189,6 +198,7 @@ namespace LogisticsBooking.FrontEnd
                 });
         }
 
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory )
         {

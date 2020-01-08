@@ -8,19 +8,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 {
     
-    [Authorize(Roles = "admin")]
+    
     public class AdminOverview : PageModel
     {
         
         public List<Claim> claims { get; set; }
         public void OnGet()
         {
+            claims = new List<Claim>();
             foreach (var claim in User.Claims)
             {
                 Console.WriteLine(claim.Type + "value : " + claim.Value);
+                claims.Add(claim);
             }
 
-            claims = User.Claims.ToList();
+            
         }
     }
 }

@@ -3,27 +3,51 @@
 
 
 
-<div class="py2">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach (var claim in Model.claims)
-                    {
-                        <tr>
-                            <td>@claim.Subject.Name</td>
-                        </tr>
-                    }
-                   
-                  </tbody>
-                </table>
-            </div>
+
+<div class="container-fluid">
+    <div class="row justify-content-between">
+ <div class="col-xs-12 col-md-3">
+
+      <div class="content ">
+         
+          <ul class="nav flex-column">
+                       
+                             <li class="nav-item">
+                                 <a asp-page="AdminOverview" class="nav-link">Overblik</a>
+                                  
+                             </li>
+                             <div class="border-top my-3"></div>
+                             
+                             <li class="nav-item">
+                                <a asp-page="AllUsers" class="nav-link">Alle brugere</a>
+                             </li>
+                             <div class="border-top my-3"></div>
+                             <li class="nav-item">
+                                 <a href="#" class="nav-link">Alle brugere</a>
+                             </li>
+                             <div class="border-top my-3"></div>
+                             <li class="nav-item">
+                                                     <a asp-page="CreateApplicationUser" class="nav-link">Opret Bruger</a>
+                                                 </li>
+              <div class="border-top my-3"></div>
+              
+                             
+                         </ul>
+          
+              
+
+         
+      </div>
+
+  </div>
+    <div class="col-xs-12 col-md-5 ">
+
+        <div class="content">
+        
         </div>
+
     </div>
+    <div class="col-xs-12 col-md-1 ">
+            </div>
+</div>
 </div>
