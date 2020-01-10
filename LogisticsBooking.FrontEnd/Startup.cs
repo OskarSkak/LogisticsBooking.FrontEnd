@@ -45,13 +45,14 @@ namespace LogisticsBooking.FrontEnd
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _config;
+        private readonly ILogger<Startup> _logger;
 
 
-        public Startup(IHostingEnvironment env, IConfiguration config)
+        public Startup(IHostingEnvironment env, IConfiguration config , ILogger<Startup> logger)
         {
             _env = env;
             _config = config;
-
+            _logger = logger;
         }
 
         
@@ -124,6 +125,8 @@ namespace LogisticsBooking.FrontEnd
                     options.DefaultChallengeScheme = "oidc";
                     
 
+
+
                 })
                 .AddCookie("Cookies")
 
@@ -140,19 +143,24 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("roles");
+
                     options.Scope.Add("logisticbookingapi");
+                    options.Scope.Add("IdentityServerApi");
                     options.SignInScheme = "Cookies";
                     options.GetClaimsFromUserInfoEndpoint = true;
-                    /*
-                    options.ClaimActions.MapCustomJson("role", jobj => jobj["role"].ToString());
+                    
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         RoleClaimType = "role"
                     };
-*/
 
                 });
 
+            services.AddAuthorization(options =>
+                options.AddPolicy("admin",
+                    policy => policy.RequireClaim("admin")));
+            
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -169,6 +177,7 @@ namespace LogisticsBooking.FrontEnd
                 options.Cookie.SameSite = SameSiteMode.None;
             });
 
+            
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
             services.AddTransient<ITransporterDataService, TransporterDataService>();
@@ -180,6 +189,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IIntervalDataService , IntervalDataService>();
             services.AddTransient<IUserUtility, UserUtility>();
             services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
+            services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
@@ -188,14 +198,23 @@ namespace LogisticsBooking.FrontEnd
                 });
         }
 
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory )
         {
+            
+            var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
+                .Get<IdentityServerConfiguration>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 // Usefull for enter a site that does not exists. 
                 app.UseStatusCodePagesWithRedirects("/Error");
+                _logger.LogInformation("in Prod :)");
+                var value = _config["Envi:envi"];
+                _logger.LogInformation(value);
+                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
                 
             }
             else
@@ -204,6 +223,10 @@ namespace LogisticsBooking.FrontEnd
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                _logger.LogInformation("in live :)");
+                var value = _config["Envi:envi"];
+                _logger.LogInformation(value);
+                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
             }
             
             /*var defaultDateCulture = "-FR";

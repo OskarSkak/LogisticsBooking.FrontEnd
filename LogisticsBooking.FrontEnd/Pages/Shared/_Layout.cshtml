@@ -8,7 +8,7 @@
     <link rel="stylesheet" asp-append-version="true" href="~/dist/bundle.css" />
     <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
     <environment include="Development"></environment>
-    
+    @RenderSection("styles " , false)
 
 </head>
 <body>
@@ -43,13 +43,13 @@
             
             <li class="nav-item">
                 <div class="dropdown">
-                   <button class="btn btn-primary dropdown-toggle margin-right-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          test@www.com
-                       </button>
+                   
+                     @await  Component.InvokeAsync("User" )
+                   
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" asp-page="">Indstillinger</a>
                         
-                            <a class="dropdown-item" asp-page="/Client/admin/AdminOverview">Admin</a>
+                            <a class="dropdown-item" asp-page="/Client/admin/AllUsers">Admin</a>
                       
                     
                         <a class="dropdown-item" href="#">Another action</a>

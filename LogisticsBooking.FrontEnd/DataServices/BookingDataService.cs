@@ -40,7 +40,6 @@ namespace LogisticsBooking.FrontEnd.DataServices
         {
             var response = await GetAsync(baseurl);
             var result = await TryReadAsync<BookingsListViewModel>(response);
-            Console.WriteLine(result);
 
             return result;
         }

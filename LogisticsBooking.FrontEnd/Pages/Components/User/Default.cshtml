@@ -1,10 +1,10 @@
 
-@model LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter.TransporterViewModel
+@model LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser.ApplicationUserViewModel
 
 @if (Model != null)
 {
     <button class="btn btn-primary dropdown-toggle margin-right-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         test@@test.com
+         @Model.Email
     </button>
 
 }

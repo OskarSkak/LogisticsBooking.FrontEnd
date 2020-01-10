@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace LogisticsBooking.FrontEnd.ViewComponents
         {
             Button button = new Button();
             button.Name = label;
+            
             return View(button);
         }
         
