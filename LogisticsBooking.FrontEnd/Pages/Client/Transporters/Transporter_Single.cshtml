@@ -47,6 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <form asp-page-handler="delete" method="post"> 
+                        <input type="hidden" hidden="hidden" asp-for="@Model.TransporterViewModel.TransporterId"/>
                         <button type="submit" class="btn btn-primary">Bekræft</button>
                     </form>
                     

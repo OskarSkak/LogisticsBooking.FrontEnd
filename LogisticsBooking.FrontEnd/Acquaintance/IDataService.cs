@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
+using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
@@ -93,5 +94,21 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> DeleteMasterScheduleStandard(Guid masterScheduleStandardId);
         
         Task<MasterScheduleStandardViewModel> GetMasterScheduleById(Guid masterScheduleStandardId);
+    }
+
+    public interface IApplicationUserDataService
+    {
+        Task<ListApplicationUserViewModels> GetAllUsers();
+        Task<Response> CreateUser(CreateUserCommand createUserCommand);
+
+        Task<ApplicationUserViewModel> GetUserById(GetUserByIdCommand getUserByIdCommand);
+
+        Task<Response> UpdateUser(ApplicationUserViewModel applicationUserViewModel);
+
+        Task<Response> UpdateUserRole(UpdateRoleCommand updateRoleCommand);
+
+        Task<Response> DeleteUser(Guid id);
+
+        Task<string> CreateTransporter(CreateUserCommand createUserCommand);
     }
 }

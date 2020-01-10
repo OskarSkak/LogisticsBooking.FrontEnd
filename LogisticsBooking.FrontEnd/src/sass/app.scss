@@ -6,3 +6,8 @@
 @import "2-layouts/layouts-dir";
 @import "3-modules/modules-dir";
 @import "4-bootstrapOverrides/bootstrapOverride-dir";
+
+
+body {
+  height: 100vh;
+}

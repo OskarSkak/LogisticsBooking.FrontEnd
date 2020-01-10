@@ -16,9 +16,10 @@ namespace LogisticsBooking.FrontEnd.Pages
         {
             transporterDataService = _transporterDataService;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
             
+            return new RedirectResult("User/Home");
         }
         
         public async Task  OnGetLogoutAsync()

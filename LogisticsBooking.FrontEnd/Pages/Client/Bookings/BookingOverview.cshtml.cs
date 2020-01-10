@@ -30,6 +30,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
             bookingDataService = _bookingDataService;
         }
 
+        
+        
         public async void OnGet()
         {
             var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
