@@ -1,4 +1,5 @@
 @page
+@using MoreLinq.Extensions
 @model LogisticsBooking.FrontEnd.Pages.Client.admin.AllUsers
 
 
@@ -19,10 +20,7 @@
                     <li class="nav-item">
                        <a asp-page="AllUsers" class="nav-link">Alle brugere</a>
                     </li>
-                    <div class="border-top my-3"></div>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Alle brugere</a>
-                    </li>
+                    
                     <div class="border-top my-3"></div>
                     <li class="nav-item">
                                             <a asp-page="CreateApplicationUser" class="nav-link">Opret Bruger</a>
@@ -45,21 +43,28 @@
                     <tr>
                         <th>Email</th>
                         <th>Role</th>
+                        
                     </tr>
                     </thead>
                     <tbody>
+                    
                     @foreach (var user in Model.ApplicationUserViewModels.ApplicationUserViewModels)
                     {
-                                        
+
                         <tr>
-                            <td>@user.Email</td>
-                            <td>@user.Role</td>
+                            <td><a asp-page="UserSingle" asp-route-id="@user.ApplicationUserId">@user.Email</a></td>
+                            <td>
+                            @foreach (var role in user.ActiveRoles)
+                            {
+                                @role.Name @: <text> , </text>
+                            }
+                            </td>
                         </tr>
-                                        
+
                     }
-                  
-                  
-                
+
+
+
                     </tbody>
                 </table>
                 

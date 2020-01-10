@@ -143,7 +143,7 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("roles");
-                    
+
                     options.Scope.Add("logisticbookingapi");
                     options.Scope.Add("IdentityServerApi");
                     options.SignInScheme = "Cookies";

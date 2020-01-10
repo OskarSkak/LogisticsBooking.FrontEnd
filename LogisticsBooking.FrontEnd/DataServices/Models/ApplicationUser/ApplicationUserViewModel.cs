@@ -6,9 +6,12 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser
     public class ApplicationUserViewModel
     {
         public string ApplicationUserId { get; set; }
-        public IdentityRole Role { get; set; } = new IdentityRole();
+        public List<IdentityRole> ActiveRoles { get; set; } 
+        public List<IdentityRole> InactiveRoles { get; set; }
         public string Email { get; set; }
         public bool Active { get; set; }
+        
+        public string Name { get; set; }
     }
 
     public class ListApplicationUserViewModels

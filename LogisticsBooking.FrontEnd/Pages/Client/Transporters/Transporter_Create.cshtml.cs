@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
+using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using LogisticsBooking.FrontEnd.DataServices.Models.Transporter.Transporter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,6 +13,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
     {
         private readonly ITransporterDataService _transporterDataService;
         private readonly IMapper _mapper;
+        private readonly IApplicationUserDataService _applicationUserDataService;
 
 
         [BindProperty]
@@ -20,10 +22,11 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
         [TempData]
         public String ResponseMessage { get; set; }
         
-        public Transporter_CreateModel(ITransporterDataService transporterDataService , IMapper mapper)
+        public Transporter_CreateModel(ITransporterDataService transporterDataService , IMapper mapper , IApplicationUserDataService applicationUserDataService)
         {
             _transporterDataService = transporterDataService;
             _mapper = mapper;
+            _applicationUserDataService = applicationUserDataService;
         }
 
         public void OnGet()
@@ -37,6 +40,22 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
                 return Page();
             }
 
+            var transporter = new CreateUserCommand();
+            transporter.Email = transporterViewModel.Email;
+            transporter.Name = transporterViewModel.Email;
+            transporter.Role = "transporter";
+            
+            
+
+            var firstResult = await _applicationUserDataService.CreateTransporter(transporter);
+
+            if (string.IsNullOrEmpty(firstResult))
+            {
+                return Page();
+            }
+
+            transporterViewModel.TransporterId = Guid.Parse(firstResult);
+            
             var result = await _transporterDataService.CreateTransporter(transporterViewModel);
 
             if (!result.IsSuccesfull)

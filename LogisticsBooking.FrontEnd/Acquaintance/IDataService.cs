@@ -100,5 +100,15 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
     {
         Task<ListApplicationUserViewModels> GetAllUsers();
         Task<Response> CreateUser(CreateUserCommand createUserCommand);
+
+        Task<ApplicationUserViewModel> GetUserById(GetUserByIdCommand getUserByIdCommand);
+
+        Task<Response> UpdateUser(ApplicationUserViewModel applicationUserViewModel);
+
+        Task<Response> UpdateUserRole(UpdateRoleCommand updateRoleCommand);
+
+        Task<Response> DeleteUser(Guid id);
+
+        Task<string> CreateTransporter(CreateUserCommand createUserCommand);
     }
 }

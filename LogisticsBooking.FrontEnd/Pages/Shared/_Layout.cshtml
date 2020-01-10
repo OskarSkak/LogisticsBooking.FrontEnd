@@ -43,13 +43,13 @@
             
             <li class="nav-item">
                 <div class="dropdown">
-                   <button class="btn btn-primary dropdown-toggle margin-right-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          test@www.com
-                       </button>
+                   
+                     @await  Component.InvokeAsync("User" )
+                   
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" asp-page="">Indstillinger</a>
                         
-                            <a class="dropdown-item" asp-page="/Client/admin/AdminOverview">Admin</a>
+                            <a class="dropdown-item" asp-page="/Client/admin/AllUsers">Admin</a>
                       
                     
                         <a class="dropdown-item" href="#">Another action</a>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
@@ -20,7 +21,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
         public async Task OnGet()
         {
             ApplicationUserViewModels = await _applicationUserDataService.GetAllUsers();
-            
+            Console.WriteLine("");
         }
     }
 }

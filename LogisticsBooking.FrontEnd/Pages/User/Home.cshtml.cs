@@ -23,6 +23,14 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             {
                 return RedirectToPage("/Client/Bookings/BookingOverview");
             }  
+            if (User.HasClaim("role", "kontor"))
+            {
+                return RedirectToPage("/Client/Bookings/BookingOverview");
+            }  
+            if (User.HasClaim("role", "lager"))
+            {
+                return RedirectToPage("/Client/Bookings/BookingOverview");
+            }  
             
             if (User.HasClaim("role" , "transporter"))
             {

@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 {
@@ -11,22 +13,27 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
     {
         private readonly IApplicationUserDataService _applicationUserDataService;
 
-        [TempData]
-        public string Message { get; set; }
-        
-        
+        [TempData] public string Message { get; set; }
+
+
+
         public bool MessageIsNull => !String.IsNullOrEmpty(Message);
-        
+
         public CreateUserCommand CreateUserCommand { get; set; }
-        
+
+
+
+        [BindProperty] public List<SelectListItem> Roles { get; set; }
+
         public CreateApplicationUser(IApplicationUserDataService applicationUserDataService)
         {
             _applicationUserDataService = applicationUserDataService;
         }
-        
+
         public void OnGet()
         {
-            
+            Roles = CreateSelectList();
+
         }
 
 
@@ -46,5 +53,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
 
             return Page();
         }
+
+        public List<SelectListItem> CreateSelectList()
+        {
+            List<SelectListItem> roles = new List<SelectListItem>();
+
+            roles.AddRange(new List<SelectListItem>
+            {
+                new SelectListItem("Kontor", "kontor"),
+                new SelectListItem("Lager", "Lager")
+            });
+
+            return roles;
+        }
     }
+    
 }
