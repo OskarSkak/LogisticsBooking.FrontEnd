@@ -31,6 +31,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
 
         public void OnGet()
         {
+            
         }
 
         public async Task<ActionResult> OnPost(TransporterViewModel transporterViewModel)
@@ -47,21 +48,12 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Transporters
             
             
 
-            var firstResult = await _applicationUserDataService.CreateTransporter(transporter);
-
-            if (string.IsNullOrEmpty(firstResult))
-            {
-                return Page();
-            }
-
-            transporterViewModel.TransporterId = Guid.Parse(firstResult);
             
-            var result = await _transporterDataService.CreateTransporter(transporterViewModel);
 
-            if (!result.IsSuccesfull)
-            {
-                //
-            }
+            
+            
+           
+            
             ResponseMessage = "Transportøren er oprettet";
             return new RedirectResult("Transporters");
         }

@@ -109,6 +109,6 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
 
         Task<Response> DeleteUser(Guid id);
 
-        Task<string> CreateTransporter(CreateUserCommand createUserCommand);
+        Task<Response> CreateTransporter(CreateUserCommand createUserCommand);
     }
 }

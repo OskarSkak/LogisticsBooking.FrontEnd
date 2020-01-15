@@ -16,6 +16,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization.Routing" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="morelinq" Version="3.2.0" />
@@ -38,6 +40,7 @@
     <_ContentIncludedByDefault Remove="build\LogisticsBooking.FrontEnd.deps.json" />
     <_ContentIncludedByDefault Remove="build\LogisticsBooking.FrontEnd.runtimeconfig.json" />
     <_ContentIncludedByDefault Remove="Pages\Client\Settings\SettingsOverview.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Components\CultureSwitcherViewcomponent\Default.cshtml" />
   </ItemGroup>
 
 

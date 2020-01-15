@@ -43,7 +43,19 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             {
                 return Page();
             }
+            
+            
+            if (createUserCommand.Role == "transporter")
+            {
+                var createTransporterResult = await _applicationUserDataService.CreateTransporter(createUserCommand);
+                if (createTransporterResult.IsSuccesfull)
+                {
+                    Message = "User created. Check email for confirmation link";
+                    return Page();
+                }
 
+                return BadRequest();
+            } 
             var result = await _applicationUserDataService.CreateUser(createUserCommand);
 
             if (result.IsSuccesfull)
@@ -61,7 +73,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.admin
             roles.AddRange(new List<SelectListItem>
             {
                 new SelectListItem("Kontor", "kontor"),
-                new SelectListItem("Lager", "Lager")
+                new SelectListItem("Lager", "Lager"),
+                new SelectListItem("Transportør", "transporter")
             });
 
             return roles;

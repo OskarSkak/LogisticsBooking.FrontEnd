@@ -24,20 +24,20 @@
     </div>
     
         <div class="dropdown">
-            <div class="p-2 text-dark dropdown-toggle" data-toggle="dropdown"  aria-labelledby="dropdownMenuButton" >Slottider</div>
+            <div class="p-2 text-dark dropdown-toggle" data-toggle="dropdown"  aria-labelledby="dropdownMenuButton" >@CommonLocalizationService.Get("Slot Times")</div>
             <div class="dropdown-menu test" id="drop" aria-labelledby="dropdownMenuButton">
-                <a asp-page="/Client/Schedule/ScheduleOverview" class="p-2 text-dark">Slottider</a>
+                <a asp-page="/Client/Schedule/ScheduleOverview" class="p-2 text-dark">@CommonLocalizationService.Get("Slot Times")</a>
                  <a asp-page="/Client/Schedule/ScheduleOverview" class="p-2 text-dark">Kalender</a>
             </div>
         </div>
         
         
-        <a asp-page="/Client/Bookings/BookingOverview" class="p-2 text-dark">Ordre Oversigt</a>
-        <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">Administrer Ordre</a>
-        <a asp-page="/Client/Transporters/Transporters" class="p-2 text-dark ">Transportører</a>
-        <a class="p-2 text-dark " asp-page="/Client/Suppliers/Suppliers">Kunder</a>
+        <a asp-page="/Client/Bookings/BookingOverview" class="p-2 text-dark">@CommonLocalizationService.Get("Order Overview")</a>
+        <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">@CommonLocalizationService.Get("Administrate Orders")</a>
+        <a asp-page="/Client/Transporters/Transporters" class="p-2 text-dark ">@CommonLocalizationService.Get("Transporters")</a>
+    <a class="p-2 text-dark " asp-page="/Client/Suppliers/Suppliers">@CommonLocalizationService.Get("Suppliers")</a>
 
-    
+
     <div class="navbar-collapse collapse w-25 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
             
@@ -47,13 +47,13 @@
                      @await  Component.InvokeAsync("User" )
                    
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" asp-page="">Indstillinger</a>
+                        <a class="dropdown-item" asp-page="/Client/Settings/SettingsOverview">@CommonLocalizationService.Get("Settings")</a>
                         
                             <a class="dropdown-item" asp-page="/Client/admin/AllUsers">Admin</a>
                       
                     
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 ">Log Ud</a>
+                        
+                        <a asp-page="/User/Home" asp-page-handler="Logout" asp class="btn navbar-btn ml-md-2 ">@CommonLocalizationService.Get("Logout")</a>
                     </div>
                 </div>
                

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
@@ -21,19 +24,29 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Bookings
         public string NameOfFile { get; set; }
 
         private IBookingDataService bookingDataService;
+        private readonly IStringLocalizer<View> _localizer;
+        private readonly ILogger<BookingOverviewModel> _logger;
         [BindProperty] public BookingsListViewModel BookingsListViewModel { get; set; } = new BookingsListViewModel();
         public bool InBetweenDates { get; set; }
         public int NumberOfDays { get; set; }
 
-        public BookingOverviewModel(IBookingDataService _bookingDataService)
+        public BookingOverviewModel(IBookingDataService _bookingDataService , IStringLocalizer<View> localizer,
+            ILogger<BookingOverviewModel> logger)
         {
             bookingDataService = _bookingDataService;
+            _localizer = localizer;
+            _logger = logger;
         }
 
         
         
         public async void OnGet()
         {
+            
+            _logger.LogInformation(_localizer["Hello"]);
+            _logger.LogInformation(_localizer["Hello"].SearchedLocation);
+
+
             var Subjectid = User.Claims.FirstOrDefault(x => x.Type == "sub").Value;
             Console.WriteLine(Subjectid);
             
