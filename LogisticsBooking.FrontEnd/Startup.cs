@@ -113,7 +113,7 @@ namespace LogisticsBooking.FrontEnd
             
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
             
-            
+            /*
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -155,7 +155,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddAuthorization(options =>
                 options.AddPolicy("admin",
                     policy => policy.RequireClaim("admin")));
-            
+            */
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -277,7 +277,7 @@ namespace LogisticsBooking.FrontEnd
             app.UseForwardedHeaders(fordwardedHeaderOptions);
             app.UseCors("MyPolicy");
             app.UseSession();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseHttpsRedirection();
             /*app.UseRewriter(new RewriteOptions()
                 .Add(RewriteRules.RedirectRequests)
