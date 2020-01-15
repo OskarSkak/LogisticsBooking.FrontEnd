@@ -1,5 +1,11 @@
 ﻿@page "{id?}"
 @using LogisticsBooking.FrontEnd.DataServices.Models
+@using LogisticsBooking.FrontEnd.Services
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<BookingOverviewModel> localizer
+@inject IHtmlLocalizer<BookingOverviewModel> htmlLocalizer
 @model LogisticsBooking.FrontEnd.Pages.Client.Bookings.BookingOverviewModel
 
 
@@ -30,18 +36,19 @@
 
 <body>
 
+
 <div class="container">
     <div class="row dis">
       
         <div class="col">
             <form asp-page-handler="ExportExcel" method="post">
                 <button class="btn btn-primary">    
-                <span>Export to excel</span>
+                    <span>Export to excel</span>
                 </button>   
-                    </form>
+            </form>
       
-      </div>
-        
+       
+  </div>
        
 
     </div>

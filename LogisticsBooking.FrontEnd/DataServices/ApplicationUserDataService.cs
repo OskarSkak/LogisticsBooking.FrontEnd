@@ -103,15 +103,14 @@ namespace LogisticsBooking.FrontEnd.DataServices
             return Response.Succes();
         }
 
-        public async Task<string> CreateTransporter(CreateUserCommand createUserCommand)
+        public async Task<Response> CreateTransporter(CreateUserCommand createUserCommand)
         {
             var response = await PostAsync<CreateUserCommand>(UriTransporter, createUserCommand);
             if (response.IsSuccessStatusCode)
             {
-                var result = await TryReadAsync<string>(response);
-                return result;
+                return new Response(true );
             }
-            return "";
+            return Response.Unsuccesfull();
         
         }
     }
