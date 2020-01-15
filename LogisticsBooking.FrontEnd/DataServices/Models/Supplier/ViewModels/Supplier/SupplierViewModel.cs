@@ -8,7 +8,6 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier
         public string Email { get; set; }
         public int Telephone { get; set; }
         
-        [Display(Name = "Name"), Required(ErrorMessage = "Name Required")]
         public string Name { get; set; }
         public Guid SupplierId { get; set; }
         public DateTime ArriveTime { get; set; }
