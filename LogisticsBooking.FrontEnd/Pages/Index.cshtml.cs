@@ -4,14 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LogisticsBooking.FrontEnd.Pages
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private ITransporterDataService transporterDataService;
+        
+       
         public IndexModel(ITransporterDataService _transporterDataService)
         {
             transporterDataService = _transporterDataService;
