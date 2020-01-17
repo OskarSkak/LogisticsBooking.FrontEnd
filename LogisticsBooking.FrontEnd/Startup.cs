@@ -200,8 +200,8 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IUserUtility, UserUtility>();
             services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
             services.AddTransient<IDeletedBookingDataService, DeletedBookingDataService>();
-          
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
             services.AddTransient<IDashboardDataService, DashboardDataservice>();
             services.AddSingleton<CommonLocalizationService>();
