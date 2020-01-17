@@ -67,7 +67,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Transporter.Booking
             // We have to remove totalpallets form the modelstate in order to check if the state is valid, because totalpallets is being carried over from last page
             ModelState.Remove("TotalPallets");
             if (!ModelState.IsValid)
-
             {
                 await GenerateBookingViewModel();
                 ShowOrderMessage = true;

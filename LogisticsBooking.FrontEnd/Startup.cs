@@ -2,40 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 using AutoMapper;
 using DocumentFormat.OpenXml.Presentation;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
 using LogisticsBooking.FrontEnd.DataServices.Utilities;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Exceptionless;
 using LogisticsBooking.FrontEnd.AutoMapper;
-using Microsoft.AspNetCore.DataProtection;
+using LogisticsBooking.FrontEnd.Resources;
+using LogisticsBooking.FrontEnd.Services;
 using Microsoft.AspNetCore.Localization;
-using Swashbuckle.AspNetCore.Swagger;
-
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Routing;
+using Swashbuckle.AspNetCore.Swagger; 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
-using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
-using ILogger = Serilog.ILogger;
 
 namespace LogisticsBooking.FrontEnd
 {
@@ -46,13 +40,14 @@ namespace LogisticsBooking.FrontEnd
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _config;
+        private readonly ILogger<Startup> _logger;
 
 
-        public Startup(IHostingEnvironment env, IConfiguration config)
+        public Startup(IHostingEnvironment env, IConfiguration config , ILogger<Startup> logger)
         {
             _env = env;
             _config = config;
-
+            _logger = logger;
         }
 
         
@@ -68,6 +63,7 @@ namespace LogisticsBooking.FrontEnd
             
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
+                .MinimumLevel.Warning()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
                 {
                     AutoRegisterTemplate = true
@@ -125,6 +121,8 @@ namespace LogisticsBooking.FrontEnd
                     options.DefaultChallengeScheme = "oidc";
                     
 
+
+
                 })
                 .AddCookie("Cookies")
 
@@ -141,19 +139,24 @@ namespace LogisticsBooking.FrontEnd
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("roles");
+
                     options.Scope.Add("logisticbookingapi");
+                    options.Scope.Add("IdentityServerApi");
                     options.SignInScheme = "Cookies";
                     options.GetClaimsFromUserInfoEndpoint = true;
-                    /*
-                    options.ClaimActions.MapCustomJson("role", jobj => jobj["role"].ToString());
+                    
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         RoleClaimType = "role"
                     };
-*/
 
                 });
 
+            services.AddAuthorization(options =>
+                options.AddPolicy("admin",
+                    policy => policy.RequireClaim("admin")));
+            
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -170,6 +173,21 @@ namespace LogisticsBooking.FrontEnd
                 options.Cookie.SameSite = SameSiteMode.None;
             });
 
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("da"),
+                    new CultureInfo("en-GB")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en-GB");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
+            });
+            
+            
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
             services.AddTransient<ITransporterDataService, TransporterDataService>();
@@ -184,20 +202,48 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IDeletedBookingDataService, DeletedBookingDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
+            services.AddSingleton<CommonLocalizationService>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(o =>
+                {
+                    o.Conventions.Add(new CultureTemplatePageRouteModelConvention());
+                })
+                .AddViewLocalization(o =>
+                {
+                    o.ResourcesPath = "Resources";
+                })
+                .AddDataAnnotationsLocalization(o =>
+                {
+                    o.DataAnnotationLocalizerProvider = (type, factory) =>
+                    {
+                        var assemblyName = new AssemblyName(typeof(CommonResources).GetTypeInfo().Assembly.FullName);
+                        return factory.Create(nameof(CommonResources), assemblyName.Name);
+                    };
+                })
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
         }
 
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env , ILoggerFactory loggerFactory )
         {
+            
+            var identityServerConfig = _config.GetSection(nameof(IdentityServerConfiguration))
+                .Get<IdentityServerConfiguration>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 // Usefull for enter a site that does not exists. 
                 app.UseStatusCodePagesWithRedirects("/Error");
+                _logger.LogInformation("in Prod :)");
+                var value = _config["Envi:envi"];
+                _logger.LogInformation(value);
+                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
                 
             }
             else
@@ -206,27 +252,19 @@ namespace LogisticsBooking.FrontEnd
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                _logger.LogInformation("in live :)");
+                var value = _config["Envi:envi"];
+                _logger.LogInformation(value);
+                _logger.LogInformation($"{identityServerConfig.IdentityServerUrl}");
             }
             
-            /*var defaultDateCulture = "-FR";
-            var ci = new CultureInfo(defaultDateCulture);
-            ci.NumberFormat.NumberDecimalSeparator = ".";
-            ci.NumberFormat.CurrencyDecimalSeparator = ".";
+            
+            
+           
 
-// Configure the Localization middleware
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture(ci),
-                SupportedCultures = new List<CultureInfo>
-                {
-                    ci,
-                },
-                SupportedUICultures = new List<CultureInfo>
-                {
-                    ci,
-                }
-            });
-            */
+            
+
+           
 
             loggerFactory.AddSerilog();
             var fordwardedHeaderOptions = new ForwardedHeadersOptions
@@ -245,22 +283,27 @@ namespace LogisticsBooking.FrontEnd
             app.UseSession();
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            /*app.UseRewriter(new RewriteOptions()
+                .Add(RewriteRules.RedirectRequests)
+            );*/
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            
-            app.UseMvc();
-            
-            //Logging of exception
-            //app.UseExceptionless("2jiqmnyqSQvOgjxTyi2bXN6G8xSPm24hwByMK3Vy");
-            
-            /*
-             * Above only logs unhandled exceptions. Exceptions handled must be logged manually in the following way:
-             * try {
-                throw new ApplicationException(Guid.NewGuid().ToString());
-               } catch (Exception ex) {
-                ex.ToExceptionless().Submit();
-               }
-             */
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
+            app.UseRouter(routes =>
+            {
+                routes.MapMiddlewareRoute("{culture=en-US}/{*mvcRoute}", subApp =>
+                {
+                    subApp.UseRequestLocalization(localizationOptions);
+
+                    subApp.UseMvc(mvcRoutes =>
+                    {
+                        mvcRoutes.MapRoute(
+                            name: "default",
+                            template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
+                    });
+                });
+            });
         }
     }
 }

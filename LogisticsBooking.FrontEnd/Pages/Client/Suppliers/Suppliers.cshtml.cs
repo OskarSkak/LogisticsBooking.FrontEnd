@@ -33,8 +33,17 @@ namespace LogisticsBooking.FrontEnd.Pages.Client
         public async Task<IActionResult> OnGet()
         {
             SuppliersListView = await PopulateList(_supplierDataService);
-
+            Console.WriteLine();
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine(claim.Type + " : " + claim.Value);
+            }
             return Page();
+        }
+
+        public async Task OnGetUser()
+        {
+            
         }
 
         private static async Task<SuppliersListViewModel> PopulateList(ISupplierDataService supplierDataService)

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier
 {
@@ -6,6 +7,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Supplier.Supplier
     {
         public string Email { get; set; }
         public int Telephone { get; set; }
+        
         public string Name { get; set; }
         public Guid SupplierId { get; set; }
         public DateTime ArriveTime { get; set; }

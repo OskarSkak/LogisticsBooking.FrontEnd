@@ -8,18 +8,56 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="py-5 text-center">
-    <div class="container">
-        <div class="row">
-            <div class="mx-auto col-md-6 col-10 bg-white p-5">
-                <h1 class="mb-4">Log in</h1>
-                <form  method="post">
-                   <div class="py-5 textcenter">
-                   </div>
-                    
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
+
+   
+          <link href="@Url.Content("~/css/Login.css")" rel="stylesheet" type="text/css" />
+           
+
+
+    <div class="container-fluid padding-0">
+        <div id="outer-row" class="row ">
+            <div class="col-5 padding-0">
+                <div class="module darken"></div>
             </div>
+
+            <div class="col-7 ">
+                
+                    
+                
+
+               
+                    <div class="container">
+                        <div class="row m-t-10 justify-content-center ">
+                 
+                            <form method="post">
+                                <button style="font-size: 44px" type="submit" class="btn">Login</button>
+                            </form>
+                            
+                           
+                            
+                        </div>  
+                        
+
+                        
+
+           
+                
+                      
+                      
+            </div>
+
         </div>
+
+
     </div>
+
+
+
 </div>
+
+
+@section scripts
+{
+  <script src="~/js/login.js"></script>
+
+}

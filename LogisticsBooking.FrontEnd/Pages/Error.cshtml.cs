@@ -15,9 +15,13 @@ namespace LogisticsBooking.FrontEnd.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        public void OnGet()
+        public void OnGet(string code)
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            var id = HttpContext.Response.StatusCode;
+            
+            
+            Console.WriteLine();
         }
     }
 }
