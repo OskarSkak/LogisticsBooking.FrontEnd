@@ -9,6 +9,7 @@ require("tooltip.js");
 import  "popper.js";
 import tooltip from "tooltip.js";
 
+
 import 'jquery';
 // Bootstrap
 import "bootstrap";

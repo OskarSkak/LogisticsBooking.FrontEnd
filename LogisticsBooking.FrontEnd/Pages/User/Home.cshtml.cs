@@ -21,15 +21,15 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             
             if (User.HasClaim("role", "client"))
             {
-                return RedirectToPage("/Client/Bookings/BookingOverview");
+                return RedirectToPage("/Client/Dashboard");
             }  
             if (User.HasClaim("role", "kontor"))
             {
-                return RedirectToPage("/Client/Bookings/BookingOverview");
+                return RedirectToPage("/Client/Dashboard");
             }  
             if (User.HasClaim("role", "lager"))
             {
-                return RedirectToPage("/Client/Bookings/BookingOverview");
+                return RedirectToPage("/Client/Dashboard");
             }  
             
             if (User.HasClaim("role" , "transporter"))
@@ -38,7 +38,7 @@ namespace LogisticsBooking.FrontEnd.Pages.User
             } 
             if (User.HasClaim("role" , "admin"))
             {
-                return RedirectToPage("/Client/Bookings/BookingOverview");
+                return RedirectToPage("/Client/Dashboard");
             } 
             return new RedirectToPageResult("Error");
         }

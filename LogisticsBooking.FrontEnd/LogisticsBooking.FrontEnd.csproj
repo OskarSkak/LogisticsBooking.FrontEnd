@@ -54,6 +54,7 @@
     <Folder Include="DataServices\Models\Transporter\CommandModels" />
     <Folder Include="DataServices\Models\Transporter\ViewModels" />
     <Folder Include="Styles" />
+    <Folder Include="wwwroot\scripts" />
   </ItemGroup>
 
 </Project>

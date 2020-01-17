@@ -3,16 +3,11 @@
 
 @if (Model != null)
 {
-    <button class="btn btn-primary dropdown-toggle margin-right-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         @Model.Email
-    </button>
-
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Model.Email</span>
 }
 else
 {
-    <button class="btn btn-primary dropdown-toggle margin-right-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-       test@@test.com
-    </button>
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Model.Email</span>
 }
 
 
