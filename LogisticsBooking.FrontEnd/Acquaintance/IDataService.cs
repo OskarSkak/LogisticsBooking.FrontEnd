@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.DataServices.Models.ApplicationUser;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.Dashboard;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
@@ -110,5 +111,11 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> DeleteUser(Guid id);
 
         Task<Response> CreateTransporter(CreateUserCommand createUserCommand);
+    }
+
+
+    public interface IDashboardDataService
+    {
+        Task<DashboardViewModel> GetDashboard();
     }
 }
