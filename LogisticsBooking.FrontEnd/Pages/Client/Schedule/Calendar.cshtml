@@ -78,13 +78,13 @@
       {
           DateTime date = Model.CalenderViewModel.StartDate.AddDays(i);
                       
-                      @if (i % 7 == 0 && i > 0) 
+                      if (i % 7 == 0 && i > 0) 
                       {
                           @:</div> <div class="row no-gutters">
                       }
                       
                       
-                      @if ( date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month  )
+                      if ( date > DateTime.Now && date.Month == Model.CalenderViewModel.CurrentDate.Month  )
                       {
                           
                           var schedule = Model.SchedulesListViewModel.Schedules.Find(x => x.ScheduleDay.Equals(date));

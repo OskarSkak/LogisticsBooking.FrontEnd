@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Bibliography;
 using LogisticsBooking.FrontEnd.DataServices.Models.Booking;
+using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.CommandModels;
+using LogisticsBooking.FrontEnd.DataServices.Models.DeletedBooking.ViewModels;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.ViewModels;
@@ -28,6 +30,14 @@ namespace LogisticsBooking.FrontEnd.Acquaintance
         Task<Response> UpdateBooking(UpdateBookingCommand booking);
         Task<Response> DeleteBooking(Guid id);
         Task<BookingsListViewModel> GetBookingsInbetweenDates(DateTime from, DateTime to);
+    }
+
+    public interface IDeletedBookingDataService
+    {
+        Task<DeletedBookingsListViewModel> GetDeletedBookings();
+        Task<DeletedBookingViewModel> GetDeletedBookingById(Guid id);
+        Task<Response> UpdateDeletedBooking(UpdateDeletedBookingCommand command);
+        Task<Response> DeleteBooking(Guid id);
     }
 
     public interface IScheduleDataService

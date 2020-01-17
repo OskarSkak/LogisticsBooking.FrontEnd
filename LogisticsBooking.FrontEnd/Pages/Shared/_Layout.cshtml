@@ -31,9 +31,16 @@
             </div>
         </div>
         
+    <div class="dropdown">
+        <div class="p-2 text-dark dropdown-toggle" data-toggle="dropdown"  aria-labelledby="dropdownMenuButton" >Administrer Bookings</div>
+        <div class="dropdown-menu test" id="drop" aria-labelledby="dropdownMenuButton">
+            <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">Aktive</a>
+            <a asp-page="/Client/Bookings/DeletedBookingOverview" class="p-2 text-dark">Inaktive</a>
+        </div>
+    </div>
         
-        <a asp-page="/Client/Bookings/BookingOverview" class="p-2 text-dark">Ordre Oversigt</a>
-        <a asp-page="/Client/Bookings/BookingOverviewAdmin" class="p-2 text-dark">Administrer Ordre</a>
+    <a asp-page="/Client/Bookings/BookingOverview" class="p-2 text-dark">Ordre Oversigt</a>
+        
         <a asp-page="/Client/Transporters/Transporters" class="p-2 text-dark ">Transportører</a>
         <a class="p-2 text-dark " asp-page="/Client/Suppliers/Suppliers">Kunder</a>
 

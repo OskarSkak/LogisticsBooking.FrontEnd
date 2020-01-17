@@ -8,6 +8,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
+using DocumentFormat.OpenXml.Presentation;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -117,7 +118,7 @@ namespace LogisticsBooking.FrontEnd
             
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
             
-            
+            Console.WriteLine($"{identityServerConfig.IdentityServerUrl}");
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -180,6 +181,7 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IIntervalDataService , IntervalDataService>();
             services.AddTransient<IUserUtility, UserUtility>();
             services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
+            services.AddTransient<IDeletedBookingDataService, DeletedBookingDataService>();
           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
