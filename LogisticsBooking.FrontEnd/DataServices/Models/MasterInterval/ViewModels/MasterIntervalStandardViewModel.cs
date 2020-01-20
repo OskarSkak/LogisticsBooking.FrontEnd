@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using LogisticBooking.API.Domain.Entities;
 using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 using LogisticsBooking.FrontEnd.DataServices.Models.MasterSchedule.Commands;
@@ -34,6 +35,9 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.MasterInterval.ViewModel
                     opt => opt.MapFrom(src => src.MasterIntervalStandardId))
                 .ForMember(dest => dest.ScheduleId,
                     opt => opt.MapFrom(src => src.MasterScheduleStandardId));
+            
+            configuration.CreateMap<MasterIntervalStandard, MasterIntervalStandardViewModel>();
+            configuration.CreateMap<MasterIntervalStandardViewModel, MasterIntervalStandard>();
         }
     }
 }

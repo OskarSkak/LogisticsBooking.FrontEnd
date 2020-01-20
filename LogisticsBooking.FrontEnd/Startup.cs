@@ -24,6 +24,7 @@ using LogisticsBooking.FrontEnd.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Swagger; 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -187,7 +188,14 @@ namespace LogisticsBooking.FrontEnd
                 options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
             });
             
-            
+            services.AddDbContext<ILogisticBookingApiDatabase , ApiDbContext>(options =>
+            {
+
+                options.EnableSensitiveDataLogging();
+             
+                options.UseSqlServer(
+                    "Server=tcp:logistictech.database.windows.net,1433;Initial Catalog=backendDb;Persist Security Info=False;User ID=logistictech@logistictech;Password=casperOskar15;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;", assembly => assembly.MigrationsAssembly(typeof(ApiDbContext).Assembly.FullName));
+            });
             //Add DI�s below
             services.AddTransient<IBookingDataService, BookingDataService>();
             services.AddTransient<ITransporterDataService, TransporterDataService>();

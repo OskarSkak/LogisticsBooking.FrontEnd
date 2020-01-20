@@ -53,6 +53,7 @@
     <Folder Include="DataServices\Models\Supplier\ViewModels" />
     <Folder Include="DataServices\Models\Transporter\CommandModels" />
     <Folder Include="DataServices\Models\Transporter\ViewModels" />
+    <Folder Include="Models\Entities\Master" />
     <Folder Include="src\Vendor" />
     <Folder Include="Styles" />
     <Folder Include="wwwroot\scripts" />
