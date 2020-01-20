@@ -9,16 +9,9 @@ require("tooltip.js");
 import  "popper.js";
 import tooltip from "tooltip.js";
 
-
 import 'jquery';
 // Bootstrap
 import "bootstrap";
-
-import "moment-es6"
-import "moment"
-
-import "datatables.net"
-import "datatables.net-dt"
 
 
 $(function () {

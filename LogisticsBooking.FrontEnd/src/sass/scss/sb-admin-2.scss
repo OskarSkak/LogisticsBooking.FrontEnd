@@ -4,6 +4,9 @@
 // Import Bootstrap
 @import "~bootstrap";
 
+// Optional
+
+
 // Import Custom SB Admin 2 Mixins and Components
 @import "mixins.scss";
 @import "global.scss";
@@ -18,3 +21,4 @@
 @import "login.scss";
 @import "error.scss";
 @import "footer.scss";
+@import "../../Vendor/vendor/fontawesome-free/scss/fontawesome";

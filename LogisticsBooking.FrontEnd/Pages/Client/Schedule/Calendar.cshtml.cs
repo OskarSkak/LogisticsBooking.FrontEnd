@@ -210,7 +210,8 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                     Name = result.Name,
                     ScheduleDay = date,
                     ScheduleId = scheduleID,
-                    Shifts = result.Shifts
+                    Shifts = result.Shifts,
+                    IsStandard = false
                 };
                 
                     schedules.Schedules.Add(schedule);
@@ -266,7 +267,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         }
         
         
-        [ValidateAntiForgeryToken]
+        
         [EnableCors("MyPolicy")]
         public IActionResult OnPostForward([FromBody]string[] value)
         { 
@@ -343,6 +344,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
         
         [EnableCors("MyPolicy")]
+    
         public IActionResult OnPostBack([FromBody]string[] value)
         {
             

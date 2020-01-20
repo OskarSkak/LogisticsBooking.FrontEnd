@@ -2,15 +2,19 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const bundleFileName = 'bundle';
+const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
+
+const bundleFileName1 = 'bundle';
 const dirName = 'wwwroot/dist';
+
 
 module.exports = (env, argv) => {
     return {
         mode: argv.mode === "production" ? "production" : "development",
-        entry: ['./src/index.js', './src/sass/app.scss'],
+        entry: {'style' : './src/sass/app.scss',
+             'dd' : './src/index.js'},
         output: {
-            filename: bundleFileName + '.js',
+            filename: '[name]' + '.js',
             path: path.resolve(__dirname, dirName)
         },
         module: {
@@ -44,8 +48,10 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new CleanWebpackPlugin(),
+            new FixStyleOnlyEntriesPlugin(),
             new MiniCssExtractPlugin({
-                filename: bundleFileName + '.css'
+                filename: "[name].css",
+                chunkFilename: "[name].css"
             })
         ]
     };

@@ -40,10 +40,7 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 
             MasterSchedulesStandardViewModel = await _masterScheduleDataService.GetActiveMasterSchedule();
 
-            foreach (var VARIABLE in MasterSchedulesStandardViewModel.MasterScheduleStandardViewModels)
-            {
-                
-            }
+            
             
             SchedulesListViewModel = await _scheduleDataService.GetSchedules();
 
@@ -52,19 +49,6 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
                 SchedulesListViewModel = new SchedulesListViewModel();
             }
             
-            var calender =  HttpContext.Session.GetObject<CalenderViewModel>("key");
-
-            if (calender == null)
-            {
-                calender = new CalenderViewModel();
-            }
-            
-            CalenderViewModel = calender;
-
-            foreach (var schedule in SchedulesListViewModel.Schedules)
-            {
-                schedule.Intervals =  schedule.Intervals.OrderBy(x => x.StartTime).ToList();
-            }
             
 
             return Page();
