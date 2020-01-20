@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule;
 using LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailsList;
@@ -10,11 +12,14 @@ using LogisticsBooking.FrontEnd.Pages.Transporter.Booking;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
 {
     public class CalendarOverview : PageModel
     {
+        private readonly ILogisticBookingApiDatabase _logisticBookingApiDatabase;
+        private readonly IMapper _mapper;
         private readonly IScheduleDataService _scheduleDataService;
 
         
@@ -25,15 +30,26 @@ namespace LogisticsBooking.FrontEnd.Pages.Client.Schedule
         [TempData]
         public String Message { get; set; }
         
-        public CalendarOverview(IScheduleDataService scheduleDataService)
+        public CalendarOverview(ILogisticBookingApiDatabase logisticBookingApiDatabase , IMapper mapper)
         {
-            _scheduleDataService = scheduleDataService;
+            _logisticBookingApiDatabase = logisticBookingApiDatabase;
+            _mapper = mapper;
         }
         
         
         public async Task<IActionResult> OnGet()
         {
-            SchedulesListViewModel = await _scheduleDataService.GetSchedules();
+        
+        var result = await _logisticBookingApiDatabase.Schedules
+            .ToListAsync();
+
+
+        var model = new SchedulesListViewModel
+        {
+            Schedules = _mapper.Map<List<ScheduleViewModel>>(result)
+        };
+
+        SchedulesListViewModel = model;
             
             var calender =  HttpContext.Session.GetObject<CalenderViewModel>("key");
 

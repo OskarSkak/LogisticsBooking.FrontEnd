@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
+using LogisticsBooking.FrontEnd.Acquaintance.Interfaces;
 using LogisticsBooking.FrontEnd.DataServices.Models.Interval.DetailInterval;
 
 namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
@@ -11,7 +13,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
     }
 
     
-    public class ScheduleViewModel
+    public class ScheduleViewModel : IHaveCustomMapping
     {
         public ScheduleViewModel()
         {
@@ -30,6 +32,10 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
         public bool IsStandard { get; set; }
 
 
-
+        public void CreateMappings(Profile configuration)
+        {
+            configuration.CreateMap<LogisticBooking.API.Domain.Entities.Schedule, ScheduleViewModel>();
+            configuration.CreateMap<ScheduleViewModel, LogisticBooking.API.Domain.Entities.Schedule>();
+        }
     }
 }

@@ -13,11 +13,6 @@ namespace LogisticsBooking.FrontEnd.Pages.User
         [Authorize]
         public async Task<IActionResult> OnGet()
         {
-            foreach (var VARIABLE in HttpContext.User.Claims)
-            {
-                Console.WriteLine(VARIABLE.Type);
-                Console.WriteLine(VARIABLE.Value);
-            }
             
             if (User.HasClaim("role", "client"))
             {
