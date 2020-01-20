@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using AutoMapper;
+using DocumentFormat.OpenXml.Presentation;
 using LogisticsBooking.FrontEnd.Acquaintance;
 using LogisticsBooking.FrontEnd.ConfigHelpers;
 using LogisticsBooking.FrontEnd.DataServices;
@@ -70,6 +71,7 @@ namespace LogisticsBooking.FrontEnd
                 
                 .CreateLogger();
             
+            /*
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -77,7 +79,7 @@ namespace LogisticsBooking.FrontEnd
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+            */
             
            
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -113,7 +115,7 @@ namespace LogisticsBooking.FrontEnd
             
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
             
-            
+            Console.WriteLine($"{identityServerConfig.IdentityServerUrl}");
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -156,7 +158,6 @@ namespace LogisticsBooking.FrontEnd
                 options.AddPolicy("admin",
                     policy => policy.RequireClaim("admin")));
             
-            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -180,7 +181,7 @@ namespace LogisticsBooking.FrontEnd
                     new CultureInfo("da"),
                     new CultureInfo("en-GB")
                 };
-                options.DefaultRequestCulture = new RequestCulture("en-GB");
+                options.DefaultRequestCulture = new RequestCulture("da");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders.Insert(0, new RouteValueRequestCultureProvider(supportedCultures));
@@ -198,7 +199,11 @@ namespace LogisticsBooking.FrontEnd
             services.AddTransient<IIntervalDataService , IntervalDataService>();
             services.AddTransient<IUserUtility, UserUtility>();
             services.AddTransient<IMasterScheduleDataService, MasterShceduleDataService>();
+            services.AddTransient<IDeletedBookingDataService, DeletedBookingDataService>();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<IApplicationUserDataService, ApplicationUserDataService>();
+            services.AddTransient<IDashboardDataService, DashboardDataservice>();
             services.AddSingleton<CommonLocalizationService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddRazorPagesOptions(o =>
@@ -277,6 +282,7 @@ namespace LogisticsBooking.FrontEnd
             app.UseForwardedHeaders(fordwardedHeaderOptions);
             app.UseCors("MyPolicy");
             app.UseSession();
+            //
             app.UseAuthentication();
             app.UseHttpsRedirection();
             /*app.UseRewriter(new RewriteOptions()

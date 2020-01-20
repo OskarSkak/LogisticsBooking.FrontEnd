@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
 
@@ -52,7 +53,9 @@
     <Folder Include="DataServices\Models\Supplier\ViewModels" />
     <Folder Include="DataServices\Models\Transporter\CommandModels" />
     <Folder Include="DataServices\Models\Transporter\ViewModels" />
+    <Folder Include="src\Vendor" />
     <Folder Include="Styles" />
+    <Folder Include="wwwroot\scripts" />
   </ItemGroup>
 
 </Project>

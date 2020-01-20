@@ -13,12 +13,6 @@ import 'jquery';
 // Bootstrap
 import "bootstrap";
 
-import "moment-es6"
-import "moment"
-
-import "datatables.net"
-import "datatables.net-dt"
-
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()

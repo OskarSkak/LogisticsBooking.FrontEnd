@@ -27,6 +27,7 @@ namespace LogisticsBooking.FrontEnd.DataServices.Models.Schedule.DetailSchedule
         
         public  List<IntervalViewModel> Intervals { get; set; }
 
+        public bool IsStandard { get; set; }
 
 
 
